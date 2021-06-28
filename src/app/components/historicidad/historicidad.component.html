@@ -1,0 +1,43 @@
+<div class="container-fluid bg-light " id="historicidad">
+ <app-header></app-header>
+    <div class="row">
+      <div class="col-3" id="sidebar">
+         <app-sidebar></app-sidebar>
+      </div>
+      <div class="col-9" id="mapa">
+        <div class="container">
+          <agm-map [latitude]= -29.7530093 [longitude]= -70.616334 [zoom]= 9 >
+            <agm-marker
+              *ngFor='let loc of mylocations'
+              (markerClick)="clickedMarker(loc.title)"
+              [latitude]='loc.lat'
+              [longitude]='loc.lng'
+              [title]='loc.title'
+              [iconUrl]="icon">
+            </agm-marker>
+          </agm-map>
+        </div>
+      </div>
+
+    <div class="modal" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Modal Heading</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            Modal body..
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+</div>
+</div>
