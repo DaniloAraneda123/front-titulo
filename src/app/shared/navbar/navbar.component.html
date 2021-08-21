@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand-lg bg-light">
+	<a class="navbar-brand">
+		<img class="ps-3" routerLink="/" src="assets/img/logo.png" style="width: 220px;">
+	</a>
+<!-- 
+	<mat-form-field color="accent" appearance="fill">
+		<mat-label>Inherited calendar color</mat-label>
+		<input matInput [matDatepicker]="picker1">
+		<mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+		<mat-datepicker #picker1></mat-datepicker>
+	</mat-form-field> -->
+
+	<div class="collapse navbar-collapse justify-content-end pe-3">
+		<div class="btn-group " role="group" aria-label="Basic radio toggle button group">
+			<input type="radio" class="btn-check" routerLink="/historicidad" name="btnradio" id="btnradio1">
+			<label class="btn btn-outline-danger nav-link" for="btnradio1">Historicidad</label>
+
+			<input type="radio" class="btn-check" routerLink="/interpolacion" name="btnradio" id="btnradio2">
+			<label class="btn btn-outline-danger nav-link" for="btnradio2">Interpolación</label>
+
+			<input type="radio" class="btn-check" routerLink="/busqueda" name="btnradio" id="btnradio3">
+			<label class="btn btn-outline-danger nav-link" for="btnradio3">Busqueda</label>
+		</div>
+	</div>
+</nav>
