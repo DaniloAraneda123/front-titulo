@@ -20,8 +20,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-//Google
+//Otros
 import { AgmCoreModule } from '@agm/core';
 
 
@@ -47,9 +48,10 @@ import { AgmCoreModule } from '@agm/core';
 		MatChipsModule,
 		MatAutocompleteModule,
 		MatCheckboxModule,
+		MatProgressSpinnerModule,
 
-		//Google
-		AgmCoreModule.forRoot({ apiKey: environment.keyGoogle})
+		//Otros
+		AgmCoreModule.forRoot({ apiKey: environment.keyGoogle })
 	],
 	exports: [
 		NavbarComponent,
@@ -70,8 +72,9 @@ import { AgmCoreModule } from '@agm/core';
 		MatChipsModule,
 		MatAutocompleteModule,
 		MatCheckboxModule,
+		MatProgressSpinnerModule,
 
-		AgmCoreModule,
+		AgmCoreModule
 	],
 	providers: [
 		{ provide: MAT_DATE_LOCALE, useValue: 'es-ES' }

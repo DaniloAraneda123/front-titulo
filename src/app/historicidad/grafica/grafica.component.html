@@ -1,2 +1,8 @@
-<p>grafica works!</p>
-<h1>Hola mundo</h1>
+<div class="d-flex h-100 justify-content-center">
+    <mat-spinner [diameter]="200" *ngIf="cargando" class="align-self-center"></mat-spinner>
+
+    <!-- grafico -->
+    <div *ngIf="!cargando">
+        {{datos|json}}
+    </div>
+</div>

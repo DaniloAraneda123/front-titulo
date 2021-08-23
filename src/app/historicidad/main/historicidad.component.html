@@ -6,7 +6,7 @@
 					<mat-icon class="example-tab-icon">show_chart</mat-icon>
 					Series
 				</ng-template>
-				<app-sidebar [itemsVariables]="this.itemsVariables.series" [itemsFiltros]="this.itemsFiltros.series">
+				<app-sidebar [itemsVariables]="this.itemsVariables.series" [filtros]="this.itemsFiltros.series">
 				</app-sidebar>
 			</mat-tab>
 
@@ -16,12 +16,11 @@
 					Histogramas
 				</ng-template>
 				<app-sidebar [itemsVariables]="this.itemsVariables.histogramas"
-					[itemsFiltros]="this.itemsFiltros.histogramas"></app-sidebar>
+					[filtros]="this.itemsFiltros.histogramas"></app-sidebar>
 			</mat-tab>
 		</mat-tab-group>
 		<div class="col ">
-			<!-- aqui debo meter el router outlet con el mapa , serie e histograma -->
-			<app-map></app-map>
+			<router-outlet></router-outlet>
 		</div>
 	</div>
 </div>

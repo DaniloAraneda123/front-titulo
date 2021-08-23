@@ -1,5 +1,6 @@
 <mat-form-field class="example-chip-list w-100" appearance="fill">
-	<mat-label>Seleccione Estaciones para Comparativa</mat-label>
+	<mat-label *ngIf="comparativa">Seleccione Estaciones para Comparativa</mat-label>
+	<mat-label *ngIf="!comparativa">Seleccione una unica estacion</mat-label>
 	<mat-chip-list #chipList>
 		<mat-chip *ngFor="let estacion of estaciones" [selectable]="true" [removable]="true"
 			(removed)="removerEstacion(estacion)">
@@ -18,7 +19,7 @@
 </mat-form-field>
 
 <agm-map [latitude]="lat" [longitude]="lon" [zoom]="zoom">
-	<agm-marker *ngFor="let estacion of localizacionEstaciones; let i=index" (markerClick)="clickEstacion(estacion,i)"
+	<agm-marker *ngFor="let estacion of estacionesDetalle; let i=index" (markerClick)="clickEstacion(estacion,i)"
 		[latitude]='estacion.lat' [longitude]="estacion.lng" [title]="estacion.title" [iconUrl]="estacion.icon">
 	</agm-marker>
 </agm-map>

@@ -1,6 +1,6 @@
 <form [formGroup]="formGrafico" (submit)="generarGrafico()" class=" mt-2 d-grid  px-2" id="formulario">
 
-	<mat-checkbox [color]="'primary'">
+	<mat-checkbox [color]="'primary'" (click)="comparativa()">
 		Comparativa de Estaciones
 	</mat-checkbox>
 
@@ -17,10 +17,17 @@
 		<label class="titulo">Filtros</label>
 
 		<div *ngFor="let item of itemsFiltros">
-			<ng-container *ngIf="item.tipo == 'rango fecha'; then rangeDate"></ng-container>
-			<ng-container *ngIf="item.tipo == 'rango tiempo'; then rangeTime"></ng-container>
+			<ng-container *ngIf="item.tipo == 'rango fecha'" [ngTemplateOutlet]="rangeDate"
+				[ngTemplateOutletContext]="{item:item}">
+			</ng-container>
+
+			<ng-container *ngIf="item.tipo == 'rango tiempo'" [ngTemplateOutlet]="rangeTime"
+				[ngTemplateOutletContext]="{item:item}">
+			</ng-container>
+
 			<ng-container *ngIf="item.tipo == 'combo box'" [ngTemplateOutlet]="comboBox"
-				[ngTemplateOutletContext]="{item:item}"></ng-container>
+				[ngTemplateOutletContext]="{item:item}">
+			</ng-container>
 		</div>
 	</div>
 
@@ -36,7 +43,7 @@
 
 	<!-- /////////////////////////////////////////////////TEMPLATES//////////////////////////////////////////////// -->
 	<!-- RANGO TIEMPO -->
-	<ng-template #rangeTime>
+	<ng-template #rangeTime let-item='item'>
 		<div class="d-flex justify-content-between">
 			<b>Rango Horas</b>
 			<span class="material-icons" matTooltip="Info about th Loasdasdsadas e action"
@@ -47,19 +54,19 @@
 		<div class="d-flex justify-content-between ">
 			<div class="w-50">
 				<input [class.error]="errorTiempo1" type="time" class="time-picker" value="00:00"
-					formControlName="tiempoInicio">
+					formControlName="{{item.formControlInicio}}">
 				<label [class.error]="errorTiempo1" class="d-block" for="">Inicio</label>
 			</div>
 			<div class="div-timer ">
 				<input [class.error]="errorTiempo2" type="time" class="time-picker" value="00:00"
-					formControlName="tiempoTermino">
+					formControlName="{{item.formControlTermino}}">
 				<label [class.error]="errorTiempo2" class="d-block" for="">Termino</label>
 			</div>
 		</div>
 	</ng-template>
 
 	<!-- RANGO FECHA -->
-	<ng-template #rangeDate>
+	<ng-template #rangeDate let-item='item'>
 		<div class="d-flex justify-content-between ">
 			<b>Fecha</b>
 			<span class="material-icons" matTooltip="Info about th Loasdasdsadas e action"
@@ -70,28 +77,13 @@
 		<mat-form-field class="w-100" appearance="fill">
 			<mat-label>Ingrese Rango de Fechas</mat-label>
 			<mat-date-range-input [rangePicker]="picker">
-				<input matStartDate placeholder="Inicio" formControlName="fechaInicio">
-				<input matEndDate placeholder="Termino" formControlName="fechaTermino">
+				<input matStartDate placeholder="Inicio" formControlName="{{item.formControlInicio}}">
+				<input matEndDate placeholder="Termino" formControlName="{{item.formControlTermino}}">
 			</mat-date-range-input>
 			<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 			<mat-date-range-picker #picker></mat-date-range-picker>
-
-			<!-- <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
-		<mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error> -->
 		</mat-form-field>
 	</ng-template>
-
-	<!-- TIEMPO -->
-	<!-- <ng-template #time>
-		<div class="d-flex justify-content-between ">
-			<b>Hora Inicio</b>
-			<span class="material-icons" matTooltip="Info about th Loasdasdsadas e action"
-				[matTooltipPosition]="'right'" matTooltipHideDelay="5000">
-				info
-			</span>
-		</div>
-		<input class="w-100" type="time" id="time-picker" value="00:00">
-	</ng-template> -->
 
 	<!-- COMBO BOX -->
 	<ng-template #comboBox let-item='item'>
@@ -107,13 +99,30 @@
 				{{item.mensajeCombo}}
 			</mat-label>
 			<mat-select formControlName="{{item.formControlName}}">
-				<mat-option *ngFor="let opcion of item.opciones" [value]="opcion.valor">{{opcion.etiqueta}}
+				<mat-option *ngFor="let opcion of item.opciones" [value]="opcion.valor"
+					(click)="cambiarFiltros(opcion.valor,item.formControlName)">
+					{{opcion.etiqueta}}
 				</mat-option>
 			</mat-select>
 		</mat-form-field>
 	</ng-template>
 
-
-
-
 </form>
+
+
+
+
+
+
+
+<!-- TIEMPO -->
+<!-- <ng-template #time>
+		<div class="d-flex justify-content-between ">
+			<b>Hora Inicio</b>
+			<span class="material-icons" matTooltip="Info about th Loasdasdsadas e action"
+				[matTooltipPosition]="'right'" matTooltipHideDelay="5000">
+				info
+			</span>
+		</div>
+		<input class="w-100" type="time" id="time-picker" value="00:00">
+	</ng-template> -->

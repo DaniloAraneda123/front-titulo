@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  keyGoogle:"AIzaSyBimBPdTv2i0h0j1Rk8broRLQdBtw-ihmI"
+  keyGoogle: "AIzaSyBimBPdTv2i0h0j1Rk8broRLQdBtw-ihmI",
+  urlAPI: "http://localhost:5000"
 };
 
 /*

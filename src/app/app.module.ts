@@ -19,6 +19,9 @@ import { InterpolacionModule } from './interpolacion/interpolacion.module';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
+import { appReducers } from './store/app.reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { Efectos } from './store/effects';
 
 
 @NgModule({
@@ -33,7 +36,8 @@ import { environment } from 'src/environments/environment';
 
 		AppRoutingModule,
 
-		StoreModule.forRoot({}),
+		StoreModule.forRoot(appReducers),
+		EffectsModule.forRoot(Efectos),
 		StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
 
 		SharedModule,
@@ -41,7 +45,6 @@ import { environment } from 'src/environments/environment';
 		BusquedaModule,
 		InterpolacionModule
 	],
-	// providers: [NgbActiveModal],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }

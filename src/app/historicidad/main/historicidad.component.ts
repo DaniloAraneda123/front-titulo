@@ -17,17 +17,18 @@ export class HistoricidadComponent implements OnInit {
 				formControlName: "variable",
 				opciones: [
 					{
-						valor: "custom",
-						etiqueta: "Custom"
+						valor: "temperatura_de_suelo",
+						etiqueta: "Temperatura del Suelo"
 					},
 					{
-						valor: "mes",
+						valor: "promedios_mes_anios",
 						etiqueta: "Analisis por Mes"
 					},
 					{
-						valor: "año",
+						valor: "promedio_anios",
 						etiqueta: "Analisis por Año"
-					}
+					},
+
 				]
 			}, {
 				nombre: "Altura",
@@ -36,8 +37,8 @@ export class HistoricidadComponent implements OnInit {
 				formControlName: "altura",
 				opciones: [
 					{
-						valor: "1.5m",
-						etiqueta: "1.5m"
+						valor: "-0.2m",
+						etiqueta: "-0.2m"
 					},
 					{
 						valor: "2m",
@@ -55,15 +56,15 @@ export class HistoricidadComponent implements OnInit {
 				formControlName: "criterio",
 				opciones: [
 					{
-						valor: "custom",
+						valor: "promedio_custom",
 						etiqueta: "Custom"
 					},
 					{
-						valor: "mes",
+						valor: "promedios_mes_anios",
 						etiqueta: "Analisis por Mes"
 					},
 					{
-						valor: "año",
+						valor: "promedio_anios",
 						etiqueta: "Analisis por Año"
 					}
 				]
@@ -78,15 +79,15 @@ export class HistoricidadComponent implements OnInit {
 				formControlName: "variable",
 				opciones: [
 					{
-						valor: "custom",
+						valor: "promedio_custom",
 						etiqueta: "Custom"
 					},
 					{
-						valor: "mes",
+						valor: "promedios_mes_anios",
 						etiqueta: "Analisis por Mes"
 					},
 					{
-						valor: "año",
+						valor: "promedio_anios",
 						etiqueta: "Analisis por Año"
 					}
 				]
@@ -116,15 +117,15 @@ export class HistoricidadComponent implements OnInit {
 				formControlName: "criterio",
 				opciones: [
 					{
-						valor: "custom",
+						valor: "promedio_custom",
 						etiqueta: "Custom"
 					},
 					{
-						valor: "mes",
+						valor: "promedios_mes_anios",
 						etiqueta: "Analisis por Mes"
 					},
 					{
-						valor: "año",
+						valor: "promedio_anios",
 						etiqueta: "Analisis por Año"
 					}
 				]
@@ -134,20 +135,60 @@ export class HistoricidadComponent implements OnInit {
 
 
 	public itemsFiltros: any = {
-		series: [
-			{
-				tipo: "rango fecha"
-			},
-			{
-				tipo: "rango tiempo"
-			}
-		]
-		,
-		histogramas: [
-			{},
-			{},
-			{}
-		]
+		series: {
+			promedio_custom: [
+				{
+					tipo: "rango fecha",
+					formControlInicio: "fecha_inicio",
+					formControlTermino: "fecha_final"
+				}, {
+					tipo: "rango tiempo",
+					formControlInicio: "hora_inicio",
+					formControlTermino: "hora_final",
+				}
+			],
+			promedios_mes_anios: [
+				{
+					tipo: "rango fecha",
+					formControlInicio: "fecha_inicio",
+					formControlTermino: "fecha_final"
+				}, {
+					tipo: "rango tiempo",
+					formControlInicio: "hora_inicio",
+					formControlTermino: "hora_final",
+				}
+			],
+			promedio_anios: [
+				{
+					tipo: "rango fecha",
+					formControlInicio: "fecha_inicio",
+					formControlTermino: "fecha_final"
+				}
+			]
+		},
+		histogramas: {
+			promedio_custom: [
+				{
+					tipo: "rango fecha",
+					formControlInicio: "fechaI",
+					formControlTermino: "fechaT"
+				}
+			],
+			promedios_mes_anios: [
+				{
+					tipo: "rango fecha",
+					formControlInicio: "fechaI",
+					formControlTermino: "fechaT"
+				}
+			],
+			promedio_anios: [
+				{
+					tipo: "rango fecha",
+					formControlInicio: "fechaI",
+					formControlTermino: "fechaT"
+				}
+			]
+		}
 	}
 
 	constructor() { }

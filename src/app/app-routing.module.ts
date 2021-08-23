@@ -4,9 +4,10 @@ import { RouterModule, Routes } from '@angular/router';
 //Componentes
 import { HomeComponent } from './home/home.component';
 import { InterpolacionComponent } from './interpolacion/interpolacion.component';
-import { HistoricidadComponent } from './historicidad/historicidad.component';
+import { HistoricidadComponent } from './historicidad/main/historicidad.component';
 import { BusquedaComponent } from './busqueda/busqueda.component';
-// import { GraficaComponent } from './historicidad/grafica/grafica.component';
+import { MapComponent } from './historicidad/map/map.component';
+import { GraficaComponent } from './historicidad/grafica/grafica.component';
 
 
 const routes: Routes = [
@@ -16,7 +17,17 @@ const routes: Routes = [
 	},
 	{
 		path: 'historicidad',
-		component: HistoricidadComponent
+		component: HistoricidadComponent,
+		children: [
+			{
+				path: 'map',
+				component: MapComponent
+			},
+			{
+				path: 'grafico',
+				component: GraficaComponent
+			}
+		]
 	},
 	{
 		path: 'interpolacion',
