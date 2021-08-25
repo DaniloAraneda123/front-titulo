@@ -1,25 +1,27 @@
 <div class="bg-light ">
-	<div class="row m-1 my-2">
-		<mat-tab-group style="width: 20%;" animationDuration="400ms">
-			<mat-tab>
-				<ng-template mat-tab-label>
-					<mat-icon class="example-tab-icon">show_chart</mat-icon>
-					Series
-				</ng-template>
-				<app-sidebar [itemsVariables]="this.itemsVariables.series" [filtros]="this.itemsFiltros.series">
-				</app-sidebar>
-			</mat-tab>
+	<div class="row m-1 my-2" style="height: 800px;">
+		<div class="col-2" style="width: 20%;">
+			<mat-tab-group animationDuration="250ms">
+				<mat-tab>
+					<ng-template mat-tab-label>
+						<mat-icon class="example-tab-icon">show_chart</mat-icon>
+						Series
+					</ng-template>
+					<app-sidebar [itemsVariables]="this.itemsVariables.series" [filtros]="this.itemsFiltros.series">
+					</app-sidebar>
+				</mat-tab>
 
-			<mat-tab>
-				<ng-template mat-tab-label>
-					<mat-icon class="example-tab-icon">bar_chart</mat-icon>
-					Histogramas
-				</ng-template>
-				<app-sidebar [itemsVariables]="this.itemsVariables.histogramas"
-					[filtros]="this.itemsFiltros.histogramas"></app-sidebar>
-			</mat-tab>
-		</mat-tab-group>
-		<div class="col ">
+				<mat-tab>
+					<ng-template mat-tab-label>
+						<mat-icon class="example-tab-icon">bar_chart</mat-icon>
+						Histogramas
+					</ng-template>
+					<app-sidebar [itemsVariables]="this.itemsVariables.histogramas"
+						[filtros]="this.itemsFiltros.histogramas"></app-sidebar>
+				</mat-tab>
+			</mat-tab-group>
+		</div>
+		<div class="col-10 " style="width: 80%;">
 			<router-outlet></router-outlet>
 		</div>
 	</div>

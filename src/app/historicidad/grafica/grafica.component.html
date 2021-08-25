@@ -1,8 +1,13 @@
-<div class="d-flex h-100 justify-content-center">
-    <mat-spinner [diameter]="200" *ngIf="cargando" class="align-self-center"></mat-spinner>
+<!-- spinner -->
+<div *ngIf="cargando" class="d-flex justify-content-center h-100">
+    <mat-spinner [diameter]="200" class="align-self-center"></mat-spinner>
+</div>
 
-    <!-- grafico -->
-    <div *ngIf="!cargando">
-        {{datos|json}}
-    </div>
+<!-- grafico -->
+<div *ngIf="!cargando">
+    <canvas baseChart [datasets]="lineChartData" [labels]="lineChartLabels" [colors]="lineChartColors"
+        [legend]="lineChartLegend" [chartType]="lineChartType" [options]="lineChartOptions" [plugins]="lineChartPlugins"
+        (chartClick)="chartClicked($event)">
+    </canvas>
+    {{datos|json}}
 </div>

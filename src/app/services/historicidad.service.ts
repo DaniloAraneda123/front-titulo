@@ -1,13 +1,13 @@
-import { map, tap } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { StringDecoder } from 'string_decoder';
 
 @Injectable({
 	providedIn: 'root'
 })
+
 export class HistoricidadService {
 
 	constructor(private http: HttpClient) { }

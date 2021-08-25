@@ -156,7 +156,8 @@ export class HistoricidadComponent implements OnInit {
 					tipo: "rango tiempo",
 					formControlInicio: "hora_inicio",
 					formControlTermino: "hora_final",
-				}
+				},
+				
 			],
 			promedio_anios: [
 				{

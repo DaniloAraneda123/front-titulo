@@ -24,6 +24,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 //Otros
 import { AgmCoreModule } from '@agm/core';
+import { ChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { AgmCoreModule } from '@agm/core';
 		MatProgressSpinnerModule,
 
 		//Otros
-		AgmCoreModule.forRoot({ apiKey: environment.keyGoogle })
+		AgmCoreModule.forRoot({ apiKey: environment.keyGoogle }),
+		ChartsModule
 	],
 	exports: [
 		NavbarComponent,
@@ -74,7 +76,8 @@ import { AgmCoreModule } from '@agm/core';
 		MatCheckboxModule,
 		MatProgressSpinnerModule,
 
-		AgmCoreModule
+		AgmCoreModule,
+		ChartsModule
 	],
 	providers: [
 		{ provide: MAT_DATE_LOCALE, useValue: 'es-ES' }
