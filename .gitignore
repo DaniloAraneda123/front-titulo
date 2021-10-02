@@ -46,4 +46,7 @@ Thumbs.db
 
 
 # Variables de entorno Desarrollo
-src/environments/*.ts
+/src/environments/*.ts
+/src/environments
+src/environments/environment.ts
+/src/environments/environment.ts
