@@ -1,39 +1,38 @@
-<mat-form-field class="example-chip-list w-100" appearance="fill">
-	<mat-label *ngIf="comparativa">Seleccione Estaciones para Comparativa</mat-label>
-	<mat-label *ngIf="!comparativa">Seleccione una unica estacion</mat-label>
-	<mat-chip-list #chipList>
-		<mat-chip *ngFor="let estacion of estaciones" [selectable]="true" [removable]="true"
-			(removed)="removerEstacion(estacion)">
-			{{estacion}}
-			<mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
-		</mat-chip>
-		<input placeholder="Estación..." #estacionInput [formControl]="estacionCtrl" [matAutocomplete]="auto"
-			[matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-			(matChipInputTokenEnd)="addEstacion($event)">
-	</mat-chip-list>
-	<mat-autocomplete #auto="matAutocomplete" (optionSelected)="seleccionEstacion($event)">
-		<mat-option *ngFor="let estacion of estacionesFiltradas | async" [value]="estacion">
-			{{estacion}}
-		</mat-option>
-	</mat-autocomplete>
-</mat-form-field>
+<div class="h-100 d-flex flex-column">
+	<div class="d-flex w-100">
+		<mat-form-field class="w-100" appearance="fill">
+			<mat-label *ngIf="comparativa">Seleccione Estaciones para Comparativa</mat-label>
+			<mat-label *ngIf="!comparativa">Seleccione una unica estacion</mat-label>
+			<mat-chip-list #chipList>
+				<mat-chip *ngFor="let estacion of estaciones" [selectable]="true" [removable]="true"
+					(removed)="removerEstacion(estacion)">
+					{{estacion}}
+					<mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+				</mat-chip>
+				<input placeholder="Estación..." #estacionInput [formControl]="estacionCtrl" [matAutocomplete]="auto"
+					[matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+					(matChipInputTokenEnd)="addEstacion($event)">
+			</mat-chip-list>
+			<mat-autocomplete #auto="matAutocomplete" (optionSelected)="seleccionEstacion($event)">
+				<mat-option *ngFor="let estacion of estacionesFiltradas | async" [value]="estacion">
+					{{estacion}}
+				</mat-option>
+			</mat-autocomplete>
+		</mat-form-field>
 
-<agm-map [latitude]="lat" [longitude]="lon" [zoom]="zoom">
-	<agm-marker *ngFor="let estacion of estacionesDetalle; let i=index" (markerClick)="clickEstacion(estacion,i)"
-		[latitude]='estacion.lat' [longitude]="estacion.lng" [title]="estacion.title" [iconUrl]="estacion.icon">
-	</agm-marker>
-</agm-map>
+		<button class="boton" mat-mini-fab [disabled]="!comparativa" matTooltip="Seleccionar todas las estaciones"
+			(click)="addAll()">
+			<mat-icon>add</mat-icon>
+		</button>
 
-
-<!-- <ng-template #content let-modal>
-	<div class="modal-header">
-		<h1>Header</h1>
+		<button class="boton" mat-mini-fab [disabled]="!comparativa" matTooltip="Limpiar todas las estaciones"
+			(click)="clearAll()">
+			<mat-icon>clear_all</mat-icon>
+		</button>
 	</div>
-	<div class="modal-body">
-		<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corrupti, dicta dolorum adipisci maxime, excepturi
-			nihil labore ad autem ipsam rerum, ea enim cum nobis voluptatem. Nemo nam obcaecati est harum.</p>
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
-	</div>
-</ng-template> -->
+	<agm-map class="h-100"  [latitude]="lat" [longitude]="lon" [zoom]="zoom">
+		<agm-marker *ngFor="let estacion of estacionesDetalle; let i=index" (markerClick)="clickEstacion(estacion,i)"
+			[latitude]='estacion.lat' [longitude]="estacion.lng" [title]="estacion.title" [iconUrl]="estacion.icon">
+		</agm-marker>
+	</agm-map>
+</div>

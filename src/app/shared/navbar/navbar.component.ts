@@ -6,4 +6,12 @@ import { Component } from '@angular/core';
 	styleUrls: ['./navbar.component.scss']
 })
 
-export class NavbarComponent { }
+export class NavbarComponent {
+
+	public menu: boolean[] = [false, false, false]
+
+	public cambiar(numero: number) {
+		this.menu = [false, false, false]
+		this.menu[numero] = true
+	}
+}

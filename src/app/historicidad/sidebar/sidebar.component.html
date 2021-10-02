@@ -1,11 +1,12 @@
 <form [formGroup]="formGrafico" (submit)="generarGrafico()" class=" mt-2 d-grid  px-2" id="formulario">
 
-	<mat-checkbox [color]="'primary'" (click)="comparativa()">
+	<mat-checkbox [color]="'primary'" (change)="comparativa($event)" [checked]="checkComparativa">
 		Comparativa de Estaciones
 	</mat-checkbox>
 
 	<!-- variables -->
 	<div class="contenedor">
+		<div *ngIf="error">{{error|json}}</div>
 		<label class="titulo">Variables</label>
 		<div *ngFor="let item of itemsVariables">
 			<ng-container *ngTemplateOutlet="comboBox; context:{item:item}"></ng-container>
@@ -32,13 +33,21 @@
 	</div>
 
 	<!-- boton generar graficos -->
-	<button class="btn btn-primary mt-2 width-100 " style="height: 50px;">
+	<!-- <button class="btn btn-primary mt-2 width-100 " style="height: 50px;">
 		<div class=" d-flex w-100 justify-content-center align-item-center">
 			<img src="../../../assets/progresion-grafica.png" alt="" style="width: 20px; margin-right: 6px;">
 			<b>Generar Grafico</b>
 		</div>
-	</button>
+	</button> -->
 
+
+	<button class="mt-2" style="height: 50px;" mat-raised-button color="primary">
+		<div class=" d-flex justify-content-center align-items-center">
+			<mat-icon>manage_search</mat-icon>
+			<!-- <img src="../../../assets/progresion-grafica.png" alt="" style=" width: 20px; margin-right: 6px;"> -->
+			Generar Grafico
+		</div>
+	</button>
 
 
 	<!-- /////////////////////////////////////////////////TEMPLATES//////////////////////////////////////////////// -->
@@ -46,8 +55,8 @@
 	<ng-template #rangeTime let-item='item'>
 		<div class="d-flex justify-content-between">
 			<b>Rango Horas</b>
-			<span class="material-icons" matTooltip="Info about th Loasdasdsadas e action"
-				[matTooltipPosition]="'right'" matTooltipHideDelay="5000">
+			<span class="material-icons" matTooltip="{{item.descripcion}}" [matTooltipPosition]="'right'"
+				matTooltipHideDelay="5000">
 				info
 			</span>
 		</div>
@@ -69,8 +78,8 @@
 	<ng-template #rangeDate let-item='item'>
 		<div class="d-flex justify-content-between ">
 			<b>Fecha</b>
-			<span class="material-icons" matTooltip="Info about th Loasdasdsadas e action"
-				[matTooltipPosition]="'right'" matTooltipHideDelay="5000">
+			<span class="material-icons" matTooltip="{{item.descripcion}}" [matTooltipPosition]="'right'"
+				matTooltipHideDelay="5000">
 				info
 			</span>
 		</div>

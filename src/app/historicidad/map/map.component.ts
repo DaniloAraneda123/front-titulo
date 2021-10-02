@@ -3,8 +3,8 @@ import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { map, startWith, withLatestFrom } from 'rxjs/operators';
 
 
 //Redux
@@ -59,8 +59,9 @@ export class MapComponent implements OnDestroy {
 	estacionesFiltradas: Observable<string[]>;
 	estaciones: string[] = [];
 	estacionNoSeleccionadas: string[];
-	comparativa: boolean
-	@ViewChild('estacionInput') estacionInput: ElementRef<HTMLInputElement>;
+	comparativa: boolean = false
+	suscripcion$: Subscription;
+	@ViewChild('estacionInput') estacionInput!: ElementRef<HTMLInputElement>;
 
 
 	constructor(private store: Store<AppState>) {
@@ -70,7 +71,7 @@ export class MapComponent implements OnDestroy {
 			map((fruit: string | null) => fruit ? this._filter(fruit) : this.estacionNoSeleccionadas.slice()));
 
 		//State Change
-		const mi = this.store.select('historicidad').subscribe((state) => {
+		this.suscripcion$ = this.store.select('historicidad').subscribe((state) => {
 			this.estaciones = [...state.estaciones]
 
 			//Volvemos todos los iconos azules si esta vacia la lista
@@ -87,11 +88,18 @@ export class MapComponent implements OnDestroy {
 		})
 
 		this.estacionNoSeleccionadas = this.estacionesDetalle.map((estacion) => (estacion.title))
+		this.pintarEstaciones()
 	}
 
-	ngOnDestroy(): void {
-		// throw new Error('Method not implemented.');
+	pintarEstaciones() {
+		for (let i in this.estacionesDetalle) {
+			if (this.estaciones.includes(this.estacionesDetalle[i].title)) {
+				this.estacionesDetalle[i].icon = iconos.iconRojo
+			}
+		}
 	}
+
+	ngOnDestroy(): void { this.suscripcion$.unsubscribe() }
 
 	addEstacion(event: MatChipInputEvent): void {
 
@@ -136,9 +144,7 @@ export class MapComponent implements OnDestroy {
 	seleccionEstacion(event: MatAutocompleteSelectedEvent): void {
 
 		//camparativa Activa
-		if (this.comparativa === false && this.estaciones.length === 1) {
-			return
-		}
+		if (this.comparativa === false && this.estaciones.length === 1) return
 
 		//Agregamos
 		const estacion = event.option.viewValue
@@ -183,6 +189,21 @@ export class MapComponent implements OnDestroy {
 		else {
 			//Si esta, lo quitamos
 			this.removerEstacion(nombre)
+		}
+	}
+
+	addAll() {
+		this.store.dispatch(actionsHistoricidad.quitarAllEstaciones())
+		for (let i in this.estacionesDetalle) {
+			this.store.dispatch(actionsHistoricidad.agregarEstacion({ estacion: this.estacionesDetalle[i].title }))
+			this.estacionesDetalle[i].icon = iconos.iconRojo
+		}
+	}
+
+	clearAll() {
+		this.store.dispatch(actionsHistoricidad.quitarAllEstaciones())
+		for (let i in this.estacionesDetalle) {
+			this.estacionesDetalle[i].icon = iconos.iconAzul
 		}
 	}
 }

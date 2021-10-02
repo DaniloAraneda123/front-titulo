@@ -1,0 +1,67 @@
+<!-- spinner -->
+<div *ngIf="cargando" class="d-flex justify-content-center h-100">
+    <mat-spinner [diameter]="200" class="align-self-center"></mat-spinner>
+</div>
+
+<!-- grafico -->
+<div *ngIf="!cargando && !error">
+    <div class="d-flex justify-content-between align-items-stretch">
+
+        <div class="d-inline-flex">
+            <mat-form-field appearance="fill">
+                <mat-label>Tipo de Grafico</mat-label>
+                <mat-select [(value)]="tipoGrafico">
+                    <mat-option value="Linea">Linea</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <button mat-button class="opciones" [matMenuTriggerFor]="opciones">
+                <mat-icon>more_vert</mat-icon>
+                Opciones de Grafico
+            </button>
+
+            <mat-menu #opciones="matMenu">
+                <button mat-menu-item>
+                    <mat-icon>dialpad</mat-icon>
+                    <span>Redial</span>
+                </button>
+                <button mat-menu-item disabled>
+                    <mat-icon>voicemail</mat-icon>
+                    <span>Check voice mail</span>
+                </button>
+                <button mat-menu-item>
+                    <mat-icon>notifications_off</mat-icon>
+                    <span>Disable alerts</span>
+                </button>
+            </mat-menu>
+        </div>
+
+        <button class="opciones" style="background-color: rgb(220, 231, 255);" mat-stroked-button color="primary"
+            (click)="volverMap()">
+            <mat-icon>map</mat-icon>
+            Volver al Mapa
+        </button>
+    </div>
+
+
+    <div *ngIf="tipoGrafico=='Linea'">
+        <div id="chart-line">
+            <apx-chart [series]="chartOptionsLine.series" [chart]="chartOptionsLine.chart"
+                [xaxis]="chartOptionsLine.xaxis" [yaxis]="chartOptionsLine.yaxis"
+                [dataLabels]="chartOptionsLine.dataLabels" [colors]="chartOptionsLine.colors"
+                [fill]="chartOptionsLine.fill" [markers]="chartOptionsLine.markers" [stroke]="chartOptionsLine.stroke"
+                [legend]="chartOptionsLine.legend"></apx-chart>
+        </div>
+    </div>
+
+
+    <mat-button-toggle-group (change)="cambiarVariable($event)">
+        <mat-button-toggle value="minimos">Minimas</mat-button-toggle>
+        <mat-button-toggle value="promedios" [checked]="true">Promedio</mat-button-toggle>
+        <mat-button-toggle value="maximos">Maximas</mat-button-toggle>
+    </mat-button-toggle-group>
+</div>
+
+<div *ngIf="error">
+    <h1>{{error|json}}</h1>
+</div>

@@ -1,5 +1,4 @@
-import { tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
@@ -14,12 +13,11 @@ export class HistoricidadService {
 
 	private url: string = environment.urlAPI
 
-	consultarDatos(parametros, tipo_consulta: string, estaciones: string[]): Observable<any> {
-		return this.http.get(`${this.url}/${tipo_consulta}`, { params: { ...parametros, estacion: estaciones[0] } })
-			.pipe(
-				tap((data) => {
-					console.log(data)
-				})
-			)
+	consultarDatos(body: any, tipo_consulta: string, estaciones: string[]): Observable<any> {
+		return this.http.post(`${this.url}/${tipo_consulta}`, { ...body, estaciones })
+	}
+
+	consultarVariables(estaciones: string[]): Observable<any> {
+		return this.http.post(`${this.url}/alturas_variables`, { estaciones })
 	}
 }

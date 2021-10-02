@@ -1,10 +1,11 @@
-
 import { Injectable } from '@angular/core';
-import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { catchError, exhaustMap, map } from 'rxjs/operators';
+import { Actions, ofType, createEffect, concatLatestFrom } from '@ngrx/effects';
+import { catchError, debounceTime, exhaustMap, map, tap } from 'rxjs/operators';
 import * as historicidadActions from '../actions/historicidad.actions'
 import { HistoricidadService } from '../../services/historicidad.service'
 import { of } from 'rxjs';
+import { AppState } from '../app.reducers';
+import { Store } from '@ngrx/store';
 
 
 @Injectable()
@@ -21,8 +22,23 @@ export class HistoricidadEffects {
         )
     );
 
+    variables$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(historicidadActions.agregarEstacion, historicidadActions.quitarEstacion),
+            concatLatestFrom(() => this.store.select(state => state.historicidad.estaciones)),
+            debounceTime(800),
+            exhaustMap(([, estaciones]) =>
+                this.historicidadServices.consultarVariables(estaciones).pipe(
+                    map(response => historicidadActions.setVariables({ payload: response })),
+                    catchError((error) => of(historicidadActions.setVariablesError({ payload: error })))
+                )
+            )
+        )
+    );
+
     constructor(
         private actions$: Actions,
-        private historicidadServices: HistoricidadService
+        private historicidadServices: HistoricidadService,
+        private store: Store<AppState>,
     ) { }
 }

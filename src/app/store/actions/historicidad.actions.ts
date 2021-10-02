@@ -36,3 +36,18 @@ export const loadingGraficoError = createAction(
     '[Historicidad] Carga Fallida',
     props<{ payload: any }>()
 );
+
+export const resetear = createAction(
+    '[Historicidad] Resetear filtros'
+);
+
+export const setVariables = createAction(
+    '[Historicidad] Variables Cargadas',
+    props<{ payload: any }>()
+);
+
+export const setVariablesError = createAction(
+    '[Historicidad] Error Cargar Variables',
+    props<{ payload: any }>()
+);
+

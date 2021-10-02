@@ -1,25 +1,27 @@
-<nav class="navbar navbar-expand-lg bg-light">
-	<a class="navbar-brand">
-		<img class="ps-3" routerLink="/" src="assets/img/logo.png" style="width: 220px;">
+<mat-toolbar class="d-flex justify-content-between" style="position: fixed; top: 0px;width: 100%;z-index: 10000;" color="primary">
+
+	<a >
+		<b routerLink="/">Demo Coquimbo Engine</b>
+		<!-- <img class="ps-3" routerLink="/" src="assets/img/logo.png" style="width: 180px;"> -->
 	</a>
-<!-- 
-	<mat-form-field color="accent" appearance="fill">
-		<mat-label>Inherited calendar color</mat-label>
-		<input matInput [matDatepicker]="picker1">
-		<mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-		<mat-datepicker #picker1></mat-datepicker>
-	</mat-form-field> -->
 
-	<div class="collapse navbar-collapse justify-content-end pe-3">
-		<div class="btn-group " role="group" aria-label="Basic radio toggle button group">
-			<input type="radio" class="btn-check" routerLink="/historicidad/map" name="btnradio" id="btnradio1">
-			<label class="btn btn-outline-danger nav-link" for="btnradio1">Historicidad</label>
+	<div>
+		<button class="boton-nav" color="primary" [class.selected]="menu[0]" (click)="cambiar(0)" mat-flat-button
+			routerLink="/historicidad">
+			<mat-icon>timeline</mat-icon>
+			Historicidad
+		</button>
 
-			<input type="radio" class="btn-check" routerLink="/interpolacion" name="btnradio" id="btnradio2">
-			<label class="btn btn-outline-danger nav-link" for="btnradio2">Interpolación</label>
+		<button class="boton-nav" color="primary" [class.selected]="menu[1]" (click)="cambiar(1)" mat-flat-button
+			routerLink="/interpolacion">
+			<mat-icon>layers</mat-icon>
+			Interpolación
+		</button>
 
-			<input type="radio" class="btn-check" routerLink="/busqueda" name="btnradio" id="btnradio3">
-			<label class="btn btn-outline-danger nav-link" for="btnradio3">Busqueda</label>
-		</div>
+		<button class="boton-nav" color="primary" [class.selected]="menu[2]" (click)="cambiar(2)" mat-flat-button
+			routerLink="/busqueda">
+			<mat-icon>search</mat-icon>
+			Busqueda
+		</button>
 	</div>
-</nav>
+</mat-toolbar>

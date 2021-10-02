@@ -4,10 +4,11 @@ import { RouterModule, Routes } from '@angular/router';
 //Componentes
 import { HomeComponent } from './home/home.component';
 import { InterpolacionComponent } from './interpolacion/interpolacion.component';
-import { HistoricidadComponent } from './historicidad/main/historicidad.component';
+import { HistoricidadComponent } from './historicidad/historicidad/historicidad.component';
 import { BusquedaComponent } from './busqueda/busqueda.component';
 import { MapComponent } from './historicidad/map/map.component';
-import { GraficaComponent } from './historicidad/grafica/grafica.component';
+import { GraficaUnicaComponent } from './historicidad/grafica-unica/grafica-unica.component';
+import { GraficaMultipleComponent } from './historicidad/grafica-multiple/grafica-multiple.component';
 
 
 const routes: Routes = [
@@ -17,17 +18,15 @@ const routes: Routes = [
 	},
 	{
 		path: 'historicidad',
-		component: HistoricidadComponent,
-		children: [
-			{
-				path: 'map',
-				component: MapComponent
-			},
-			{
-				path: 'grafico',
-				component: GraficaComponent
-			}
-		]
+		component: HistoricidadComponent
+	},
+	{
+		path: 'historicidad/grafica_unica',
+		component: GraficaUnicaComponent,
+	},
+	{
+		path: 'historicidad/grafica_multiple',
+		component: GraficaMultipleComponent
 	},
 	{
 		path: 'interpolacion',

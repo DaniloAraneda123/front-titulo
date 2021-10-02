@@ -1,0 +1,28 @@
+.opciones {
+  height: 52px;
+  margin-left: 10px;
+  // background-color: #0505050a;
+  background-color:rgba(10, 10, 10, 0.041);
+  border: none;
+  border-bottom-style: solid;
+  padding-left: 7px;
+  border-width: 1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  color: black;
+}
+
+.opciones:hover {
+  border-width: 2px;
+}
+
+.checkBox{
+  padding: 10px;
+}
+
+.multigrafico{
+  height: 100%;
+  max-height: 729px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}

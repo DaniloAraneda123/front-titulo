@@ -3,10 +3,11 @@ import { NgModule } from '@angular/core';
 //Componentes
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { MapComponent } from './map/map.component';
-import { HistoricidadComponent } from './main/historicidad.component';
+import { HistoricidadComponent } from './historicidad/historicidad.component';
 import { SharedModule } from '../shared/shared.module';
-import { GraficaComponent } from './grafica/grafica.component';
+import { GraficaUnicaComponent } from './grafica-unica/grafica-unica.component';
 import { CommonModule } from '@angular/common';
+import { GraficaMultipleComponent } from './grafica-multiple/grafica-multiple.component';
 
 
 @NgModule({
@@ -14,13 +15,14 @@ import { CommonModule } from '@angular/common';
 		SidebarComponent,
 		MapComponent,
 		HistoricidadComponent,
-		GraficaComponent
+		GraficaUnicaComponent,
+		GraficaMultipleComponent
 	],
 	imports: [
 		CommonModule,
 		SharedModule
 	],
-	exports:[
+	exports: [
 		CommonModule
 	]
 })

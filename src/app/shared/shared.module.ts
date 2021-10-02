@@ -21,16 +21,20 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatToolbarModule } from '@angular/material/toolbar'
+import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatMenuModule } from '@angular/material/menu';
 
 //Otros
 import { AgmCoreModule } from '@agm/core';
-import { ChartsModule } from 'ng2-charts';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 
 @NgModule({
 	declarations: [
+		FooterComponent,
 		NavbarComponent,
-		FooterComponent
 	],
 	imports: [
 		CommonModule,
@@ -50,10 +54,14 @@ import { ChartsModule } from 'ng2-charts';
 		MatAutocompleteModule,
 		MatCheckboxModule,
 		MatProgressSpinnerModule,
+		MatToolbarModule,
+		MatButtonModule,
+		MatButtonToggleModule,
+		MatMenuModule,
 
 		//Otros
 		AgmCoreModule.forRoot({ apiKey: environment.keyGoogle }),
-		ChartsModule
+		NgApexchartsModule
 	],
 	exports: [
 		NavbarComponent,
@@ -75,9 +83,13 @@ import { ChartsModule } from 'ng2-charts';
 		MatAutocompleteModule,
 		MatCheckboxModule,
 		MatProgressSpinnerModule,
+		MatToolbarModule,
+		MatButtonModule,
+		MatButtonToggleModule,
+		MatMenuModule,
 
 		AgmCoreModule,
-		ChartsModule
+		NgApexchartsModule
 	],
 	providers: [
 		{ provide: MAT_DATE_LOCALE, useValue: 'es-ES' }

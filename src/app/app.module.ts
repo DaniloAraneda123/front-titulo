@@ -27,7 +27,7 @@ import { Efectos } from './store/effects';
 @NgModule({
 	declarations: [
 		AppComponent,
-		HomeComponent
+		HomeComponent,
 	],
 	imports: [
 		BrowserModule,
