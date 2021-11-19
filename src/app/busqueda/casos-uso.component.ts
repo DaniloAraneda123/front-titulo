@@ -1,0 +1,54 @@
+import { Component } from "@angular/core";
+import { RouterModule, Router } from '@angular/router';
+
+@Component({
+	selector: 'app-busqueda',
+	templateUrl: './casos-uso.component.html',
+	styleUrls: ['./casos-uso.component.scss']
+})
+export class CasosUsoComponent {
+
+	constructor(private router: Router) { }
+
+	sections = [
+		{
+			name: "Precipitaciones",
+			subtitle: "",
+			img: "https://www.meteorologiaenred.com/wp-content/uploads/2017/10/lluvia.jpg.webp",
+			description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed modi commodi et magnam quae voluptate,
+				neque omnis? Consectetur perspiciatis necessitatibus tempore cumque, adipisci nisi maxime quo amet voluptatem
+				 laboriosam officiis!`,
+			url: "precipitacion"
+		},
+		{
+			name: "Horas Frio",
+			subtitle: "",
+			img: "https://storage.googleapis.com/portalfruticola/2016/12/plum-tree-1353819_640.jpg",
+			description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed modi commodi et magnam quae voluptate,
+			neque omnis? Consectetur perspiciatis necessitatibus tempore cumque, adipisci nisi maxime quo amet voluptatem
+			 laboriosam officiis!`,
+			url: "horas_frio"
+		},
+		{
+			name: "Evapotranspiracion",
+			subtitle: "",
+			img: "https://ichi.pro/assets/images/max/724/1*VWO_xMK8-w29HY00Wzty9w.jpeg",
+			description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed modi commodi et magnam quae voluptate,
+			neque omnis? Consectetur perspiciatis necessitatibus tempore cumque, adipisci nisi maxime quo amet voluptatem
+			 laboriosam officiis!`,
+			url: "evapotranspiracion"
+		},
+		{
+			name: "Por Definir",
+			subtitle: "",
+			img: "",
+			description: "",
+			url: ""
+		}
+	]
+
+	clickCard(caso_uso: string) {
+		console.log('asdasd')
+		this.router.navigate(['casos_uso', caso_uso])
+	}
+}

@@ -1,0 +1,11 @@
+<div style="padding: 15px 15px 15px 15px; height: 100%;">
+    <div class="conteiner">
+        <div class="card" *ngFor="let card of sections" (click)="clickCard(card.url)">
+            <h2 class="card-title">{{card.name}}</h2>
+            <div>
+                <img [src]="card.img" alt="">
+            </div>
+            <p class="card-desc">{{card.description}}.</p>
+        </div>
+    </div>
+</div>

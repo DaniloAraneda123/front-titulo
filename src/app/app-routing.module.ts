@@ -5,10 +5,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { InterpolacionComponent } from './interpolacion/interpolacion.component';
 import { HistoricidadComponent } from './historicidad/historicidad/historicidad.component';
-import { BusquedaComponent } from './busqueda/busqueda.component';
-import { MapComponent } from './historicidad/map/map.component';
+import { CasosUsoComponent } from './busqueda/casos-uso.component';
 import { GraficaUnicaComponent } from './historicidad/grafica-unica/grafica-unica.component';
 import { GraficaMultipleComponent } from './historicidad/grafica-multiple/grafica-multiple.component';
+import { EvapotraspitacionComponent } from './busqueda/evapotraspitacion/evapotraspitacion.component';
+import { HorasFrioComponent } from './busqueda/horas-frio/horas-frio.component';
+import { PrecipitacionComponent } from './busqueda/precipitacion/precipitacion.component';
 
 
 const routes: Routes = [
@@ -33,9 +35,23 @@ const routes: Routes = [
 		component: InterpolacionComponent
 	},
 	{
-		path: 'busqueda',
-		component: BusquedaComponent
+		path: 'casos_uso',
+		component: CasosUsoComponent
+	},
+	{
+		path: 'casos_uso/precipitacion',
+		component: PrecipitacionComponent
+	},
+	{
+		path: 'casos_uso/horas_frio',
+		component: HorasFrioComponent
 	}
+	,
+	{
+		path: 'casos_uso/evapotranspiracion',
+		component: EvapotraspitacionComponent
+	}
+
 ];
 
 @NgModule({

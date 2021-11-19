@@ -1,0 +1,112 @@
+<div style="padding: 10px 10px 10px 10px; background-color:#ffffff;">
+    <mat-card class="titulo card">
+        <h1>Titulo 1 Tiempo analisado</h1>
+    </mat-card>
+    
+    <div class="conteiner-datos">
+
+        <mat-card class="dato card">
+            <mat-card-title>Cantidad de eventos</mat-card-title>
+            <mat-card-subtitle>Precipitaciones</mat-card-subtitle>
+            <h1 style="color: #1a32b9;"><b>50 </b>
+                <p>Eventos</p>
+            </h1>
+        </mat-card>
+        <mat-card class="dato card">
+            <mat-card-title>Precipitacion Acumulada</mat-card-title>
+            <mat-card-subtitle>General</mat-card-subtitle>
+            <h1 style="color: #1a32b9;"><b>5000 </b>
+                <p>mm</p>
+            </h1>
+        </mat-card>
+        <mat-card class="dato card">
+            <mat-card-title>Intensidad Promedio</mat-card-title>
+            <mat-card-subtitle>General</mat-card-subtitle>
+            <h1 style="color: #1a32b9;"><b>50 </b>
+                <p>mm/h</p>
+            </h1>
+        </mat-card>
+        <!-- ///////////////////////////////////////////// -->
+        <mat-card class="dato card">
+            <mat-card-title>Precipitacion Acumulada</mat-card-title>
+            <mat-card-subtitle>Evento</mat-card-subtitle>
+            <h1 style="color: #23814f;"><b>5000 </b>
+                <p>mm</p>
+            </h1>
+        </mat-card>
+        <mat-card class="dato card">
+            <mat-card-title>Intensidad Promedio</mat-card-title>
+            <mat-card-subtitle>Evento</mat-card-subtitle>
+            <h1 style="color: #23814f;"><b>5 </b>
+                <p>mm/h</p>
+            </h1>
+        </mat-card>
+        <mat-card class="dato card">
+            <mat-card-title>Duracion Horas</mat-card-title>
+            <mat-card-subtitle>Evento</mat-card-subtitle>
+            <h1 style="color: #23814f;"><b>5 </b>
+                <p>Horas</p>
+            </h1>
+        </mat-card>
+    </div>
+
+    <div class="conteiner-graficos">
+
+        <mat-card class="card grafico">
+            <apx-chart [series]="chartOptionsTime.series" [chart]="chartOptionsTime.chart"
+                [fill]="chartOptionsTime.fill" [legend]="chartOptionsTime.legend" [title]="chartOptionsTime.title"
+                [plotOptions]="chartOptionsTime.plotOptions" [xaxis]="chartOptionsTime.xaxis">
+            </apx-chart>
+        </mat-card>
+
+        <mat-card class="card grafico">
+            <apx-chart [series]="chartOptionsLine.series" [chart]="chartOptionsLine.chart" [xaxis]="chartOptionsLine.xaxis"
+                [markers]="chartOptionsLine.markers" [stroke]="chartOptionsLine.stroke" [yaxis]="chartOptionsLine.yaxis"
+                [dataLabels]="chartOptionsLine.dataLabels" [title]="chartOptionsLine.title" [fill]="chartOptionsLine.fill"
+                [tooltip]="chartOptionsLine.tooltip" [legend]="chartOptionsLine.legend"></apx-chart>
+        </mat-card>
+
+        <mat-card class="card grafico tabla">
+            <div style="overflow-y: scroll; height: 90%;">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100">
+
+                    <!-- Fecha -->
+                    <ng-container matColumnDef="fecha">
+                        <th mat-header-cell *matHeaderCellDef> Fecha </th>
+                        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                    </ng-container>
+
+                    <!-- Acumulado -->
+                    <ng-container matColumnDef="acumulado">
+                        <th mat-header-cell *matHeaderCellDef> Precipitacion <br> Acumulada </th>
+                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    </ng-container>
+
+                    <!-- Intensidad -->
+                    <ng-container matColumnDef="intensidad">
+                        <th mat-header-cell *matHeaderCellDef> Intensidad <br> Promedio </th>
+                        <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+                    </ng-container>
+
+                    <!-- Duracion -->
+                    <ng-container matColumnDef="duracion">
+                        <th mat-header-cell *matHeaderCellDef> Duracion </th>
+                        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                    </ng-container>
+
+                    <!-- Acciones -->
+                    <ng-container matColumnDef="detalle">
+                        <th mat-header-cell *matHeaderCellDef style="text-align: right;"> </th>
+                        <td mat-cell *matCellDef="let element" style="text-align: right;">
+                            <mat-icon>search</mat-icon>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        </mat-card>
+    </div>
+</div>

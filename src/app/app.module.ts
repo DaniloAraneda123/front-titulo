@@ -12,7 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 //Modulos
 import { SharedModule } from './shared/shared.module';
 import { HistoricidadModule } from './historicidad/historicidad.module';
-import { BusquedaModule } from './busqueda/busqueda.module';
+import { CasosUsoModule } from './busqueda/casos-uso.module';
 import { InterpolacionModule } from './interpolacion/interpolacion.module';
 
 //Redux
@@ -42,7 +42,7 @@ import { Efectos } from './store/effects';
 
 		SharedModule,
 		HistoricidadModule,
-		BusquedaModule,
+		CasosUsoModule,
 		InterpolacionModule
 	],
 	bootstrap: [AppComponent]

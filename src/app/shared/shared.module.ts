@@ -25,10 +25,18 @@ import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 
 //Otros
 import { AgmCoreModule } from '@agm/core';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { MatTableModule } from '@angular/material/table'
+// import { GoogleMapsModule } from '@angular/google-maps';
+
 
 
 @NgModule({
@@ -58,10 +66,20 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 		MatButtonModule,
 		MatButtonToggleModule,
 		MatMenuModule,
+		MatGridListModule,
+		MatTableModule,
+		MatPaginatorModule,
+		MatSortModule,
+		MatCardModule,
+		MatDividerModule,
 
 		//Otros
-		AgmCoreModule.forRoot({ apiKey: environment.keyGoogle }),
-		NgApexchartsModule
+		AgmCoreModule.forRoot({
+			apiKey: environment.keyGoogle,
+			libraries: ['visualization'],
+		}),
+		// GoogleMapsModule,
+		NgApexchartsModule,
 	],
 	exports: [
 		NavbarComponent,
@@ -87,9 +105,16 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 		MatButtonModule,
 		MatButtonToggleModule,
 		MatMenuModule,
+		MatGridListModule,
+		MatTableModule,
+		MatPaginatorModule,
+		MatSortModule,
 
 		AgmCoreModule,
-		NgApexchartsModule
+		NgApexchartsModule,
+		MatCardModule,
+		MatDividerModule,
+		// GoogleMapsModule
 	],
 	providers: [
 		{ provide: MAT_DATE_LOCALE, useValue: 'es-ES' }

@@ -1,0 +1,124 @@
+<div style="padding: 10px 10px 10px 10px;height: 95%;">
+    <mat-card class="titulo card">
+        <h1>Horas Frio</h1>
+    </mat-card>
+
+    <div class="conteiner-grid">
+
+        <mat-card class="input card">
+            Seleccionade periodo... <br>
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Ingrese Rango de Fechas</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate placeholder="Inicio">
+                    <input matEndDate placeholder="Termino">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+        </mat-card>
+
+        <mat-card class="dato card">
+            <mat-card-title>Total Estacion</mat-card-title>
+            <mat-card-subtitle>Vicuña</mat-card-subtitle>
+            <h1 style="color: #1a32b9;"><b>110 </b>
+                <p>Hf</p>
+            </h1>
+        </mat-card>
+
+        <mat-card class="dato card">
+            <mat-card-title>Promedio</mat-card-title>
+            <mat-card-subtitle>(9/6/20 - 20/6/20)</mat-card-subtitle>
+            <h1 style="color: #1a32b9;"><b>13 </b>
+                <p>Hf</p>
+            </h1>
+        </mat-card>
+
+        <mat-card class="dato card">
+            <mat-card-title>Promedio Seleccionado</mat-card-title>
+            <mat-card-subtitle>(12/6/20 - 19/6/20)</mat-card-subtitle>
+            <h1 style="color: #23814f;"><b>11 </b>
+                <p>Hf</p>
+            </h1>
+        </mat-card>
+
+        <mat-card class="dato card">
+            <mat-card-title>Total Seleccionado</mat-card-title>
+            <mat-card-subtitle>(12/6/20 - 19/6/20)</mat-card-subtitle>
+            <h1 style="color: #23814f;"><b>80 </b>
+                <p>Hf</p>
+            </h1>
+        </mat-card>
+
+
+        <mat-card class="card map">
+            <agm-map [latitude]="lat" [longitude]="lon" [zoom]="zoom" [scrollwheel]="false" (mapReady)="onMapLoad($event)">
+
+                <agm-marker *ngFor="let m of markers; let i = index" (markerClick)="clickedMarker(m.label, i)"
+                    [latitude]="m.lat" [longitude]="m.lng" [label]="m.label" [markerDraggable]="m.draggable">
+                    <agm-info-window>
+                        <strong>Estacion {{i}}</strong><br>
+                        <strong>Horas Frio: <b>25</b> </strong><br>
+                        <strong>Temperatura prodemio: algo</strong><br>
+                    </agm-info-window>
+                </agm-marker>
+
+                <agm-circle [latitude]="lat + 0.3" [longitude]="lon" [radius]="5000" 
+                    [circleDraggable]="true" [editable]="true">
+                </agm-circle>
+            </agm-map>
+
+        </mat-card>
+        
+        <mat-card class="card grafico">
+            <apx-chart [series]="chartOptionsLine.series" [chart]="chartOptionsLine.chart"
+                [xaxis]="chartOptionsLine.xaxis" [markers]="chartOptionsLine.markers" [stroke]="chartOptionsLine.stroke"
+                [yaxis]="chartOptionsLine.yaxis" [dataLabels]="chartOptionsLine.dataLabels"
+                [title]="chartOptionsLine.title" [fill]="chartOptionsLine.fill" [tooltip]="chartOptionsLine.tooltip"
+                [legend]="chartOptionsLine.legend"></apx-chart>
+        </mat-card>
+
+        <mat-card class="card tabla">
+            <div style=" max-height: 290px; background-color: #23814f; overflow: auto;">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100">
+
+                    <!-- Fecha -->
+                    <ng-container matColumnDef="fecha">
+                        <th mat-header-cell *matHeaderCellDef> Estacion </th>
+                        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                    </ng-container>
+
+                    <!-- Acumulado -->
+                    <ng-container matColumnDef="acumulado">
+                        <th mat-header-cell *matHeaderCellDef> Hf Total <br> Acumulada </th>
+                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    </ng-container>
+
+                    <!-- Intensidad -->
+                    <ng-container matColumnDef="intensidad">
+                        <th mat-header-cell *matHeaderCellDef> Hf Promedio <br> Promedio </th>
+                        <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+                    </ng-container>
+
+                    <!-- Duracion -->
+                    <ng-container matColumnDef="duracion">
+                        <th mat-header-cell *matHeaderCellDef> Hf diario Max </th>
+                        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                    </ng-container>
+
+                    <!-- Acciones -->
+                    <ng-container matColumnDef="detalle">
+                        <th mat-header-cell *matHeaderCellDef style="text-align: right;"> Ver estacion </th>
+                        <td mat-cell *matCellDef="let element" style="text-align: right;">
+                            <mat-icon>search</mat-icon>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+        </mat-card>
+
+    </div>
+</div>
