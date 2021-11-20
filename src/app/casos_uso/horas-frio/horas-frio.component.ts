@@ -1,0 +1,195 @@
+import { Component, ViewChild } from '@angular/core';
+import { MapCircle } from '@angular/google-maps';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import {
+  ApexAxisChartSeries, ApexChart, ApexFill, ApexTooltip, ApexXAxis, ApexLegend, ApexDataLabels,
+  ApexTitleSubtitle, ApexYAxis, ApexPlotOptions, ApexGrid
+} from "ng-apexcharts";
+
+export type ChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  markers: any; //ApexMarkers;
+  stroke: any; //ApexStroke;
+  yaxis: ApexYAxis | ApexYAxis[];
+  dataLabels: ApexDataLabels;
+  title: ApexTitleSubtitle;
+  legend: ApexLegend;
+  fill: ApexFill;
+  tooltip: ApexTooltip;
+  plotOptions: ApexPlotOptions;
+  colors: any;
+  grid: ApexGrid;
+};
+
+const ELEMENT_DATA: any[] = [
+  { position: "Vicuña", name: 110, weight: 12.0079, symbol: 17 },
+  { position: "Otra 1", name: 70, weight: 14.0026, symbol: 19 },
+  { position: "Otra 2", name: 81, weight: 16.941, symbol: 21 },
+];
+
+
+@Component({
+  selector: 'app-horas-frio',
+  templateUrl: './horas-frio.component.html',
+  styleUrls: ['./horas-frio.component.scss']
+})
+export class HorasFrioComponent {
+  chartOptionsLine: Partial<ChartOptions>;
+  chartOptionsTime: Partial<ChartOptions>;
+
+  displayedColumns: string[] = ['fecha', 'acumulado', 'intensidad', 'duracion', 'detalle'];
+  dataSource = ELEMENT_DATA;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
+
+  constructor() {
+    this.chartOptionsLine = {
+      series: [
+        {
+          name: "Diario", type: "column", color: "#9391FF",
+          data: [0.1, 1, 0.2, 2, 0.4, 0.9, 0.3, 0.5, 0, 0.1, 1.3, 0.6],
+        },
+        {
+          name: "Acumulado", type: "line",
+          data: [0.1, 1.1, 1.3, 1.5, 1.9, 2.8, 3.1, 3.6, 3.6, 3.7, 5, 5.6],
+        }
+      ],
+      chart: {
+        height: 283, type: "line", stacked: false,
+        toolbar: {
+          tools: { download: true, selection: true, zoom: true, zoomin: false, zoomout: false, pan: false, },
+          show: true, autoSelected: 'selection'
+        }
+      },
+      dataLabels: { enabled: false },
+      stroke: { width: [1, 2.5] },
+      title: { text: "Horas Frio (9/6/20 - 20/6/20) Vicuña", align: "left", offsetX: 10 },
+      xaxis: { categories: ['9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'] },
+      yaxis: [
+        {
+          axisTicks: { show: true }, axisBorder: { show: true, color: "#775DD0" }, labels: { style: { colors: "#775DD0" } },
+          title: { text: "Horas Frio Diaria [Hf]", style: { color: "#672E85" } }, tooltip: { enabled: true }
+        },
+        {
+          axisTicks: { show: true }, axisBorder: { show: true, color: "#00E396" }, labels: { style: { colors: "#23814f" } },
+          opposite: true, title: { text: "Horas Frio Acumulada [Hf]", style: { color: "#23814f" } }, tooltip: { enabled: true }
+        },
+      ],
+      // tooltip: { fixed: { enabled: true } },
+      legend: { position: "bottom", horizontalAlign: "center" }
+    };
+
+  }
+
+  optionsMaps: google.maps.MapOptions = {
+    center: { lat: -29.7530093, lng: -70.616334 },
+    zoom:9,
+    restriction: {
+      latLngBounds: {
+        north: -29.3530093,
+        south: -30.2530093,
+        west: -71.616334 ,
+        east: -69.816334,
+      },
+      strictBounds: false
+    }
+  }
+
+  @ViewChild(MapCircle) circulo!: google.maps.Circle
+  optionsCircle: google.maps.CircleOptions = {
+    center: { lat: -29.7530093, lng: -70.616334 },
+    radius: 30000, fillColor: 'red',
+    editable: true,
+    draggable: true,
+    strokeWeight: 0
+  }
+
+  markerOptions: google.maps.MarkerOptions = { draggable: false };
+  markerPositions: google.maps.LatLngLiteral[] = [];
+
+  public markers1: { pos: google.maps.LatLngLiteral, opt: google.maps.MarkerOptions }[] = [
+    { pos: { lat: -29.9988307, lng: -70.587333 }, opt: { icon: iconos.iconAzul, title: 'Algarrobal' } },
+    { pos: { lat: -29.998736, lng: -71.39852 }, opt: { icon: iconos.iconAzul, title: 'Coquimbo [El Panul]' } },
+    { pos: { lat: -30.405266, lng: -70.279483 }, opt: { icon: iconos.iconAzul, title: 'El Jote' } },
+    { pos: { lat: -30.1583, lng: -69.908179 }, opt: { icon: iconos.iconAzul, title: 'El Tapado' } },
+    { pos: { lat: -30.38407, lng: -70.412858 }, opt: { icon: iconos.iconAzul, title: 'Estero Derecho' } },
+    { pos: { lat: -29.97852, lng: -71.080386 }, opt: { icon: iconos.iconAzul, title: 'Gabriela Mistral' } },
+    { pos: { lat: -30.203112, lng: -70.037224 }, opt: { icon: iconos.iconAzul, title: 'La Laguna [Elqui]' } },
+    { pos: { lat: -29.915015, lng: -71.242214 }, opt: { icon: iconos.iconAzul, title: 'La Serena [CEAZA]' } },
+    { pos: { lat: -29.938475, lng: -71.223505 }, opt: { icon: iconos.iconAzul, title: 'La Serena [Cerro Grande]' } },
+    { pos: { lat: -29.754064, lng: -71.257442 }, opt: { icon: iconos.iconAzul, title: 'La Serena [El Romeral]' } },
+    { pos: { lat: -30.251452, lng: -71.256903 }, opt: { icon: iconos.iconAzul, title: 'Las Cardas' } },
+    { pos: { lat: -30.257406, lng: -69.936986 }, opt: { title: 'Llano de Las Liebres', icon: iconos.iconAzul } },
+    { pos: { lat: -29.827418, lng: -70.354471 }, opt: { title: 'Llanos de Huanta', icon: iconos.iconAzul } },
+    { pos: { lat: -30.161408, lng: -69.875994 }, opt: { title: 'Los Corrales', icon: iconos.iconAzul } },
+    { pos: { lat: -30.074646, lng: -71.238945 }, opt: { title: 'Pan de Azucar', icon: iconos.iconAzul } },
+    { pos: { lat: -30.190704, lng: -69.82553 }, opt: { title: 'Paso Agua Negra', icon: iconos.iconAzul } },
+    { pos: { lat: -30.129028, lng: -70.494712 }, opt: { title: 'Pisco Elqui', icon: iconos.iconAzul } },
+    { pos: { lat: -29.3541129, lng: -71.0328595 }, opt: { title: 'Punta Colorada', icon: iconos.iconAzul } },
+    { pos: { lat: -29.24724, lng: -71.467969 }, opt: { title: 'Punta de Choros', icon: iconos.iconAzul } },
+    { pos: { lat: -29.96173, lng: -70.539081 }, opt: { title: 'Rivadavia', icon: iconos.iconAzul } },
+    { pos: { lat: -29.96663, lng: -71.352844 }, opt: { title: 'UCN Guayacan', icon: iconos.iconAzul } },
+    { pos: { lat: -30.038318, lng: -70.696553 }, opt: { title: 'Vicuna', icon: iconos.iconAzul } }
+  ]
+
+  public markers2: { pos: google.maps.LatLngLiteral, opt: google.maps.MarkerOptions }[] = [
+    { pos: { lat: -29.9988307, lng: -70.587333 }, opt: { icon: iconos.iconAzul, title: 'Algarrobal', clickable: true } },
+    { pos: { lat: -29.998736, lng: -71.39852 }, opt: { icon: iconos.iconAzul, title: 'Coquimbo [El Panul]', clickable: true } },
+    { pos: { lat: -30.405266, lng: -70.279483 }, opt: { icon: iconos.iconAzul, title: 'El Jote', clickable: true } },
+    { pos: { lat: -30.1583, lng: -69.908179 }, opt: { icon: iconos.iconAzul, title: 'El Tapado', clickable: true } },
+    { pos: { lat: -30.38407, lng: -70.412858 }, opt: { icon: iconos.iconAzul, title: 'Estero Derecho', clickable: true } },
+    { pos: { lat: -29.97852, lng: -71.080386 }, opt: { icon: iconos.iconAzul, title: 'Gabriela Mistral', clickable: true } },
+    { pos: { lat: -30.203112, lng: -70.037224 }, opt: { icon: iconos.iconAzul, title: 'La Laguna [Elqui]', clickable: true } },
+    { pos: { lat: -29.915015, lng: -71.242214 }, opt: { icon: iconos.iconAzul, title: 'La Serena [CEAZA]', clickable: true } },
+    { pos: { lat: -29.938475, lng: -71.223505 }, opt: { icon: iconos.iconAzul, title: 'La Serena [Cerro Grande]', clickable: true } },
+    { pos: { lat: -29.754064, lng: -71.257442 }, opt: { icon: iconos.iconAzul, title: 'La Serena [El Romeral]', clickable: true } },
+    { pos: { lat: -30.251452, lng: -71.256903 }, opt: { icon: iconos.iconAzul, title: 'Las Cardas', clickable: true } },
+    { pos: { lat: -30.257406, lng: -69.936986 }, opt: { title: 'Llano de Las Liebres', icon: iconos.iconAzul, clickable: true } },
+    { pos: { lat: -29.827418, lng: -70.354471 }, opt: { title: 'Llanos de Huanta', icon: iconos.iconAzul, clickable: true } },
+    { pos: { lat: -30.161408, lng: -69.875994 }, opt: { title: 'Los Corrales', icon: iconos.iconAzul, clickable: true } },
+    { pos: { lat: -30.074646, lng: -71.238945 }, opt: { title: 'Pan de Azucar', icon: iconos.iconAzul, clickable: true } },
+    { pos: { lat: -30.190704, lng: -69.82553 }, opt: { title: 'Paso Agua Negra', icon: iconos.iconAzul, clickable: true } },
+    { pos: { lat: -30.129028, lng: -70.494712 }, opt: { title: 'Pisco Elqui', icon: iconos.iconAzul, clickable: true } },
+    { pos: { lat: -29.3541129, lng: -71.0328595 }, opt: { title: 'Punta Colorada', icon: iconos.iconAzul, clickable: true } },
+    { pos: { lat: -29.24724, lng: -71.467969 }, opt: { title: 'Punta de Choros', icon: iconos.iconAzul, clickable: true } },
+    { pos: { lat: -29.96173, lng: -70.539081 }, opt: { title: 'Rivadavia', icon: iconos.iconAzul, clickable: true } },
+    { pos: { lat: -29.96663, lng: -71.352844 }, opt: { title: 'UCN Guayacan', icon: iconos.iconAzul, clickable: true } },
+    { pos: { lat: -30.038318, lng: -70.696553 }, opt: { title: 'Vicuna', icon: iconos.iconAzul, clickable: true } }
+  ]
+
+  changeCenterCircle($event: google.maps.MapMouseEvent) {
+    console.log('Cambio Posicion ', $event.latLng?.toJSON())
+    this.isContain()
+  }
+
+  changeRadiusCircle() {
+    console.log('Cambio Radio ', this.circulo.getRadius())
+    this.isContain()
+  }
+
+  isContain() {
+    const bordes = this.circulo.getBounds()
+    for (let i in this.markers1) {
+      bordes?.contains(this.markers1[i].pos) ?
+        this.cambiarIcono(i, iconos.iconRojo) : this.cambiarIcono(i, iconos.iconAzul)
+    }
+  }
+
+  cambiarIcono(i: any, icono: any) {
+    this.markers1[i].opt = {
+      ...this.markers1[i].opt,
+      icon: icono
+    }
+  }
+}
+
+const iconos: any = {
+  iconAzul: { url: 'assets/A.png', scaledSize: { width: 25, height: 25 } },
+  iconRojo: { url: 'assets/R.png', scaledSize: { width: 25, height: 25 } },
+  iconGris: { url: 'assets/G.png', scaledSize: { width: 25, height: 25 } }
+}

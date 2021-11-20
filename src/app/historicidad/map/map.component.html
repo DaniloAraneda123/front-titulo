@@ -30,9 +30,11 @@
 			<mat-icon>clear_all</mat-icon>
 		</button>
 	</div>
-	<agm-map class="h-100"  [latitude]="lat" [longitude]="lon" [zoom]="zoom">
-		<agm-marker *ngFor="let estacion of estacionesDetalle; let i=index" (markerClick)="clickEstacion(estacion,i)"
-			[latitude]='estacion.lat' [longitude]="estacion.lng" [title]="estacion.title" [iconUrl]="estacion.icon">
-		</agm-marker>
-	</agm-map>
+	<div class="mapa h-100 w-100">
+		<google-map height="100%" width="100%" [center]="center" [zoom]="zoom">
+			<map-marker *ngFor="let mark of estacionesDetalle;let i = index" [position]="mark.pos" [options]="mark.opt"
+				(mapClick)="clickEstacion(i)">
+			</map-marker>
+		</google-map>
+	</div>
 </div>

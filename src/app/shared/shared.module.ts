@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { environment } from '../../environments/environment'
 
 //Componentes
 import { FooterComponent } from './footer/footer.component';
@@ -21,7 +20,6 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatMenuModule } from '@angular/material/menu';
@@ -32,10 +30,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 
 //Otros
-import { AgmCoreModule } from '@agm/core';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatTableModule } from '@angular/material/table'
-// import { GoogleMapsModule } from '@angular/google-maps';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 
 
@@ -62,7 +59,6 @@ import { MatTableModule } from '@angular/material/table'
 		MatAutocompleteModule,
 		MatCheckboxModule,
 		MatProgressSpinnerModule,
-		MatToolbarModule,
 		MatButtonModule,
 		MatButtonToggleModule,
 		MatMenuModule,
@@ -74,11 +70,7 @@ import { MatTableModule } from '@angular/material/table'
 		MatDividerModule,
 
 		//Otros
-		AgmCoreModule.forRoot({
-			apiKey: environment.keyGoogle,
-			libraries: ['visualization'],
-		}),
-		// GoogleMapsModule,
+		GoogleMapsModule,
 		NgApexchartsModule,
 	],
 	exports: [
@@ -101,7 +93,6 @@ import { MatTableModule } from '@angular/material/table'
 		MatAutocompleteModule,
 		MatCheckboxModule,
 		MatProgressSpinnerModule,
-		MatToolbarModule,
 		MatButtonModule,
 		MatButtonToggleModule,
 		MatMenuModule,
@@ -109,12 +100,11 @@ import { MatTableModule } from '@angular/material/table'
 		MatTableModule,
 		MatPaginatorModule,
 		MatSortModule,
-
-		AgmCoreModule,
-		NgApexchartsModule,
 		MatCardModule,
 		MatDividerModule,
-		// GoogleMapsModule
+
+		NgApexchartsModule,
+		GoogleMapsModule
 	],
 	providers: [
 		{ provide: MAT_DATE_LOCALE, useValue: 'es-ES' }

@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { HttpClientModule } from '@angular/common/http';
 
-//Propio
+//Componentes
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -12,8 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 //Modulos
 import { SharedModule } from './shared/shared.module';
 import { HistoricidadModule } from './historicidad/historicidad.module';
-import { CasosUsoModule } from './busqueda/casos-uso.module';
-import { InterpolacionModule } from './interpolacion/interpolacion.module';
+import { CasosUsoModule } from './casos_uso/casos-uso.module';
 
 //Redux
 import { StoreModule } from '@ngrx/store';
@@ -33,7 +32,6 @@ import { Efectos } from './store/effects';
 		BrowserModule,
 		BrowserAnimationsModule,
 		HttpClientModule,
-
 		AppRoutingModule,
 
 		StoreModule.forRoot(appReducers),
@@ -43,7 +41,6 @@ import { Efectos } from './store/effects';
 		SharedModule,
 		HistoricidadModule,
 		CasosUsoModule,
-		InterpolacionModule
 	],
 	bootstrap: [AppComponent]
 })

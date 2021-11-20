@@ -23,33 +23,32 @@ import * as actionsHistoricidad from '../../store/actions/historicidad.actions'
 export class MapComponent implements OnDestroy {
 
 	//Opciones del mapa
-	public lon: number = -70.616334;
-	public lat: number = -29.7530093;
-	public zoom: number = 9;
+	center: google.maps.LatLngLiteral = { lat: -29.7530093, lng: -70.616334 };
+	zoom: number = 9;
 
-	public estacionesDetalle: any[] = [
-		{ title: 'Algarrobal', lat: -29.9988307, lng: -70.587333, icon: iconos.iconAzul },
-		{ title: 'Coquimbo [El Panul]', lat: -29.998736, lng: -71.39852, icon: iconos.iconAzul },
-		{ title: 'El Jote', lat: -30.405266, lng: -70.279483, icon: iconos.iconAzul },
-		{ title: 'El Tapado', lat: -30.1583, lng: -69.908179, icon: iconos.iconAzul },
-		{ title: 'Estero Derecho', lat: -30.38407, lng: -70.412858, icon: iconos.iconAzul },
-		{ title: 'Gabriela Mistral', lat: -29.97852, lng: -71.080386, icon: iconos.iconAzul },
-		{ title: 'La Laguna [Elqui]', lat: -30.203112, lng: -70.037224, icon: iconos.iconAzul },
-		{ title: 'La Serena [CEAZA]', lat: -29.915015, lng: -71.242214, icon: iconos.iconAzul },
-		{ title: 'La Serena [Cerro Grande]', lat: -29.938475, lng: -71.223505, icon: iconos.iconAzul },
-		{ title: 'La Serena [El Romeral]', lat: -29.754064, lng: -71.257442, icon: iconos.iconAzul },
-		{ title: 'Las Cardas', lat: -30.251452, lng: -71.256903, icon: iconos.iconAzul },
-		{ title: 'Llano de Las Liebres', lat: -30.257406, lng: -69.936986, icon: iconos.iconAzul },
-		{ title: 'Llanos de Huanta', lat: -29.827418, lng: -70.354471, icon: iconos.iconAzul },
-		{ title: 'Los Corrales', lat: -30.161408, lng: -69.875994, icon: iconos.iconAzul },
-		{ title: 'Pan de Azucar', lat: -30.074646, lng: -71.238945, icon: iconos.iconAzul },
-		{ title: 'Paso Agua Negra', lat: -30.190704, lng: -69.82553, icon: iconos.iconAzul },
-		{ title: 'Pisco Elqui', lat: -30.129028, lng: -70.494712, icon: iconos.iconAzul },
-		{ title: 'Punta Colorada', lat: -29.3541129, lng: -71.0328595, icon: iconos.iconAzul },
-		{ title: 'Punta de Choros', lat: -29.24724, lng: -71.467969, icon: iconos.iconAzul },
-		{ title: 'Rivadavia', lat: -29.96173, lng: -70.539081, icon: iconos.iconAzul },
-		{ title: 'UCN Guayacan', lat: -29.96663, lng: -71.352844, icon: iconos.iconAzul },
-		{ title: 'Vicuna', lat: -30.038318, lng: -70.696553, icon: iconos.iconAzul }
+	estacionesDetalle: { pos: google.maps.LatLngLiteral, opt: google.maps.MarkerOptions }[] = [
+		{ pos: { lat: -29.9988307, lng: -70.587333 }, opt: { icon: iconos.iconAzul, title: 'Algarrobal' } },
+		{ pos: { lat: -29.998736, lng: -71.39852 }, opt: { icon: iconos.iconAzul, title: 'Coquimbo [El Panul]' } },
+		{ pos: { lat: -30.405266, lng: -70.279483 }, opt: { icon: iconos.iconAzul, title: 'El Jote' } },
+		{ pos: { lat: -30.1583, lng: -69.908179 }, opt: { icon: iconos.iconAzul, title: 'El Tapado' } },
+		{ pos: { lat: -30.38407, lng: -70.412858 }, opt: { icon: iconos.iconAzul, title: 'Estero Derecho' } },
+		{ pos: { lat: -29.97852, lng: -71.080386 }, opt: { icon: iconos.iconAzul, title: 'Gabriela Mistral' } },
+		{ pos: { lat: -30.203112, lng: -70.037224 }, opt: { icon: iconos.iconAzul, title: 'La Laguna [Elqui]' } },
+		{ pos: { lat: -29.915015, lng: -71.242214 }, opt: { icon: iconos.iconAzul, title: 'La Serena [CEAZA]' } },
+		{ pos: { lat: -29.938475, lng: -71.223505 }, opt: { icon: iconos.iconAzul, title: 'La Serena [Cerro Grande]' } },
+		{ pos: { lat: -29.754064, lng: -71.257442 }, opt: { icon: iconos.iconAzul, title: 'La Serena [El Romeral]' } },
+		{ pos: { lat: -30.251452, lng: -71.256903 }, opt: { icon: iconos.iconAzul, title: 'Las Cardas' } },
+		{ pos: { lat: -30.257406, lng: -69.936986 }, opt: { title: 'Llano de Las Liebres', icon: iconos.iconAzul } },
+		{ pos: { lat: -29.827418, lng: -70.354471 }, opt: { title: 'Llanos de Huanta', icon: iconos.iconAzul } },
+		{ pos: { lat: -30.161408, lng: -69.875994 }, opt: { title: 'Los Corrales', icon: iconos.iconAzul } },
+		{ pos: { lat: -30.074646, lng: -71.238945 }, opt: { title: 'Pan de Azucar', icon: iconos.iconAzul } },
+		{ pos: { lat: -30.190704, lng: -69.82553 }, opt: { title: 'Paso Agua Negra', icon: iconos.iconAzul } },
+		{ pos: { lat: -30.129028, lng: -70.494712 }, opt: { title: 'Pisco Elqui', icon: iconos.iconAzul } },
+		{ pos: { lat: -29.3541129, lng: -71.0328595 }, opt: { title: 'Punta Colorada', icon: iconos.iconAzul } },
+		{ pos: { lat: -29.24724, lng: -71.467969 }, opt: { title: 'Punta de Choros', icon: iconos.iconAzul } },
+		{ pos: { lat: -29.96173, lng: -70.539081 }, opt: { title: 'Rivadavia', icon: iconos.iconAzul } },
+		{ pos: { lat: -29.96663, lng: -71.352844 }, opt: { title: 'UCN Guayacan', icon: iconos.iconAzul } },
+		{ pos: { lat: -30.038318, lng: -70.696553 }, opt: { title: 'Vicuna', icon: iconos.iconAzul } }
 	]
 
 
@@ -75,26 +74,30 @@ export class MapComponent implements OnDestroy {
 			this.estaciones = [...state.estaciones]
 
 			//Volvemos todos los iconos azules si esta vacia la lista
-			if (this.estaciones.length === 0) {
-				this.estacionesDetalle.forEach((estacion, index) => {
-					if (estacion.icon === iconos.iconRojo) {
-						estacion.icon = iconos.iconAzul
-					}
-				})
-			}
+			// if (this.estaciones.length === 0) {
+			// 	this.estacionesDetalle.forEach((estacion, index) => {
+			// 		if (estacion.opt.icon === iconos.iconRojo) {
+			// 			estacion.opt.icon = iconos.iconAzul
+			// 			console.log('sadasd')
+			// 		}
+			// 	})
+			// }
 
 			this.comparativa = state.comparativa
 
 		})
 
-		this.estacionNoSeleccionadas = this.estacionesDetalle.map((estacion) => (estacion.title))
+		this.estacionNoSeleccionadas = this.estacionesDetalle.map((estacion) => (estacion.opt.title))
 		this.pintarEstaciones()
 	}
 
 	pintarEstaciones() {
 		for (let i in this.estacionesDetalle) {
-			if (this.estaciones.includes(this.estacionesDetalle[i].title)) {
-				this.estacionesDetalle[i].icon = iconos.iconRojo
+			if (this.estaciones.includes(this.estacionesDetalle[i].opt.title)) {
+				this.estacionesDetalle[i].opt = {
+					...this.estacionesDetalle[i].opt,
+					icon: { url: `assets/R.png`, scaledSize: new google.maps.Size(25, 25) }
+				}
 			}
 		}
 	}
@@ -118,8 +121,11 @@ export class MapComponent implements OnDestroy {
 			this.store.dispatch(actionsHistoricidad.agregarEstacion({ estacion: estacion_encontrada }))
 
 			//Cambiamos el icono
-			const indice = this.estacionesDetalle.findIndex((elemento) => (elemento.title === estacion_encontrada))
-			this.estacionesDetalle[indice].icon = iconos.iconRojo
+			const indice = this.estacionesDetalle.findIndex((elemento) => (elemento.opt.title === estacion_encontrada))
+			this.estacionesDetalle[indice].opt = {
+				...this.estacionesDetalle[indice].opt,
+				icon: { url: 'assets/R.png', scaledSize: new google.maps.Size(25, 25) }
+			}
 		}
 
 		// Limpiamos
@@ -134,8 +140,11 @@ export class MapComponent implements OnDestroy {
 		this.store.dispatch(actionsHistoricidad.quitarEstacion({ estacion: estacion }))
 
 		//Cambiar Icono
-		const indice = this.estacionesDetalle.findIndex((elemento) => (elemento.title === estacion))
-		this.estacionesDetalle[indice].icon = iconos.iconAzul
+		const indice = this.estacionesDetalle.findIndex((elemento) => (elemento.opt.title === estacion))
+		this.estacionesDetalle[indice].opt = {
+			...this.estacionesDetalle[indice].opt,
+			icon: iconos.iconAzul
+		}
 
 		//limpiamos el campo
 		this.estacionCtrl.setValue(null);
@@ -153,8 +162,11 @@ export class MapComponent implements OnDestroy {
 		this.store.dispatch(actionsHistoricidad.agregarEstacion({ estacion: estacion }))
 
 		//cambiar icono
-		const indice = this.estacionesDetalle.findIndex((elemento) => (elemento.title === estacion))
-		this.estacionesDetalle[indice].icon = iconos.iconRojo
+		const indice = this.estacionesDetalle.findIndex((elemento) => (elemento.opt.title === estacion))
+		this.estacionesDetalle[indice].opt = {
+			...this.estacionesDetalle[indice].opt,
+			icon: iconos.iconRojo
+		}
 
 		//limpiar
 		this.estacionInput.nativeElement.value = '';
@@ -167,21 +179,26 @@ export class MapComponent implements OnDestroy {
 	}
 
 
-	clickEstacion(estacion: any, i: number) {
+	clickEstacion( i: number) {
 
 		if (this.comparativa === false) {
-			this.store.dispatch(actionsHistoricidad.quitarAllEstaciones())
+			this.clearAll()
 		}
 
-		const nombre = estacion.title
+		const nombre = this.estacionesDetalle[i].opt.title
 		if (!this.estaciones.includes(nombre)) {
 			//agregamos
 			const index = this.estacionNoSeleccionadas.indexOf(nombre, 0);
 			this.estacionNoSeleccionadas.splice(index, 1)
-			this.store.dispatch(actionsHistoricidad.agregarEstacion({ estacion: nombre }))
+			this.store.dispatch(actionsHistoricidad.agregarEstacion({ 
+				estacion: nombre 
+			}))
 
 			//cambiar icono
-			this.estacionesDetalle[i].icon = iconos.iconRojo
+			this.estacionesDetalle[i].opt = {
+				...this.estacionesDetalle[i].opt,
+				icon: iconos.iconRojo
+			}
 
 			//limpiamos
 			this.estacionCtrl.setValue(null);
@@ -195,22 +212,27 @@ export class MapComponent implements OnDestroy {
 	addAll() {
 		this.store.dispatch(actionsHistoricidad.quitarAllEstaciones())
 		for (let i in this.estacionesDetalle) {
-			this.store.dispatch(actionsHistoricidad.agregarEstacion({ estacion: this.estacionesDetalle[i].title }))
-			this.estacionesDetalle[i].icon = iconos.iconRojo
+			this.store.dispatch(actionsHistoricidad.agregarEstacion({ estacion: this.estacionesDetalle[i].opt.title }))
+			this.estacionesDetalle[i].opt = {
+				...this.estacionesDetalle[i].opt,
+				icon: iconos.iconRojo
+			}
 		}
 	}
 
 	clearAll() {
 		this.store.dispatch(actionsHistoricidad.quitarAllEstaciones())
 		for (let i in this.estacionesDetalle) {
-			this.estacionesDetalle[i].icon = iconos.iconAzul
+			this.estacionesDetalle[i].opt = {
+				...this.estacionesDetalle[i].opt,
+				icon: iconos.iconAzul
+			}
 		}
 	}
 }
 
 //Iconos
 const iconos: any = {
-	iconAzul: { url: '../../../assets/A.png', scaledSize: { width: 25, height: 30 } },
-	iconRojo: { url: '../../../assets/R.png', scaledSize: { width: 25, height: 30 } },
-	iconGris: { url: '../../../assets/G.png', scaledSize: { width: 25, height: 30 } }
+	iconAzul: { url: 'assets/A.png', scaledSize: new google.maps.Size(25, 30) },
+	iconRojo: { url: 'assets/R.png', scaledSize: new google.maps.Size(25, 30) }
 }

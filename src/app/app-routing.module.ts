@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-//Componentes
+//General
 import { HomeComponent } from './home/home.component';
-import { InterpolacionComponent } from './interpolacion/interpolacion.component';
 import { HistoricidadComponent } from './historicidad/historicidad/historicidad.component';
-import { CasosUsoComponent } from './busqueda/casos-uso.component';
 import { GraficaUnicaComponent } from './historicidad/grafica-unica/grafica-unica.component';
 import { GraficaMultipleComponent } from './historicidad/grafica-multiple/grafica-multiple.component';
-import { EvapotraspitacionComponent } from './busqueda/evapotraspitacion/evapotraspitacion.component';
-import { HorasFrioComponent } from './busqueda/horas-frio/horas-frio.component';
-import { PrecipitacionComponent } from './busqueda/precipitacion/precipitacion.component';
+
+//Casos uso
+import { CasosUsoComponent } from './casos_uso/casos-uso.component';
+import { HorasFrioComponent } from './casos_uso/horas-frio/horas-frio.component';
+import { PrecipitacionComponent } from './casos_uso/precipitacion/precipitacion.component';
+import { EvapotraspitacionComponent } from './casos_uso/evapotraspitacion/evapotraspitacion.component';
 
 
 const routes: Routes = [
@@ -29,10 +30,6 @@ const routes: Routes = [
 	{
 		path: 'historicidad/grafica_multiple',
 		component: GraficaMultipleComponent
-	},
-	{
-		path: 'interpolacion',
-		component: InterpolacionComponent
 	},
 	{
 		path: 'casos_uso',

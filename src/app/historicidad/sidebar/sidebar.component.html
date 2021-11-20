@@ -41,10 +41,9 @@
 	</button> -->
 
 
-	<button class="mt-2" style="height: 50px;" mat-raised-button color="primary">
-		<div class=" d-flex justify-content-center align-items-center">
+	<button class="mt-2 boton"  mat-raised-button color="primary">
+		<div class=" d-flex justify-content-center align-items-center" >
 			<mat-icon>manage_search</mat-icon>
-			<!-- <img src="../../../assets/progresion-grafica.png" alt="" style=" width: 20px; margin-right: 6px;"> -->
 			Generar Grafico
 		</div>
 	</button>
@@ -60,16 +59,17 @@
 				info
 			</span>
 		</div>
-		<div class="d-flex justify-content-between ">
-			<div class="w-50">
+		<!-- <div class="d-flex justify-content-between "> -->
+		<div class="row">
+			<div class="col-6 pe-1 ">
 				<input [class.error]="errorTiempo1" type="time" class="time-picker" value="00:00"
 					formControlName="{{item.formControlInicio}}">
 				<label [class.error]="errorTiempo1" class="d-block" for="">Inicio</label>
 			</div>
-			<div class="div-timer ">
+			<div class="col-6 ps-1">
 				<input [class.error]="errorTiempo2" type="time" class="time-picker" value="00:00"
 					formControlName="{{item.formControlTermino}}">
-				<label [class.error]="errorTiempo2" class="d-block" for="">Termino</label>
+				<label [class.error]="errorTiempo2" class="d-block" style="text-align: right;" for="">Termino</label>
 			</div>
 		</div>
 	</ng-template>

@@ -1,21 +1,19 @@
 .opciones {
-    height: 52px;
-    margin-left: 10px;
-    background-color: rgba(238, 238, 238, 0.767);
-    border: none;
-    border-bottom-style: solid;
-    padding-left: 7px;
-    border-width: 1px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-    color: black;
-  }
-  
-  .opciones:hover {
-    border-width: 2px;
-  }
-  
-  .checkBox{
-    padding: 10px;
-  }
-  
+  height: 52px;
+  background-color: rgba(10, 10, 10, 0.041);
+  border: none;
+  border-bottom-style: solid;
+  padding-left: 7px;
+  border-width: 1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  color: black;
+}
+
+.opciones:hover {
+  border-width: 2px;
+}
+
+.checkBox {
+  padding: 10px;
+}

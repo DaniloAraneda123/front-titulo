@@ -1,27 +1,27 @@
-<mat-toolbar class="d-flex justify-content-between" style="position: fixed; top: 0px;width: 100%;z-index: 10000;" color="primary">
+<nav class="navbar">
+	<div class="d-flex justify-content-between w-100 h-100 align-items-center">
+		<div class="logo" routerLink="/"><b> Demo Coquimbo Engine</b></div>
 
-	<a >
-		<b routerLink="/">Demo Coquimbo Engine</b>
-		<!-- <img class="ps-3" routerLink="/" src="assets/img/logo.png" style="width: 180px;"> -->
-	</a>
-
-	<div>
-		<button class="boton-nav" color="primary" [class.selected]="menu[0]" (click)="cambiar(0)" mat-flat-button
-			routerLink="/historicidad">
-			<mat-icon>timeline</mat-icon>
-			Historicidad
-		</button>
-
-		<!-- <button class="boton-nav" color="primary" [class.selected]="menu[1]" (click)="cambiar(1)" mat-flat-button
-			routerLink="/interpolacion">
-			<mat-icon>search</mat-icon>
-			------tested
-		</button> -->
-
-		<button class="boton-nav" color="primary" [class.selected]="menu[2]" (click)="cambiar(2)" mat-flat-button
-			routerLink="/casos_uso">
-			<mat-icon>layers</mat-icon>
-			Casos de Uso
+		<button mat-flat-button class="toggle-button" color="primary" (click)="toggleMenu()">
+			<mat-icon>menu</mat-icon>
 		</button>
 	</div>
-</mat-toolbar>
+
+	
+	<div #seccion class="botones-seccion me-2">
+		
+		<div class="botones-lista">
+			<button class="boton-nav" color="primary" [class.selected]="menu[0]" (click)="cambiar(0)" mat-flat-button
+				routerLink="/historicidad">
+				<mat-icon>timeline</mat-icon>
+				Historicidad
+			</button>
+
+			<button class="boton-nav" color="primary" [class.selected]="menu[1]" (click)="cambiar(2)" mat-flat-button
+				routerLink="/casos_uso">
+				<mat-icon>layers</mat-icon>
+				Casos de Uso
+			</button>
+		</div>
+	</div>
+</nav>

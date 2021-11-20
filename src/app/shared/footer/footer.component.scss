@@ -1,7 +1,3 @@
-h3{
-  text-align: left;
-}
-
 #integrantes p{
   color:rgb(87, 5, 5);
   text-align: left;
@@ -14,6 +10,19 @@ h3{
 
 footer{
   border-color: #9B1C15;
-  border-radius: 8px;
   border-top: solid;
+}
+
+h2{
+  font-weight: bolder;
+}
+
+.dev{
+  font-size: 17px;
+  margin-bottom: 4px;
+  font-weight: 550;
+}
+
+.text-muted{
+  color: #000;
 }

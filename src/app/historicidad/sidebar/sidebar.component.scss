@@ -35,12 +35,6 @@
   }
 }
 
-
-.div-timer {
-  width: 50%;
-  text-align: right;
-}
-
 .time-picker:focus {
   outline: none;
 }
@@ -51,4 +45,11 @@
 
 label {
   font-size: 11px;
+}
+
+.boton{
+  height: 50px;
+  div{
+    font-size: 18px;
+  }
 }

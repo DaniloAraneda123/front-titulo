@@ -32,9 +32,9 @@
             ],
             "styles": [
               "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/styles.scss",
               "node_modules/bootstrap/dist/css/bootstrap-grid.min.css",
-              "node_modules/bootstrap/dist/css/bootstrap-reboot.min.css",
-              "src/styles.scss"
+              "node_modules/bootstrap/dist/css/bootstrap-reboot.min.css"
             ],
             "scripts": [
               "node_modules/apexcharts/dist/apexcharts.min.js"

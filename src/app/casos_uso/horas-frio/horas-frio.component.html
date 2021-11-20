@@ -52,22 +52,13 @@
 
 
         <mat-card class="card map">
-            <agm-map [latitude]="lat" [longitude]="lon" [zoom]="zoom" [scrollwheel]="false" (mapReady)="onMapLoad($event)">
-
-                <agm-marker *ngFor="let m of markers; let i = index" (markerClick)="clickedMarker(m.label, i)"
-                    [latitude]="m.lat" [longitude]="m.lng" [label]="m.label" [markerDraggable]="m.draggable">
-                    <agm-info-window>
-                        <strong>Estacion {{i}}</strong><br>
-                        <strong>Horas Frio: <b>25</b> </strong><br>
-                        <strong>Temperatura prodemio: algo</strong><br>
-                    </agm-info-window>
-                </agm-marker>
-
-                <agm-circle [latitude]="lat + 0.3" [longitude]="lon" [radius]="5000" 
-                    [circleDraggable]="true" [editable]="true">
-                </agm-circle>
-            </agm-map>
-
+            <google-map height="100%" width="100%" [options]="optionsMaps">
+                <map-circle [options]="optionsCircle" (circleDragend)="changeCenterCircle($event)"
+                  (radiusChanged)="changeRadiusCircle()">
+                </map-circle>
+                <map-marker *ngFor="let mark of markers1;let i = index" [position]="mark.pos" [options]="mark.opt">
+                </map-marker>
+              </google-map>
         </mat-card>
         
         <mat-card class="card grafico">
