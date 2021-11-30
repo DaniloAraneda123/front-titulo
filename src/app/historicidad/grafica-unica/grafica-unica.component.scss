@@ -9,11 +9,12 @@
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
   color: black;
+  &:hover{
+    border-width: 2px;
+  }
 }
 
-.opciones:hover {
-  border-width: 2px;
-}
+
 
 .checkBox{
   padding: 10px;

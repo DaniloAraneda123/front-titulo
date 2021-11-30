@@ -1,3 +1,4 @@
+import { MatDialog } from '@angular/material/dialog';
 import { Component } from "@angular/core";
 import { RouterModule, Router } from '@angular/router';
 
@@ -8,7 +9,7 @@ import { RouterModule, Router } from '@angular/router';
 })
 export class CasosUsoComponent {
 
-	constructor(private router: Router) { }
+	constructor(private router: Router, private dialog: MatDialog) { }
 
 	sections = [
 		{
@@ -51,4 +52,21 @@ export class CasosUsoComponent {
 		console.log('asdasd')
 		this.router.navigate(['casos_uso', caso_uso])
 	}
+
+	ngAfterViewInit(): void {
+		this.dialog.open(CasosAvisoComponent);
+	}
 }
+
+@Component({
+	selector: 'dialog-elements-example-dialog',
+	template: `
+	  <h1 mat-dialog-title>¡Aviso Importante!</h1>
+	  <div mat-dialog-content>
+	  Esta sección de la aplicación solo son maquetas como pruebas de concepto.</div>
+	  <div mat-dialog-actions>
+		<button mat-button mat-dialog-close>Close</button>
+	  </div>
+	`,
+})
+export class CasosAvisoComponent { }

@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 //Componentes
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
+import { HomeAvisoComponent, HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 
 //Modulos
@@ -27,6 +27,7 @@ import { Efectos } from './store/effects';
 	declarations: [
 		AppComponent,
 		HomeComponent,
+		HomeAvisoComponent
 	],
 	imports: [
 		BrowserModule,

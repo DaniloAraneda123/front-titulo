@@ -31,7 +31,7 @@
 		</button>
 	</div>
 	<div class="mapa h-100 w-100">
-		<google-map height="100%" width="100%" [center]="center" [zoom]="zoom">
+		<google-map height="100%" width="100%" [options]="optionsMaps" >
 			<map-marker *ngFor="let mark of estacionesDetalle;let i = index" [position]="mark.pos" [options]="mark.opt"
 				(mapClick)="clickEstacion(i)">
 			</map-marker>

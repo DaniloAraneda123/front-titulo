@@ -33,13 +33,21 @@ const _historicidadReducer = createReducer(
 
     on(historicidadActions.agregarEstacion, (state, { estacion }) => ({
         ...state,
-        estaciones: [...state.estaciones, estacion]
+        estaciones: [...state.estaciones, estacion],
+        loading: true
     })),
 
-    on(historicidadActions.quitarEstacion, (state, { estacion }) => ({
-        ...state,
-        estaciones: state.estaciones.filter(elemento => elemento !== estacion)
-    })),
+    on(historicidadActions.quitarEstacion, (state, { estacion }) => {
+        let cargando: boolean = false
+        if (state.estaciones.length > 1) {
+            cargando = true
+        }
+        return {
+            ...state,
+            estaciones: state.estaciones.filter(elemento => elemento !== estacion),
+            loading: cargando
+        }
+    }),
 
     on(historicidadActions.comparativaOnOff, (state) => ({
         ...state,
@@ -83,13 +91,15 @@ const _historicidadReducer = createReducer(
     on(historicidadActions.setVariables, (state, { payload }) => ({
         ...state,
         variablesDisponibles: payload,
-        error: null
+        error: null,
+        loading: false
     })),
 
     on(historicidadActions.setVariablesError, (state, { payload }) => ({
         ...state,
         variablesDisponibles: {},
-        error: payload
+        error: payload,
+        loading: false
     }))
 
 );

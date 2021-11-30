@@ -1,4 +1,4 @@
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { COMMA, ENTER, I } from '@angular/cdk/keycodes';
 import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -23,8 +23,19 @@ import * as actionsHistoricidad from '../../store/actions/historicidad.actions'
 export class MapComponent implements OnDestroy {
 
 	//Opciones del mapa
-	center: google.maps.LatLngLiteral = { lat: -29.7530093, lng: -70.616334 };
-	zoom: number = 9;
+	optionsMaps: google.maps.MapOptions = {
+		center: { lat: -29.7530093, lng: -70.616334 },
+		zoom:9,
+		restriction: {
+		  latLngBounds: {
+			north: -29.3530093,
+			south: -30.2530093,
+			west: -71.616334 ,
+			east: -69.816334,
+		  },
+		  strictBounds: false
+		}
+	  }
 
 	estacionesDetalle: { pos: google.maps.LatLngLiteral, opt: google.maps.MarkerOptions }[] = [
 		{ pos: { lat: -29.9988307, lng: -70.587333 }, opt: { icon: iconos.iconAzul, title: 'Algarrobal' } },
@@ -71,20 +82,12 @@ export class MapComponent implements OnDestroy {
 
 		//State Change
 		this.suscripcion$ = this.store.select('historicidad').subscribe((state) => {
-			this.estaciones = [...state.estaciones]
+			this.estaciones = state.estaciones
 
 			//Volvemos todos los iconos azules si esta vacia la lista
-			// if (this.estaciones.length === 0) {
-			// 	this.estacionesDetalle.forEach((estacion, index) => {
-			// 		if (estacion.opt.icon === iconos.iconRojo) {
-			// 			estacion.opt.icon = iconos.iconAzul
-			// 			console.log('sadasd')
-			// 		}
-			// 	})
-			// }
+			if (this.estaciones.length === 0) this.clearAll()
 
 			this.comparativa = state.comparativa
-
 		})
 
 		this.estacionNoSeleccionadas = this.estacionesDetalle.map((estacion) => (estacion.opt.title))
@@ -179,7 +182,7 @@ export class MapComponent implements OnDestroy {
 	}
 
 
-	clickEstacion( i: number) {
+	clickEstacion(i: number) {
 
 		if (this.comparativa === false) {
 			this.clearAll()
@@ -190,8 +193,8 @@ export class MapComponent implements OnDestroy {
 			//agregamos
 			const index = this.estacionNoSeleccionadas.indexOf(nombre, 0);
 			this.estacionNoSeleccionadas.splice(index, 1)
-			this.store.dispatch(actionsHistoricidad.agregarEstacion({ 
-				estacion: nombre 
+			this.store.dispatch(actionsHistoricidad.agregarEstacion({
+				estacion: nombre
 			}))
 
 			//cambiar icono
@@ -221,7 +224,8 @@ export class MapComponent implements OnDestroy {
 	}
 
 	clearAll() {
-		this.store.dispatch(actionsHistoricidad.quitarAllEstaciones())
+		if (this.estaciones.length > 0) this.store.dispatch(actionsHistoricidad.quitarAllEstaciones())
+
 		for (let i in this.estacionesDetalle) {
 			this.estacionesDetalle[i].opt = {
 				...this.estacionesDetalle[i].opt,

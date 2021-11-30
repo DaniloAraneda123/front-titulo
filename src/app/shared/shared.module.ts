@@ -28,10 +28,11 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatTableModule } from '@angular/material/table'
+import { MatDialogModule } from '@angular/material/dialog';
 
 //Otros
 import { NgApexchartsModule } from 'ng-apexcharts';
-import { MatTableModule } from '@angular/material/table'
 import { GoogleMapsModule } from '@angular/google-maps';
 
 
@@ -68,6 +69,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
 		MatSortModule,
 		MatCardModule,
 		MatDividerModule,
+		MatDialogModule,
 
 		//Otros
 		GoogleMapsModule,
@@ -102,6 +104,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
 		MatSortModule,
 		MatCardModule,
 		MatDividerModule,
+		MatDialogModule,
 
 		NgApexchartsModule,
 		GoogleMapsModule

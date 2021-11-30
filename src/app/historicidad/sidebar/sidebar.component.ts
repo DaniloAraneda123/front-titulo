@@ -21,13 +21,14 @@ export class SidebarComponent implements OnDestroy {
 	@Input() filtros: any;
 	public itemsFiltros!: any[];
 
-	public formGrafico: FormGroup = new FormGroup({});
+	public formGrafico: FormGroup = new FormGroup({}); 
 	errorTiempo1: boolean = false;
 	errorTiempo2: boolean = false;
 
 	variablesDisponibles: any
 	checkComparativa: boolean;
 	error: any;
+	loadVariable:boolean
 
 	suscripcion$: Subscription
 
@@ -43,6 +44,7 @@ export class SidebarComponent implements OnDestroy {
 			}
 
 			this.error = state.error
+			this.loadVariable = state.loading
 
 			if (this.itemsVariables) {
 				this.itemsVariables[0].opciones = opciones
@@ -61,8 +63,10 @@ export class SidebarComponent implements OnDestroy {
 			this.formGrafico.addControl(element.formControlName, new FormControl({ value: '', disabled: true }, Validators.required));
 		});
 		this.llenarFiltros()
+		this.formGrafico.disable()
 	}
 
+	
 	llenarFiltros() {
 		this.itemsFiltros.forEach(element => {
 			if (element.tipo === "rango fecha") {
@@ -109,15 +113,18 @@ export class SidebarComponent implements OnDestroy {
 		}
 	}
 
+
 	comparativa(evento: any) {
 		this.checkComparativa = evento.checked
 		this.store.dispatch(actionsHistoricidad.comparativaOnOff())
 	}
 
+
 	public errorTime(timer: string) {
 		const valor = this.formGrafico.get(timer)?.errors?.errorRequerido
 		return (valor === undefined) ? true : false
 	}
+
 
 	public generarGrafico() {
 

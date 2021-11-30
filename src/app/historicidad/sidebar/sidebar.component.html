@@ -6,7 +6,8 @@
 
 	<!-- variables -->
 	<div class="contenedor">
-		<div *ngIf="error">{{error|json}}</div>
+		<div *ngIf="error" style="max-width: 304px; color: brown;">La base de datos se encuentra deshabilitada en estos momentos</div>
+		<div class="d-flex justify-content-between" *ngIf="loadVariable">Cargando Variables...<mat-spinner class="d-inline" [diameter]=20></mat-spinner></div>
 		<label class="titulo">Variables</label>
 		<div *ngFor="let item of itemsVariables">
 			<ng-container *ngTemplateOutlet="comboBox; context:{item:item}"></ng-container>
@@ -32,16 +33,7 @@
 		</div>
 	</div>
 
-	<!-- boton generar graficos -->
-	<!-- <button class="btn btn-primary mt-2 width-100 " style="height: 50px;">
-		<div class=" d-flex w-100 justify-content-center align-item-center">
-			<img src="../../../assets/progresion-grafica.png" alt="" style="width: 20px; margin-right: 6px;">
-			<b>Generar Grafico</b>
-		</div>
-	</button> -->
-
-
-	<button class="mt-2 boton"  mat-raised-button color="primary">
+	<button class="mt-2 boton" [disabled]="!formGrafico.valid" mat-raised-button color="primary">
 		<div class=" d-flex justify-content-center align-items-center" >
 			<mat-icon>manage_search</mat-icon>
 			Generar Grafico
@@ -117,21 +109,3 @@
 	</ng-template>
 
 </form>
-
-
-
-
-
-
-
-<!-- TIEMPO -->
-<!-- <ng-template #time>
-		<div class="d-flex justify-content-between ">
-			<b>Hora Inicio</b>
-			<span class="material-icons" matTooltip="Info about th Loasdasdsadas e action"
-				[matTooltipPosition]="'right'" matTooltipHideDelay="5000">
-				info
-			</span>
-		</div>
-		<input class="w-100" type="time" id="time-picker" value="00:00">
-	</ng-template> -->
