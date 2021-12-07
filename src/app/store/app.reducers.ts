@@ -4,10 +4,12 @@ import * as reducers from './reducers'
 
 export interface AppState {
     historicidad: reducers.HistoricidadState;
-    graficaUnica: reducers.graficaUnicaState
+    graficaUnica: reducers.graficaUnicaState;
+    horasFrio: reducers.HorasFrioState
 }
 
 export const appReducers: ActionReducerMap<AppState> = {
     historicidad: reducers.historicidadReducer,
-    graficaUnica: reducers.graficaUnicaReducer
+    graficaUnica: reducers.graficaUnicaReducer,
+    horasFrio: reducers.horasFrioReducer
 }
