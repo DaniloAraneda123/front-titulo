@@ -88,7 +88,7 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 	agrupacionItems: { value: string, label: string }[] = [
 		{ value: "diaria", label: "Diaria" },
 		{ value: "semanal", label: "Semanal" },
-		{ value: "mesual", label: "Mensual" }
+		{ value: "mensual", label: "Mensual" }
 	]
 
 	//TEMPORAL
@@ -207,13 +207,13 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 		const start: Date = this.formTemporal.get('start').value
 		const end: Date = this.formTemporal.get('end').value
 
-		if (this.formTemporal.get('agrupacion').value == 'mes') {
+		if (this.formTemporal.get('agrupacion').value == 'mensual') {
 			const endMonth = new Date(end.getFullYear(), end.getMonth() + 1, 0);
 			start.setDate(1) 
 			end.setDate(endMonth.getDate())
 		}
 
-		if (this.formTemporal.get('agrupacion').value == 'semana') {
+		if (this.formTemporal.get('agrupacion').value == 'semanal') {
 			while (start.getDay() != 1) { start.setDate(start.getDate() - 1) }
 			while (end.getDay() != 0) { end.setDate(end.getDate() + 1) }
 		}
