@@ -13,6 +13,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.reducers';
 import * as hfActions from 'src/app/store/actions/horasFrio.actions'
 import { FormControl, FormGroup } from '@angular/forms';
+import { listLazyRoutes } from '@angular/compiler/src/aot/lazy_routes';
 
 @Component({
 	selector: 'app-horas-frio',
@@ -26,16 +27,8 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 	chartOptionsLine: Partial<ChartOptions>;
 
 	//TABLA
-	displayedColumns: string[] = ['fecha', 'acumulado', 'intensidad', 'duracion', 'detalle'];
-	dataSource: any[] = [
-		{ position: "Vicuña", name: 110, weight: 12.0079, symbol: 17 },
-		{ position: "Otra 1", name: 70, weight: 14.0026, symbol: 19 },
-		{ position: "Otra 2", name: 81, weight: 16.941, symbol: 21 },
-		{ position: "Otra 2", name: 81, weight: 16.941, symbol: 21 },
-		{ position: "Otra 2", name: 81, weight: 16.941, symbol: 21 },
-		{ position: "Otra 2", name: 81, weight: 16.941, symbol: 21 },
-		{ position: "Otra 2", name: 81, weight: 16.941, symbol: 21 },
-	];
+	displayedColumns: string[] = ['estacion', 'acumulado', 'promedio', 'maximo', 'opciones'];
+	dataSource: { estacion: string, acumulado: number, promedio: number, maxima: number }[] = [];
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
 
@@ -104,19 +97,11 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 	tipoConsulta = '/serie_custom'
 	invalidDates = true
 
+	colors:string[] = ['#008FFB','#00E396','#775DD0','#FF4560','#FEB019'];
 
 	constructor(private store: Store<AppState>) {
 		this.chartOptionsLine = {
-			series: [
-				{
-					name: "Diario", type: "column", color: "#9391FF",
-					data: [0.1, 1, 0.2, 2, 0.4, 0.9, 0.3, 0.5, 0, 0.1, 1.3, 0.6],
-				},
-				{
-					name: "Acumulado", type: "line",
-					data: [0.1, 1.1, 1.3, 1.5, 1.9, 2.8, 3.1, 3.6, 3.6, 3.7, 5, 5.6],
-				}
-			],
+			series: [],
 			chart: {
 				height: 345, type: "line", stacked: false,
 				toolbar: {
@@ -127,17 +112,8 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 			dataLabels: { enabled: false },
 			stroke: { width: [1, 2.5] },
 			// title: { text: "Horas Frio (9/6/20 - 20/6/20) Vicuña", align: "left", offsetX: 10 },
-			xaxis: { categories: ['9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'] },
-			yaxis: [
-				{
-					axisTicks: { show: true }, axisBorder: { show: true, color: "#775DD0" }, labels: { style: { colors: "#775DD0" } },
-					title: { text: "Horas Frio Diaria [Hf]", style: { color: "#672E85" } }, tooltip: { enabled: true }
-				},
-				{
-					axisTicks: { show: true }, axisBorder: { show: true, color: "#00E396" }, labels: { style: { colors: "#23814f" } },
-					opposite: true, title: { text: "Horas Frio Acumulada [Hf]", style: { color: "#23814f" } }, tooltip: { enabled: true }
-				},
-			],
+			xaxis: { type: "datetime" },
+			yaxis: [],
 			legend: { position: "bottom", horizontalAlign: "center" }
 		};
 	}
@@ -149,9 +125,11 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 			this.error = state.error
 			this.data = state.dataHorasFrio
 			this.dataEstaciones = state.dataEstaciones
+			if (this.data != null && this.error == null) this.mostrarData()
+
 		});
 
-		this.cambioCirculo$ = this.cambioCirculo.pipe(debounceTime(300)).subscribe((evento: any) => {
+		this.cambioCirculo$ = this.cambioCirculo.pipe(debounceTime(200)).subscribe((evento: any) => {
 			this.store.dispatch(hfActions.quitarAllEstaciones())
 			if (this.circulo) {
 				const bordes = this.circulo.getBounds()
@@ -209,7 +187,7 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 
 		if (this.formTemporal.get('agrupacion').value == 'mensual') {
 			const endMonth = new Date(end.getFullYear(), end.getMonth() + 1, 0);
-			start.setDate(1) 
+			start.setDate(1)
 			end.setDate(endMonth.getDate())
 		}
 
@@ -262,6 +240,100 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 	}
 
 	mostrarData() {
-		// console.log("mostrando data")
+		let arregloTabla = []
+		let series = []
+		let labelsX = []
+		let yaxis = []
+		let maximoNormal: number = 0
+		let maximoAcumulado: number = 0
+		let i_color = 0
+
+		//llenar tabla y grafico
+		for (let estacion in this.data.estaciones) {
+			const valores = this.data.estaciones[estacion].promedios
+			const fechas = this.data.estaciones[estacion].fechas
+			labelsX = this.data.estaciones[estacion].fechas
+			const sum = valores.reduce((s, a) => s + a, 0)
+			const avg = ((sum / valores.length) || 0).toFixed(2)
+			const max = Math.max(...valores)
+			maximoNormal = max > maximoNormal ? max : maximoNormal
+
+			arregloTabla.push({
+				estacion,
+				acumulado: sum,
+				promedio: avg,
+				maxima: max,
+				//Activar el check box
+			})
+
+			let datos = []
+			for (let index in valores) {
+				datos.push({
+					x: fechas[index],
+					y: valores[index]
+				})
+			}
+			series.push({
+				name: `${estacion}`,
+				type: "column",
+				data: datos,
+				color: this.colors[i_color]
+			})
+
+			let datosAcumlados = this._getSerieAcumulada(valores, fechas)
+			maximoAcumulado = datosAcumlados[datosAcumlados.length - 1].y > maximoAcumulado ?
+				datosAcumlados[datosAcumlados.length - 1].y : maximoAcumulado
+			series.push({
+				name: `${estacion} Acumulado`,
+				type: "line",
+				data: datosAcumlados,
+				color: this.colors[i_color]
+			})
+
+			i_color++
+		}
+
+		//generar axis
+		yaxis.push({
+			max: maximoNormal+1,
+			axisTicks: { show: true },
+			title: { text: "Horas Frio Diaria [Hf]" },
+			tooltip: { enabled: true },
+		})
+
+		yaxis.push({
+			max: maximoAcumulado+5,
+			axisTicks: { show: true },
+			opposite: true,
+			title: { text: "Horas Frio Acumulada [Hf]" },
+			tooltip: { enabled: true },
+		})
+
+		for(let i=2;i<4; i=i+2){
+			yaxis.push({ max: maximoNormal+1, show: false })
+			yaxis.push({ max: maximoAcumulado+5, show: false })
+		}
+
+		// yaxis.push({ max: maximoNormal, show: false })
+		// yaxis.push({ max: maximoAcumulado, show: false })
+		// yaxis.push({ max: maximoNormal, show: false })
+		// yaxis.push({ max: maximoAcumulado, show: false })
+
+		this.dataSource = arregloTabla
+		this.chartOptionsLine.series = series
+		this.chartOptionsLine.yaxis = yaxis
+	}
+
+	private _getSerieAcumulada(datos, fechas): any[] {
+		let serie: any[] = []
+		let acumulado: number = 0
+		for (let i in datos) {
+			acumulado += datos[i]
+			serie.push({
+				x: fechas[i],
+				y: acumulado
+			})
+		}
+		return serie
 	}
 }
