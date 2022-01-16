@@ -14,10 +14,9 @@ export class HorasFrioEffects {
         this.actions$.pipe(
             ofType(hfActions.loadingData),
             debounceTime(100),
-            tap(()=>{console.log("Gatillo efecto")}),
             concatLatestFrom(() => this.store.select(state => state.horasFrio)),
             exhaustMap(([, parametros]) =>
-                this.horasFrioService.consultarDatos(
+                this.horasFrioService.consultarSerieCustom(
                     {
                         estaciones: parametros.estaciones,
                         fecha_inicio: parametros.temporalInput.fechaInicio,
@@ -25,8 +24,7 @@ export class HorasFrioEffects {
                         agrupacion: parametros.temporalInput.agrupacion,
                         variable: "horas_frio_base_7",
                         altura: "2m"
-                    },
-                    parametros.tipoConsulta
+                    }
                 ).pipe(
                     map(response => hfActions.setData({ payload: response })),
                     catchError((error) => of(hfActions.setDataError({ payload: error })))

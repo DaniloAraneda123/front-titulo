@@ -1,8 +1,9 @@
 import { createAction, props } from '@ngrx/store';
+import { SerieCustom } from 'src/app/models/api.interface';
 
-export const agregarEstacion = createAction(
-    '[Horas Frio - Mapa] Agregar Estacion al Filtro',
-    props<{ estacion: string }>()
+export const agregarEstaciones = createAction(
+    '[Horas Frio - Mapa] Agregar Estaciones al Filtro',
+    props<{ estaciones: string[] }>()
 );
 
 export const quitarEstacion = createAction(
@@ -30,7 +31,7 @@ export const loadingData = createAction(
 
 export const setData = createAction(
     '[Horas Frio - loading Data]  Data loaded SUCCESS',
-    props<{ payload: any }>()
+    props<{ payload: SerieCustom }>()
 );
 
 export const setDataError = createAction(

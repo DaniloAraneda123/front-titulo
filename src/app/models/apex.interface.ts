@@ -9,7 +9,7 @@ export type ChartOptions = {
 	xaxis: ApexXAxis;
 	markers: any; //ApexMarkers;a
 	stroke: any; //ApexStroke;
-	yaxis: ApexYAxis | ApexYAxis[];
+	yaxis: ApexYAxis[];
 	dataLabels: ApexDataLabels;
 	title: ApexTitleSubtitle;
 	legend: ApexLegend;

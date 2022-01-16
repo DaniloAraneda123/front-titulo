@@ -1,4 +1,8 @@
-export const iconos: any = {
+export const iconos:{
+    iconAzul:any,
+    iconRojo:any,
+    iconGris:any
+} = {
 	iconAzul: { url: 'assets/A.png', scaledSize: { width: 25, height: 25 } },
 	iconRojo: { url: 'assets/R.png', scaledSize: { width: 25, height: 25 } },
 	iconGris: { url: 'assets/G.png', scaledSize: { width: 25, height: 25 } }

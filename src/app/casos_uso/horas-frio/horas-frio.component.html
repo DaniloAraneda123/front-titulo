@@ -234,7 +234,7 @@
                             <th mat-header-cell *matHeaderCellDef style="text-align: right;">Ver estacion</th>
                             <td mat-cell *matCellDef="let element" style="text-align: right;">
                                 <div class="d-flex flex-row-reverse align-items-center">
-                                    <mat-checkbox #check (change)="checkTabla($event,element.position)"></mat-checkbox>
+                                    <mat-checkbox #check (change)="checkTabla($event,element.estacion)" [checked]="element.opciones"></mat-checkbox>
                                     <mat-icon class="me-2" (click)="clickTabla(element.position,check)">search
                                     </mat-icon>
                                 </div>
