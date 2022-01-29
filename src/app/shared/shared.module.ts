@@ -1,3 +1,4 @@
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 //Angular
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -30,6 +31,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTableModule } from '@angular/material/table'
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 //Otros
 import { NgApexchartsModule } from 'ng-apexcharts';
@@ -70,6 +72,8 @@ import { GoogleMapsModule } from '@angular/google-maps';
 		MatCardModule,
 		MatDividerModule,
 		MatDialogModule,
+		MatSlideToggleModule,
+		MatSnackBarModule,
 
 		//Otros
 		GoogleMapsModule,
@@ -105,6 +109,8 @@ import { GoogleMapsModule } from '@angular/google-maps';
 		MatCardModule,
 		MatDividerModule,
 		MatDialogModule,
+		MatSlideToggleModule,
+		MatSnackBarModule,
 
 		NgApexchartsModule,
 		GoogleMapsModule

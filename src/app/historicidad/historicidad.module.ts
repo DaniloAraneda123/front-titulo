@@ -21,9 +21,6 @@ import { GraficaMultipleComponent } from './grafica-multiple/grafica-multiple.co
 	imports: [
 		CommonModule,
 		SharedModule
-	],
-	exports: [
-		CommonModule
 	]
 })
 

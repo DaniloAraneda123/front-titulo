@@ -13,9 +13,10 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.reducers';
 import * as hfActions from 'src/app/store/actions/horasFrio.actions'
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
 import { DataEstacion, SerieCustom } from 'src/app/models/api.interface';
 import { ApexAxisChartSeries } from 'ng-apexcharts';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
 	selector: 'app-horas-frio',
@@ -99,20 +100,21 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 	tipoConsulta = '/serie_custom'
 	invalidDates = true
 
-	colors: string[] = ['#008FFB', '#00E396', '#775DD0', '#FF4560', '#FEB019'];
+	// colors: string[] = ['#008FFB', '#00E396', '#775DD0', '#FF4560', '#FEB019'];
 	colors_used: number[] = []
 	series_activate = 0
 
-	constructor(private store: Store<AppState>) {
+	constructor(private store: Store<AppState>, private _snackBar: MatSnackBar) {
 		this.chartOptionsLine = {
 			series: [],
 			chart: {
-				height: 345, type: "line", stacked: false,
+				height: 350, type: "line", stacked: false,
 				toolbar: {
 					tools: { download: true, selection: true, zoom: true, zoomin: false, zoomout: false, pan: false, },
 					show: true, autoSelected: 'selection'
 				}
 			},
+			colors: ['#008FFB', '#00E396', '#775DD0', '#FF4560', '#FEB019'],
 			dataLabels: { enabled: false },
 			stroke: { width: [1, 2.5] },
 			// title: { text: "Horas Frio (9/6/20 - 20/6/20) Vicuña", align: "left", offsetX: 10 },
@@ -204,13 +206,20 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 		this.cambioCirculo.next($event)
 	}
 
-	checkTabla(evento: MatCheckboxChange, estacion: string) {
+	checkTabla(evento: MatCheckboxChange, estacion: string, check: MatCheckbox) {
 		let estacion_data: DataEstacion = this.data.data_estaciones.find(el => el.nombre == estacion)
 
 		if (evento.checked) {
-			this._agregarSerie(estacion_data)
+			if (this.series_activate < 5) {
+				this._agregarSerie(estacion_data)
+				this.series_activate++
+			} else {
+				this._snackBar.open("Esta permitido un maximo de 5 series", "Cerrar", { duration: 5000 });
+				check.checked = false
+			}
 		} else {
 			this._quitarSerie(estacion)
+			this.series_activate--
 		}
 	}
 
@@ -246,12 +255,9 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 
 	mostrarData() {
 		let arregloTabla = []
-		let series = []
-		let yaxis = []
 		let maximoNormal: number = 0
-		let maximoAcumulado: number = 0
-
 		let todo_vacio = true
+		this.series_activate = 0
 
 		//llenar Tabla
 		for (let estacion of this.data.data_estaciones) {
@@ -268,9 +274,12 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 					acumulado: sum,
 					promedio: avg,
 					maxima: max,
-					opciones: (this.series_activate <= 2)
+					opciones: (this.series_activate < 3)
 				})
-				this.series_activate++
+				if (this.series_activate < 3) {
+					this._agregarSerie(estacion)
+					this.series_activate++
+				}
 			}
 			else {
 				const indice = this.mapaMarkers.findIndex((elemento) => (elemento.opt.title === estacion.nombre))
@@ -278,15 +287,9 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 			}
 		}
 
-		//llenar Grafico
-		for (let i = 0; i < 2; i++) {
-			const estacion = this.data.data_estaciones[i]
-			this._agregarSerie(estacion)
-		}
-
 		this.dataSource = arregloTabla
 		this.chartOptionsLine.series = [...this.chartOptionsLine.series]
-		
+
 
 		// 	let datosAcumlados = this._getSerieAcumulada(valores, fechas)
 		// 	maximoAcumulado = datosAcumlados[datosAcumlados.length - 1].y > maximoAcumulado ?
@@ -337,7 +340,6 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 		this.chartOptionsLine.yaxis = []
 	}
 
-
 	private _quitarSerie(estacion: string) {
 		this.chartOptionsLine.yaxis.pop()
 		this.chartOptionsLine.yaxis.pop()
@@ -351,24 +353,23 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 
 		const valores = estacion.promedios
 		const fechas = estacion.fechas
+		const series: { name: string, type: string, data: any }[] = []
 
 		let datos: {}[] = []
 		for (let index in valores) {
 			datos.push({ x: fechas[index], y: valores[index] })
 		}
 
-		const serie: { name: string, type: string, data: any } = {
+		series.push({
 			name: `${estacion.nombre}`,
 			type: "column",
 			data: datos
-		}
+		})
 
 		// let datosAcumlados = this._agregarSerieAcumulada(valores, fechas)
 		// maximoAcumulado = datosAcumlados[datosAcumlados.length - 1].y > maximoAcumulado ?
 		// datosAcumlados[datosAcumlados.length - 1].y : maximoAcumulado
-		// series = [...this.chartOptionsLine.series, ...series]
-		this.chartOptionsLine.series.push(serie)
-		this.series_activate++
+		this.chartOptionsLine.series = [...this.chartOptionsLine.series, ...series]
 	}
 
 	private _getSerieAcumulada(datos, fechas): any[] {
@@ -384,17 +385,17 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 		return serie
 	}
 
-	public _getColor(): string {
-		// const colores: string[] = ["#00E396", "#008FFB", "#546E7A", "#FF4560"]
-		// const coloresDisponibles = colores.filter((color) => {
-		// 	for (let i in this.multiCharts) {
-		// 		if (this.multiCharts[i].colors[0] === color) {
-		// 			return false
-		// 		}
-		// 	}
-		// 	return true
-		// })
-		// return "coloresDisponibles[0]"
-		return "sadasd"
-	}
+	// public _getColor(): string {
+	// 	// const colores: string[] = ["#00E396", "#008FFB", "#546E7A", "#FF4560"]
+	// 	// const coloresDisponibles = colores.filter((color) => {
+	// 	// 	for (let i in this.multiCharts) {
+	// 	// 		if (this.multiCharts[i].colors[0] === color) {
+	// 	// 			return false
+	// 	// 		}
+	// 	// 	}
+	// 	// 	return true
+	// 	// })
+	// 	// return "coloresDisponibles[0]"
+	// 	return "sadasd"
+	// }
 }

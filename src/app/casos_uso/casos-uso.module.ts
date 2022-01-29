@@ -6,9 +6,6 @@ import { PrecipitacionComponent } from './precipitacion/precipitacion.component'
 import { HorasFrioComponent } from './horas-frio/horas-frio.component';
 import { EvapotraspitacionComponent } from './evapotraspitacion/evapotraspitacion.component';
 
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-
-
 
 @NgModule({
   declarations: [
@@ -21,7 +18,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
   imports: [
     CommonModule,
     SharedModule,
-    MatSlideToggleModule
   ]
 })
 export class CasosUsoModule { }
