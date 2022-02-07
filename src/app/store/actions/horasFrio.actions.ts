@@ -22,7 +22,7 @@ export const puntoCustom = createAction(
 
 export const inputTemporal = createAction(
     '[Horas Frio - Input Temporal] Actualizamos parametros temporales',
-    props<{ fechaInicio: any, fechaTermino: any, agrupacion: string, tipoConsulta: string }>()
+    props<{ fechaInicio: any, fechaTermino: any, agrupacionCustom: string, agrupacionTemporadas: string,  tipoConsulta: string }>()
 );
 
 export const loadingData = createAction(

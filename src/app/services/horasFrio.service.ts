@@ -18,9 +18,7 @@ export class HorasFrioService {
 		return this.http.post<SerieCustom>(`${this.url}/serie_custom`,body )
 	}
 
-
-	consultarEstaciones(punto:{lat:number,lon:number}): Observable<any> {
-        throwError('NOT IMPLEMENT')
-		return this.http.post(`${this.url}/alturas_variables`, { punto })
+	consultarSerieTemporadas(body: any): Observable<any> {
+		return this.http.post<SerieCustom>(`${this.url}/serie_temporadas`,body )
 	}
 }

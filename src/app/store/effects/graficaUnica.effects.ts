@@ -1,10 +1,10 @@
+import { AppState } from './../app.reducers';
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect, concatLatestFrom } from '@ngrx/effects';
-import { catchError, debounceTime, exhaustMap, map, tap } from 'rxjs/operators';
+import { catchError, exhaustMap, map } from 'rxjs/operators';
 import * as graficaUnicaActions from '../actions/graficaUnica.actions'
 import { HistoricidadService } from '../../services/historicidad.service'
 import { of } from 'rxjs';
-import { AppState } from '../app.reducers';
 import { Store } from '@ngrx/store';
 
 

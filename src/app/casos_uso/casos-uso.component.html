@@ -1,12 +1,18 @@
 
 <div class="conteiner">
     <div class="grid">
-        <div class="card" *ngFor="let card of sections" (click)="clickCard(card.url)">
-            <h2 class="card-title">{{card.name}}</h2>
-            <div>
-                <img [src]="card.img" alt="">
-            </div>
-            <p class="card-desc">{{card.description}}.</p>
+
+        <div *ngFor="let card of sections" class="skill-card" (click)="clickCard(card.url)">
+            <header class="skill-card__header d-flex justify-content-center">
+                <img class="skill-card__icon" [src]="card.img" alt="">
+            </header>
+        
+            <section class="skill-card__body">
+                <h2 class="skill-card__title mb-0">{{card.name}}</h2>
+                <span class="skill-card__duration mb-2">{{"Subtitulo cualquiera"}}</span>
+                <hr>
+                <p>{{card.description}}</p>
+            </section>
         </div>
     </div>
 </div>

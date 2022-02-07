@@ -4,7 +4,7 @@ import * as HfActions from '../actions/horasFrio.actions'
 
 export interface HorasFrioState {
     estaciones: string[],
-    temporalInput: { fechaInicio: any, fechaTermino: any, agrupacion: string }
+    temporalInput: { fechaInicio: any, fechaTermino: any, agrupacionCustom: string,agrupacionTemporadas: string }
     tipoConsulta: string,
     punto: { lat: number, lon: number },
     loading: boolean,
@@ -34,7 +34,6 @@ const _horasFrioReducer = createReducer(
         ...state,
         estaciones: [...estaciones],
         dataHorasFrio: null,
-        loading: true
     })),
 
     on(HfActions.quitarEstacion, (state, { estacion }) => {
@@ -54,9 +53,9 @@ const _horasFrioReducer = createReducer(
         estaciones: []
     })),
 
-    on(HfActions.inputTemporal, (state, { fechaInicio, fechaTermino, agrupacion, tipoConsulta }) => ({
+    on(HfActions.inputTemporal, (state, { fechaInicio, fechaTermino, agrupacionCustom, agrupacionTemporadas, tipoConsulta }) => ({
         ...state,
-        temporalInput: { fechaInicio, fechaTermino, agrupacion },
+        temporalInput: { fechaInicio, fechaTermino, agrupacionCustom, agrupacionTemporadas},
         tipoConsulta
     })),
 

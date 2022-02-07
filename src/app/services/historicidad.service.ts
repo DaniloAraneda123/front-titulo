@@ -13,11 +13,11 @@ export class HistoricidadService {
 
 	private url: string = environment.urlAPI
 
-	consultarDatos(body: any, tipo_consulta: string, estaciones: string[]): Observable<any> {
+	public consultarDatos(body: any, tipo_consulta: string, estaciones: string[]): Observable<any> {
 		return this.http.post(`${this.url}/${tipo_consulta}`, { ...body, estaciones })
 	}
 
-	consultarVariables(estaciones: string[]): Observable<any> {
+	public consultarVariables(estaciones: string[]): Observable<any> {
 		return this.http.post(`${this.url}/alturas_variables`, { estaciones })
 	}
 }

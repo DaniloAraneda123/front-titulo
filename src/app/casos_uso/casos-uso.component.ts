@@ -49,7 +49,6 @@ export class CasosUsoComponent {
 	]
 
 	clickCard(caso_uso: string) {
-		console.log('asdasd')
 		this.router.navigate(['casos_uso', caso_uso])
 	}
 
