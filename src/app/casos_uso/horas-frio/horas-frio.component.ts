@@ -90,7 +90,7 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 
 
 		this.formTemporal$ = this.formTemporal.valueChanges.subscribe((value: any) => {
-			value.tipoConsulta == '/serie_custom' ? this.groupCustom = true: this.groupCustom = false
+			value.tipoConsulta == '/serie_custom' ? this.groupCustom = true : this.groupCustom = false
 			this.invalidDates = true
 			if (this.formTemporal.valid && value.start < value.end) {
 				this.invalidDates = false
@@ -126,8 +126,8 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 	ajustarFechas() {
 		const start: Date = this.formTemporal.get('start').value
 		const end: Date = this.formTemporal.get('end').value
-		let aux:string
-		this.formTemporal.get('tipoConsulta').value=="/serie_custom"? aux = "agrupacionCustom" : aux = "agrupacionTemporadas"
+		let aux: string
+		this.formTemporal.get('tipoConsulta').value == "/serie_custom" ? aux = "agrupacionCustom" : aux = "agrupacionTemporadas"
 
 		if (this.formTemporal.get(aux).value == 'mensual') {
 			const endMonth = new Date(end.getFullYear(), end.getMonth() + 1, 0);

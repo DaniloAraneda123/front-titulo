@@ -11,7 +11,8 @@ import { GraficaMultipleComponent } from './historicidad/grafica-multiple/grafic
 import { CasosUsoComponent } from './casos_uso/casos-uso.component';
 import { HorasFrioComponent } from './casos_uso/horas-frio/horas-frio.component';
 import { PrecipitacionComponent } from './casos_uso/precipitacion/precipitacion.component';
-import { EvapotraspitacionComponent } from './casos_uso/evapotraspitacion/evapotraspitacion.component';
+import { EvapotranspiracionComponent } from './casos_uso/evapotranspiracion/evapotranspiracion.component';
+//import { EvapotranspiracionComponent } from './casos_uso/evapotranspiracion/evapotranspiracion.component';
 
 
 const routes: Routes = [
@@ -46,7 +47,7 @@ const routes: Routes = [
 	,
 	{
 		path: 'casos_uso/evapotranspiracion',
-		component: EvapotraspitacionComponent
+		component: EvapotranspiracionComponent
 	}
 
 ];
