@@ -1,5 +1,5 @@
 import { createReducer, on, Action } from '@ngrx/store';
-import { SerieCustom } from 'src/app/models/api.interface';
+import { ResponseSeries } from 'src/app/models/api.interface';
 import * as HfActions from '../actions/horasFrio.actions'
 
 export interface HorasFrioState {
@@ -10,7 +10,7 @@ export interface HorasFrioState {
     loading: boolean,
     loaded: boolean,
     error: any,
-    dataHorasFrio: SerieCustom,
+    dataHorasFrio: ResponseSeries,
     dataEstaciones: any,
 }
 

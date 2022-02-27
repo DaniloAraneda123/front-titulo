@@ -2,7 +2,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { SerieCustom } from '../models/api.interface';
+import { ResponseSeries } from '../models/api.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -15,10 +15,10 @@ export class EvapotranspiracionService {
     private url: string = environment.urlAPI
 
     consultarSerieCustom(body: any): Observable<any> {
-        return this.http.post<SerieCustom>(`${this.url}/serie_custom`, body)
+        return this.http.post<ResponseSeries>(`${this.url}/serie_custom`, body)
     }
 
     consultarSerieTemporadas(body: any): Observable<any> {
-        return this.http.post<SerieCustom>(`${this.url}/serie_temporadas`, body)
+        return this.http.post<ResponseSeries>(`${this.url}/serie_temporadas`, body)
     }
 }

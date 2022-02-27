@@ -9,7 +9,7 @@ import { AppState } from 'src/app/store/app.reducers';
 import * as hfActions from 'src/app/store/actions/horasFrio.actions'
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
-import { DataEstacion, SerieCustom } from 'src/app/models/api.interface';
+import { DataEstacion, ResponseSeries } from 'src/app/models/api.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SerieData } from 'src/app/models/serie.interface';
 
@@ -66,7 +66,7 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 	groupCustom: boolean = true
 	loadingData: boolean = false
 	error: any = null
-	data: SerieCustom = null
+	data: ResponseSeries = null
 	dataEstaciones: any = null
 	invalidDates = true
 	stationsNoData: string[] = []
@@ -142,7 +142,7 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 	}
 
 	checkTabla(evento: MatCheckboxChange, estacion: string, check: MatCheckbox) {
-		let estacion_data: DataEstacion = this.data.data_estaciones.find(el => el.nombre == estacion)
+		let estacion_data: DataEstacion = this.data.estaciones.find(el => el.nombre_estacion == estacion)
 
 		if (evento.checked) {
 			if (this.series_activate < 5) {
@@ -177,16 +177,16 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 		const seriesNormal: SerieData[] = []
 		const seriesAccumulated: SerieData[] = []
 
-		for (let estacion of this.data.data_estaciones) {
-			if (estacion.promedios.length != 0) {
+		for (let estacion of this.data.estaciones) {
+			if (estacion.data.length != 0) {
 				todo_vacio = false
-				const valores = estacion.promedios
+				const valores = estacion.data.map(el=>el.promedio)
 				const sum = valores.reduce((s, a) => s + a, 0)
 				const avg = ((sum / valores.length) || 0).toFixed(2)
 				const max = Math.max(...valores)
 
 				arregloTabla.push({
-					"estacion": estacion.nombre,
+					"estacion": estacion.nombre_estacion,
 					acumulado: sum,
 					promedio: avg,
 					maxima: max,
@@ -199,7 +199,7 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 				}
 			}
 			else {
-				stationsNoData.push(estacion.nombre)
+				stationsNoData.push(estacion.nombre_estacion)
 			}
 		}
 		this.dataSource = arregloTabla
@@ -214,37 +214,27 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 	}
 
 	private _getNormalSerie(estacion: DataEstacion): SerieData {
-		const valores = estacion.promedios
-		const fechas = estacion.fechas
 
 		let datos: {}[] = []
-		for (let index in valores) {
-			datos.push({ x: fechas[index], y: valores[index] })
-		}
+		for (let tupla of estacion.data) datos.push({ x: tupla.fecha, y: tupla.promedio })
 
 		return ({
-			name: `${estacion.nombre}`,
+			name: `${estacion.nombre_estacion}`,
 			type: "column",
 			data: datos
 		})
 	}
 
 	private _getAccumulatedSerie(estacion: DataEstacion): SerieData {
-		const valores = estacion.promedios
-		const fechas = estacion.fechas
-
 		let datos: {}[] = []
 		let acumulado: number = 0
-		for (let i in valores) {
-			acumulado += valores[i]
-			datos.push({
-				x: fechas[i],
-				y: acumulado
-			})
+		for (let tupla of estacion.data) {
+			acumulado += tupla.promedio
+			datos.push({ x: tupla.fecha, y: acumulado })
 		}
 
 		return ({
-			name: `${estacion.nombre}`,
+			name: `${estacion.nombre_estacion}`,
 			type: "line",
 			data: datos
 		})

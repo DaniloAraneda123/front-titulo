@@ -1,4 +1,6 @@
 import { createAction, props } from '@ngrx/store';
+import { ResponseSeries } from 'src/app/models/api.interface';
+import { Variable } from 'src/app/models/variables.interface';
 
 export const agregarEstacion = createAction(
     '[Historicidad] Agregar Estacion al Filtro',
@@ -29,7 +31,7 @@ export const quitarAllEstaciones = createAction(
 
 export const loadingGraficoSuccess = createAction(
     '[Historicidad] Carga Exitosa, Generando grafico...',
-    props<{ data: any }>()
+    props<{ newData: ResponseSeries }>()
 );
 
 export const loadingGraficoError = createAction(
@@ -43,7 +45,7 @@ export const resetear = createAction(
 
 export const setVariables = createAction(
     '[Historicidad] Variables Cargadas',
-    props<{ payload: any }>()
+    props<{ payload: Variable[] }>()
 );
 
 export const setVariablesError = createAction(

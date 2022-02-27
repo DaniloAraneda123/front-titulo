@@ -1,5 +1,5 @@
 import { createReducer, on, Action } from '@ngrx/store';
-import { SerieCustom } from 'src/app/models/api.interface';
+import { ResponseSeries } from 'src/app/models/api.interface';
 import * as EvActions from '../actions/evapotranspiracion.actions'
 
 export interface EvapotranspiracionState {
@@ -10,7 +10,7 @@ export interface EvapotranspiracionState {
     loading: boolean,
     loaded: boolean,
     error: any,
-    dataEvapotranspiracion: SerieCustom, // Cambiar la serie
+    dataEvapotranspiracion: ResponseSeries, // Cambiar la serie
     dataEstaciones: any,
 }
 

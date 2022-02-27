@@ -63,13 +63,6 @@
 
     <!-- AREA GRAFICOS -->
     <div class="h-100">
-        <!-- GRAFICA BIGOTE -->
-        <div *ngIf="tipoGrafico=='Bigotes'">
-            <apx-chart [series]="chartOptionsBoxPlot.series" [chart]="chartOptionsBoxPlot.chart"
-                [xaxis]="chartOptionsBoxPlot.xaxis" [title]="chartOptionsBoxPlot.title"
-                [colors]="chartOptionsBoxPlot.colors" [tooltip]="chartOptionsBoxPlot.tooltip">
-            </apx-chart>
-        </div>
 
         <!-- GRAFICA LINEA UNICO -->
         <div *ngIf="tipoGrafico=='Linea'">
@@ -101,14 +94,6 @@
                 [markers]="chartOptionsVariables.markers" [stroke]="chartOptionsVariables.stroke"
                 [legend]="chartOptionsVariables.legend">
             </apx-chart>
-        </div>
-
-        <div *ngIf="tipoGrafico=='Test'">
-            <apx-chart [series]="chartOptionsTest.series" [chart]="chartOptionsTest.chart"
-                [xaxis]="chartOptionsTest.xaxis" [markers]="chartOptionsTest.markers" [stroke]="chartOptionsTest.stroke"
-                [yaxis]="chartOptionsTest.yaxis" [dataLabels]="chartOptionsTest.dataLabels"
-                [title]="chartOptionsTest.title" [fill]="chartOptionsTest.fill" [tooltip]="chartOptionsTest.tooltip"
-                [legend]="chartOptionsTest.legend"></apx-chart>
         </div>
     </div>
 </div>

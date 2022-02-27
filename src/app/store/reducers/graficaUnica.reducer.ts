@@ -1,15 +1,16 @@
 import { createReducer, on, Action } from '@ngrx/store';
+import { ResponseSeries } from 'src/app/models/api.interface';
 import * as graficaUnicaActions from '../actions/graficaUnica.actions'
 
 export interface graficaUnicaState {
     loading: boolean,
     loaded: boolean,
-    variables: any[],
+    data: ResponseSeries[],
     error: any,
 }
 
 const initialState: graficaUnicaState = {
-    variables: [],
+    data: [],
     error: null,
     loading: false,
     loaded: false
@@ -30,7 +31,7 @@ const _graficaUnicaReducer = createReducer(
         ...state,
         loading: false,
         loaded: true,
-        variables: [...state.variables, data]
+        variables: [...state.data, data]
     })),
 
     on(graficaUnicaActions.loadDataError, (state, { error }) => ({

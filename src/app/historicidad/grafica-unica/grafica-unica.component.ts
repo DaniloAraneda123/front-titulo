@@ -1,3 +1,4 @@
+import { ResponseSeries } from './../../models/api.interface';
 import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -55,7 +56,7 @@ export class GraficaUnicaComponent implements OnDestroy {
 
 	cargandoVariable: boolean
 	errorVariable: any
-	dataVariables: any[] = []
+	data: ResponseSeries[] = []
 	multiCharts: Partial<ChartOptions>[] = [];
 
 	constructor(private store: Store<AppState>, private router: Router) {
@@ -84,11 +85,11 @@ export class GraficaUnicaComponent implements OnDestroy {
 			}
 		})
 
-		this.suscripcion$ = this.store.select('graficaUnica').subscribe(({ error, loaded, loading, variables }) => {
+		this.suscripcion$ = this.store.select('graficaUnica').subscribe(({ error, loaded, loading, data }) => {
 			this.cargandoVariable = loading
 			this.errorVariable = error
 			if (loading == false && loaded == true) {
-				this.dataVariables = variables
+				this.data = data
 				this.actualizarMultiCharts()
 				this.actualizarMultiVariables()
 			}
@@ -119,11 +120,12 @@ export class GraficaUnicaComponent implements OnDestroy {
 		const variablesActivadas = this.variablesDisponibles_MG.filter((elem) => (elem.checked == true))
 		for (let { nombre, altura } of variablesActivadas) {
 			if (this.multiCharts.find((elem) => (elem.chart.id == nombre + '' + altura)) == undefined) {
-				const variable = this.dataVariables.find((elem) => (elem.variable == nombre && elem.altura == altura))
+				const variable = this.data.find((elem) => (elem.variable == nombre && elem.altura == altura))
+				const fechas = variable.estaciones[0].data.map(el=>el.fecha)
 				this.multiCharts.push(
 					{
 						series: [{ name: variable.variable, data: variable.estaciones[Object.keys(variable.estaciones)[0]].promedios }],
-						xaxis: { categories: variable.fechas, title: { text: "Fecha" } },
+						xaxis: { categories: fechas, title: { text: "Fecha" } },
 						chart: { id: nombre + '' + altura, group: "social", type: "line", height: 230 },
 						colors: [this.getColor()],
 						title: { text: `${nombre}  [${altura}]`, align: 'left' },
@@ -140,17 +142,17 @@ export class GraficaUnicaComponent implements OnDestroy {
 			this.variablesDisponibles_MG[i].checked = false
 			this.multiCharts = this.multiCharts.filter((elemento) => (
 				elemento.chart.id !== this.variablesDisponibles_MG[i].nombre + this.variablesDisponibles_MG[i].altura))
-		} else if (this.multiCharts.length > 3) {
+		} else if (this.multiCharts.length < 4) {
 			this.variablesDisponibles_MG[i].checked = false
 			//toaster notificando el maximo de elemtos
 			return
 		} else {
 			this.variablesDisponibles_MG[i].checked = true
 			const { altura, nombre } = this.variablesDisponibles_MG[i]
-			if (this.dataVariables.find((el) => (el.altura == altura && el.variable == nombre)) == undefined) {
+			if (this.data.find((el) => (el.altura == altura && el.variable == nombre)) == undefined) {
 				this.store.dispatch(actionsGraficaUnica.loadingData({ variable: nombre, altura: altura }))
 			} else {
-				this.actualizarMultiCharts()
+				this.actualizarMultiVariables()
 			}
 		}
 	}
@@ -174,21 +176,19 @@ export class GraficaUnicaComponent implements OnDestroy {
 		let series = [...this.chartOptionsVariables.series]
 		for (let { nombre, altura } of variablesActivadas) {
 			if (this.chartOptionsVariables.series.find((elem) => (elem.name == nombre + ' [' + altura + ']')) == undefined) {
-				const variable = this.dataVariables.find((elem) => (elem.variable == nombre && elem.altura == altura))
+				const variable = this.data.find((elem) => (elem.variable == nombre && elem.altura == altura))
+				const fechas = this.data[0].estaciones[0].data.map(el => el.fecha)
 				series.push(
 					{
 						data: variable.estaciones[Object.keys(variable.estaciones)[0]].promedios,
 						name: nombre + ' [' + altura + ']'
 					}
 				)
-				this.chartOptionsVariables.xaxis.categories = variable.fechas
+				this.chartOptionsVariables.xaxis.categories = fechas
 				this.chartOptionsVariables.series = series
 				return
 			}
 		}
-		// console.log(series)
-		// this.chartOptionsVariables.series = [{data:[1,2,3,4,5,6],name:"series"}]
-		// this.chartOptionsLine.xaxis.categories = this.datos.fechas
 	}
 
 	seleccionVariable_UG(i: number) {
@@ -199,7 +199,7 @@ export class GraficaUnicaComponent implements OnDestroy {
 		} else {
 			this.variablesDisponibles_UG[i].checked = true
 			const { altura, nombre } = this.variablesDisponibles_UG[i]
-			if (this.dataVariables.find((el) => (el.altura == altura && el.variable == nombre)) == undefined) {
+			if (this.data.find((el) => (el.altura == altura && el.variable == nombre)) == undefined) {
 				this.store.dispatch(actionsGraficaUnica.loadingData({ variable: nombre, altura: altura }))
 			} else {
 				this.actualizarMultiVariables()
@@ -249,24 +249,6 @@ export class GraficaUnicaComponent implements OnDestroy {
 		legend: { position: "top", horizontalAlign: "center" }
 	};
 
-	//Grafico Box Plot
-	public chartOptionsBoxPlot: Partial<ChartOptions> = {
-		series: [
-			{
-				name: 'box', type: 'boxPlot',
-				data: [{ x: new Date('2017-01-01').getTime(), y: [54, 66, 69, 75, 88] },
-				{ x: new Date('2018-01-01').getTime(), y: [43, 65, 69, 76, 81] },
-				{ x: new Date('2019-01-01').getTime(), y: [31, 39, 45, 51, 59] },
-				{ x: new Date('2020-01-01').getTime(), y: [39, 46, 55, 65, 71] },
-				{ x: new Date('2021-01-01').getTime(), y: [29, 31, 35, 39, 44] }]
-			},
-		],
-		chart: { height: 350, type: "boxPlot",background:"#ffffff", },
-		colors: ['#008FFB'],
-		title: { text: 'BoxPlot - Scatter Chart', align: 'left' },
-		xaxis: { type: 'datetime' }, tooltip: { shared: false, intersect: true }
-	};
-
 	//Multi Graficos Opciones Comunes
 	commonOptionsMultiCharts: Partial<ChartOptions> = {
 		dataLabels: { enabled: false },
@@ -302,55 +284,4 @@ export class GraficaUnicaComponent implements OnDestroy {
 		yaxis: { title: { text: "" }/*, min: 20, max: 100, tickAmount: 3*/ },
 		legend: { position: "top", horizontalAlign: "center" }
 	};
-
-	/// TEST sumarizado
-	public chartOptionsTest: Partial<ChartOptions> = {
-		series: [
-			{ name: "Income", type: "column", data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6] },
-			{ name: "Cashflow", type: "column", data: [1.1, 3, 3.1, 4, 4.1, 4.9, 6.5, 8.5] },
-			{ name: "Revenue", type: "line", data: [20, 29, 37, 36, 44, 45, 50, 58] }
-		],
-		chart: { height: 350, type: "line", stacked: false},
-		dataLabels: { enabled: false },
-		stroke: { width: [1, 1, 4] },
-		title: { text: "XYZ - Stock Analysis (2009 - 2016)", align: "left", offsetX: 110 },
-		xaxis: { categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016] },
-		yaxis: [
-			{
-				axisTicks: { show: true },
-				axisBorder: { show: true, color: "#008FFB" },
-				labels: { style: { colors: "#00E396" } },
-				title: { text: "Income (thousand crores)", style: { color: "#008FFB" } },
-				tooltip: { enabled: true }
-			},
-			{
-				seriesName: "Income",
-				opposite: true,
-				axisTicks: { show: true },
-				axisBorder: { show: true, color: "#00E396" },
-				labels: { style: { colors: "#00E396" } },
-				title: { text: "Operating Cashflow (thousand crores)", style: { color: "#00E396" } }
-			},
-			{
-				seriesName: "Revenue",
-				opposite: true,
-				axisTicks: { show: true },
-				axisBorder: { show: true, color: "#FEB019" },
-				labels: { style: { colors: "#FEB019" } },
-				title: { text: "Revenue (thousand crores)", style: { color: "#FEB019" } }
-			}
-		],
-		tooltip: {
-			fixed: {
-				enabled: true,
-				position: "topLeft", // topRight, topLeft, bottomRight, bottomLeft
-				offsetY: 30,
-				offsetX: 60
-			}
-		},
-		legend: {
-			horizontalAlign: "left",
-			offsetX: 40
-		}
-	}
 }

@@ -1,4 +1,6 @@
 import { createReducer, on, Action } from '@ngrx/store';
+import { ResponseSeries } from 'src/app/models/api.interface';
+import { Variable } from 'src/app/models/variables.interface';
 import * as historicidadActions from '../actions/historicidad.actions'
 
 export interface HistoricidadState {
@@ -8,9 +10,9 @@ export interface HistoricidadState {
     loaded: boolean,
     tipoConsulta: string,
     parametros: any,
-    data: any,
+    data: ResponseSeries[],
     error: any,
-    variablesDisponibles: any
+    variablesDisponibles: Variable[]
 }
 
 const initialState: HistoricidadState = {
@@ -22,7 +24,7 @@ const initialState: HistoricidadState = {
     data: null,
     parametros: {},
     error: null,
-    variablesDisponibles: {}
+    variablesDisponibles: []
 }
 
 
@@ -58,7 +60,7 @@ const _historicidadReducer = createReducer(
     on(historicidadActions.quitarAllEstaciones, (state) => ({
         ...state,
         estaciones: [],
-        variablesDisponibles: {}
+        variablesDisponibles: []
     })),
 
     on(historicidadActions.loadingGrafico, (state, { parametros, tipo }) => ({
@@ -68,11 +70,11 @@ const _historicidadReducer = createReducer(
         parametros: parametros
     })),
 
-    on(historicidadActions.loadingGraficoSuccess, (state, { data }) => ({
+    on(historicidadActions.loadingGraficoSuccess, (state, { newData }) => ({
         ...state,
         loading: false,
         loaded: true,
-        data
+        data: [...state.data, newData]
     })),
 
     on(historicidadActions.loadingGraficoError, (state, { payload }) => ({
@@ -97,7 +99,7 @@ const _historicidadReducer = createReducer(
 
     on(historicidadActions.setVariablesError, (state, { payload }) => ({
         ...state,
-        variablesDisponibles: {},
+        variablesDisponibles: [],
         error: payload,
         loading: false
     }))

@@ -10,263 +10,254 @@ import { AppState } from 'src/app/store/app.reducers';
 import * as evActions from 'src/app/store/actions/evapotranspiracion.actions'
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
-import { DataEstacion, SerieCustom } from 'src/app/models/api.interface';
+import { DataEstacion, ResponseSeries } from 'src/app/models/api.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SerieData } from 'src/app/models/serie.interface';
+import { toPublicName } from '@angular/compiler/src/i18n/serializers/xmb';
 
 @Component({
-  selector: 'app-evapotranspiracion',
-  templateUrl: './evapotranspiracion.component.html',
-  styleUrls: ['./evapotranspiracion.component.scss']
+	selector: 'app-evapotranspiracion',
+	templateUrl: './evapotranspiracion.component.html',
+	styleUrls: ['./evapotranspiracion.component.scss']
 })
 export class EvapotranspiracionComponent implements OnInit {
 
-  //PLOT
-  normalSeries: SerieData[] = []
-  accumulatedSeries: SerieData[] = []
+	//PLOT
+	normalSeries: SerieData[] = []
+	accumulatedSeries: SerieData[] = []
 
-  //TABLA
-  displayedColumns: string[] = ['estacion', 'acumulado', 'promedio', 'maximo', 'opciones'];
-  dataSource: { estacion: string, acumulado: number, promedio: number, maxima: number, opciones: boolean }[] = [];
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+	//TABLA
+	displayedColumns: string[] = ['estacion', 'acumulado', 'promedio', 'maximo', 'opciones'];
+	dataSource: { estacion: string, acumulado: number, promedio: number, maxima: number, opciones: boolean }[] = [];
+	@ViewChild(MatPaginator) paginator: MatPaginator;
+	@ViewChild(MatSort) sort: MatSort;
 
-  //STORE
-  store$: Subscription;
-  estaciones: string[] = [];
-  consultarDatos: BehaviorSubject<any> = new BehaviorSubject({})
-  consultarDatos$: Subscription
+	//STORE
+	store$: Subscription;
+	estaciones: string[] = [];
+	consultarDatos: BehaviorSubject<any> = new BehaviorSubject({})
+	consultarDatos$: Subscription
 
-  //ITEMS HTML
-  agrupacionCustom: { value: string, label: string }[] = [
-    { value: "diaria", label: "Diaria" },
-    { value: "semanal", label: "Semanal" },
-    { value: "mensual", label: "Mensual" }
-  ]
+	//ITEMS HTML
+	agrupacionCustom: { value: string, label: string }[] = [
+		{ value: "diaria", label: "Diaria" },
+		{ value: "semanal", label: "Semanal" },
+		{ value: "mensual", label: "Mensual" }
+	]
 
-  agrupacionTemporadas: { value: string, label: string }[] = [
-    { value: "semanal", label: "Semanal" },
-    { value: "mensual", label: "Mensual" },
-    { value: "temporada", label: "Temporada" },
-  ]
-
-
-  //TEMPORAL
-  formTemporal = new FormGroup({
-    start: new FormControl(),
-    end: new FormControl(),
-    agrupacionCustom: new FormControl("diaria"),
-    agrupacionTemporadas: new FormControl("semanal"),
-    tipoConsulta: new FormControl("/serie_custom"),
-  });
-  formTemporal$: Subscription;
-
-  // LOGIC HTML AND DATA
-  complete: boolean = false
-  groupCustom: boolean = true
-  loadingData: boolean = false
-  error: any = null
-  data: SerieCustom = null
-  dataEstaciones: any = null
-  invalidDates = true
-  stationsNoData: string[] = []
-
-  colors_used: number[] = []
-  series_activate = 0
-
-  constructor(
-    private store: Store<AppState>,
-    private _snackBar: MatSnackBar) { }
-
-  ngOnInit(): void {
-    this.store$ = this.store.select("evapotranspiracion").subscribe((state) => {
-      this.estaciones = state.estaciones
-      this.loadingData = state.loading
-      this.error = state.error
-      this.data = state.dataEvapotranspiracion
-      this.dataEstaciones = state.dataEstaciones
-      console.log("arregoTabla", state)
-
-      if (this.data != null && this.error == null) this.mostrarData()
-    });
+	agrupacionTemporadas: { value: string, label: string }[] = [
+		{ value: "semanal", label: "Semanal" },
+		{ value: "mensual", label: "Mensual" },
+		{ value: "temporada", label: "Temporada" },
+	]
 
 
-    this.formTemporal$ = this.formTemporal.valueChanges.subscribe((value: any) => {
-      value.tipoConsulta == '/serie_custom' ? this.groupCustom = true : this.groupCustom = false
-      this.invalidDates = true
-      console.log("formTemporalvalid", this.formTemporal)
-      console.log("value", value)
-      if (this.formTemporal.valid && value.start < value.end) {
-        this.invalidDates = false
-        this.ajustarFechas()
-        this.store.dispatch(evActions.inputTemporal({
-          fechaInicio: value.start.toJSON(),
-          fechaTermino: value.end.toJSON(),
-          agrupacionCustom: value.agrupacionCustom,
-          agrupacionTemporadas: value.agrupacionTemporadas,
-          tipoConsulta: value.tipoConsulta
-        }))
-        this.consultarDatos.next({})
-      }
-    })
+	//TEMPORAL
+	formTemporal = new FormGroup({
+		start: new FormControl(),
+		end: new FormControl(),
+		agrupacionCustom: new FormControl("diaria"),
+		agrupacionTemporadas: new FormControl("semanal"),
+		tipoConsulta: new FormControl("/serie_custom"),
+	});
+	formTemporal$: Subscription;
 
-    this.consultarDatos$ = this.consultarDatos.subscribe(() => {
-      console.log("Evento consultar Datos")
-      if (this.formTemporal.valid && this.estaciones.length > 0) {
-        this.limpiarVisualizacion()
-        this.complete = true
-        this.store.dispatch(evActions.loadingData())
-      } else {
-        this.complete = false
-      }
-    })
-  }
+	// LOGIC HTML AND DATA
+	complete: boolean = false
+	groupCustom: boolean = true
+	loadingData: boolean = false
+	error: any = null
+	data: ResponseSeries = null
+	dataEstaciones: any = null
+	invalidDates = true
+	stationsNoData: string[] = []
 
-  ngOnDestroy(): void {
-    this.store$.unsubscribe()
-    this.formTemporal$.unsubscribe()
-    this.consultarDatos$.unsubscribe()
-  }
+	colors_used: number[] = []
+	series_activate = 0
 
-  ajustarFechas() {
-    const start: Date = this.formTemporal.get('start').value
-    const end: Date = this.formTemporal.get('end').value
-    let aux: string
-    this.formTemporal.get('tipoConsulta').value == "/serie_custom" ? aux = "agrupacionCustom" : aux = "agrupacionTemporadas"
+	constructor(
+		private store: Store<AppState>,
+		private _snackBar: MatSnackBar) { }
 
-    if (this.formTemporal.get(aux).value == 'mensual') {
-      const endMonth = new Date(end.getFullYear(), end.getMonth() + 1, 0);
-      start.setDate(1)
-      end.setDate(endMonth.getDate())
-    }
+	ngOnInit(): void {
+		this.store$ = this.store.select("evapotranspiracion").subscribe((state) => {
+			this.estaciones = state.estaciones
+			this.loadingData = state.loading
+			this.error = state.error
+			this.data = state.dataEvapotranspiracion
+			this.dataEstaciones = state.dataEstaciones
+			console.log("arregoTabla", state)
 
-    if (this.formTemporal.get(aux).value == 'semanal') {
-      while (start.getDay() != 1) { start.setDate(start.getDate() - 1) }
-      while (end.getDay() != 0) { end.setDate(end.getDate() + 1) }
-    }
-  }
+			if (this.data != null && this.error == null) this.mostrarData()
+		});
 
-  checkTabla(evento: MatCheckboxChange, estacion: string, check: MatCheckbox) {
-    let estacion_data: DataEstacion = this.data.data_estaciones.find(el => el.nombre == estacion)
 
-    if (evento.checked) {
-      if (this.series_activate < 5) {
-        this.normalSeries = [...this.normalSeries, this._getNormalSerie(estacion_data)]
-        this.accumulatedSeries = [...this.accumulatedSeries, this._getAccumulatedSerie(estacion_data)]
-        this.series_activate++
-      } else {
-        this._snackBar.open("Esta permitido un maximo de 5 series", "Cerrar", { duration: 5000 });
-        check.checked = false
-      }
-    } else {
-      this._removeSerie(estacion)
-      this.series_activate--
-    }
-  }
+		this.formTemporal$ = this.formTemporal.valueChanges.subscribe((value: any) => {
+			value.tipoConsulta == '/serie_custom' ? this.groupCustom = true : this.groupCustom = false
+			this.invalidDates = true
+			console.log("formTemporalvalid", this.formTemporal)
+			console.log("value", value)
+			if (this.formTemporal.valid && value.start < value.end) {
+				this.invalidDates = false
+				this.ajustarFechas()
+				this.store.dispatch(evActions.inputTemporal({
+					fechaInicio: value.start.toJSON(),
+					fechaTermino: value.end.toJSON(),
+					agrupacionCustom: value.agrupacionCustom,
+					agrupacionTemporadas: value.agrupacionTemporadas,
+					tipoConsulta: value.tipoConsulta
+				}))
+				this.consultarDatos.next({})
+			}
+		})
 
-  addStations(stations: string[]) {
-    this.store.dispatch(evActions.agregarEstaciones({ estaciones: stations }))
-    this.consultarDatos.next({})
-  }
+		this.consultarDatos$ = this.consultarDatos.subscribe(() => {
+			console.log("Evento consultar Datos")
+			if (this.formTemporal.valid && this.estaciones.length > 0) {
+				this.limpiarVisualizacion()
+				this.complete = true
+				this.store.dispatch(evActions.loadingData())
+			} else {
+				this.complete = false
+			}
+		})
+	}
 
-  clickTabla(estacion: string, check: any) {
-    console.log(estacion, check)
-    // check.toggle()
-  }
+	ngOnDestroy(): void {
+		this.store$.unsubscribe()
+		this.formTemporal$.unsubscribe()
+		this.consultarDatos$.unsubscribe()
+	}
 
-  mostrarData() {
-    let arregloTabla = []
-    let todo_vacio = true
-    let stationsNoData: string[] = []
-    this.series_activate = 0
-    const seriesNormal: SerieData[] = []
-    const seriesAccumulated: SerieData[] = []
+	ajustarFechas() {
+		const start: Date = this.formTemporal.get('start').value
+		const end: Date = this.formTemporal.get('end').value
+		let aux: string
+		this.formTemporal.get('tipoConsulta').value == "/serie_custom" ? aux = "agrupacionCustom" : aux = "agrupacionTemporadas"
 
-    for (let estacion of this.data.data_estaciones) {
-      if (estacion.promedios.length != 0) {
-        todo_vacio = false
-        const valores = estacion.promedios
-        const sum = valores.reduce((s, a) => s + a, 0)
-        const avg = ((sum / valores.length) || 0).toFixed(2)
-        const max = Math.max(...valores)
+		if (this.formTemporal.get(aux).value == 'mensual') {
+			const endMonth = new Date(end.getFullYear(), end.getMonth() + 1, 0);
+			start.setDate(1)
+			end.setDate(endMonth.getDate())
+		}
 
-        arregloTabla.push({
-          "estacion": estacion.nombre,
-          acumulado: sum,
-          promedio: avg,
-          maxima: max,
-          opciones: (this.series_activate < 3)
-        })
-        if (this.series_activate < 3) {
-          seriesNormal.push(this._getNormalSerie(estacion))
-          seriesAccumulated.push(this._getAccumulatedSerie(estacion))
-          this.series_activate++
-        }
-      }
-      else {
-        stationsNoData.push(estacion.nombre)
-      }
-    }
-    console.log("arregoTabla", arregloTabla)
-    this.dataSource = arregloTabla
-    this.stationsNoData = stationsNoData
-    this.accumulatedSeries = seriesAccumulated
-    this.normalSeries = seriesNormal
-  }
+		if (this.formTemporal.get(aux).value == 'semanal') {
+			while (start.getDay() != 1) { start.setDate(start.getDate() - 1) }
+			while (end.getDay() != 0) { end.setDate(end.getDate() + 1) }
+		}
+	}
 
-  limpiarVisualizacion() {
-    this.series_activate = 0
-    this.dataSource = []
-  }
+	checkTabla(evento: MatCheckboxChange, estacion: string, check: MatCheckbox) {
+		let estacion_data: DataEstacion = this.data.estaciones.find(el => el.nombre_estacion == estacion)
 
-  private _getNormalSerie(estacion: DataEstacion): SerieData {
-    const valores = estacion.promedios
-    const fechas = estacion.fechas
+		if (evento.checked) {
+			if (this.series_activate < 5) {
+				this.normalSeries = [...this.normalSeries, this._getNormalSerie(estacion_data)]
+				this.accumulatedSeries = [...this.accumulatedSeries, this._getAccumulatedSerie(estacion_data)]
+				this.series_activate++
+			} else {
+				this._snackBar.open("Esta permitido un maximo de 5 series", "Cerrar", { duration: 5000 });
+				check.checked = false
+			}
+		} else {
+			this._removeSerie(estacion)
+			this.series_activate--
+		}
+	}
 
-    let datos: {}[] = []
-    for (let index in valores) {
-      datos.push({ x: fechas[index], y: valores[index] })
-    }
+	addStations(stations: string[]) {
+		this.store.dispatch(evActions.agregarEstaciones({ estaciones: stations }))
+		this.consultarDatos.next({})
+	}
 
-    return ({
-      name: `${estacion.nombre}`,
-      type: "column",
-      data: datos
-    })
-  }
+	clickTabla(estacion: string, check: any) {
+		console.log(estacion, check)
+		// check.toggle()
+	}
 
-  private _getAccumulatedSerie(estacion: DataEstacion): SerieData {
-    const valores = estacion.promedios
-    const fechas = estacion.fechas
+	mostrarData() {
+		let arregloTabla = []
+		let todo_vacio = true
+		let stationsNoData: string[] = []
+		this.series_activate = 0
+		const seriesNormal: SerieData[] = []
+		const seriesAccumulated: SerieData[] = []
 
-    let datos: {}[] = []
-    let acumulado: number = 0
-    for (let i in valores) {
-      acumulado += valores[i]
-      datos.push({
-        x: fechas[i],
-        y: acumulado
-      })
-    }
+		for (let estacion of this.data.estaciones) {
+			if (estacion.data.length != 0) {
+				todo_vacio = false
+				const valores = estacion.data.map(el=>el.promedio)
+				const sum = valores.reduce((s, a) => s + a, 0)
+				const avg = ((sum / valores.length) || 0).toFixed(2)
+				const max = Math.max(...valores)
 
-    return ({
-      name: `${estacion.nombre}`,
-      type: "line",
-      data: datos
-    })
-  }
+				arregloTabla.push({
+					"estacion": estacion.nombre_estacion,
+					acumulado: sum,
+					promedio: avg,
+					maxima: max,
+					opciones: (this.series_activate < 3)
+				})
+				if (this.series_activate < 3) {
+					seriesNormal.push(this._getNormalSerie(estacion))
+					seriesAccumulated.push(this._getAccumulatedSerie(estacion))
+					this.series_activate++
+				}
+			}
+			else {
+				stationsNoData.push(estacion.nombre_estacion)
+			}
+		}
+		console.log("arregoTabla", arregloTabla)
+		this.dataSource = arregloTabla
+		this.stationsNoData = stationsNoData
+		this.accumulatedSeries = seriesAccumulated
+		this.normalSeries = seriesNormal
+	}
 
-  private _removeSerie(estacion: string) {
-    this.normalSeries = this.normalSeries.filter((el) => {
-      if (!el.name.includes(estacion)) return true
-      return false
-    })
+	limpiarVisualizacion() {
+		this.series_activate = 0
+		this.dataSource = []
+	}
 
-    this.accumulatedSeries = this.accumulatedSeries.filter((el) => {
-      if (!el.name.includes(estacion)) return true
-      return false
-    })
-  }
+	private _getNormalSerie(estacion: DataEstacion): SerieData {
+		let datos: {}[] = []
+		for (let tupla of estacion.data) datos.push({ x: tupla.fecha, y: tupla.promedio })
+
+
+		return ({
+			name: `${estacion.nombre_estacion}`,
+			type: "column",
+			data: datos
+		})
+	}
+
+	private _getAccumulatedSerie(estacion: DataEstacion): SerieData {
+		let datos: {}[] = []
+		let acumulado: number = 0
+		for (let tupla of estacion.data) {
+			acumulado += tupla.promedio
+			datos.push({ x: tupla.fecha, y: acumulado })
+		}
+
+		return ({
+			name: `${estacion.nombre_estacion}`,
+			type: "line",
+			data: datos
+		})
+	}
+
+	private _removeSerie(estacion: string) {
+		this.normalSeries = this.normalSeries.filter((el) => {
+			if (!el.name.includes(estacion)) return true
+			return false
+		})
+
+		this.accumulatedSeries = this.accumulatedSeries.filter((el) => {
+			if (!el.name.includes(estacion)) return true
+			return false
+		})
+	}
 }
 
 

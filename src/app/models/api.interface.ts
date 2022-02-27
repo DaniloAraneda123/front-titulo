@@ -1,16 +1,20 @@
-export interface SerieCustom {
-    altura:          string;
-    data_estaciones: DataEstacion[];
-    tipo_variable:   string;
-    unidad_medida:   string;
-    variable:        string;
+export interface StepSerie {
+    fecha: string
+    promedio: number
+    maximo: number
+    minimo: number
+    contador: number
 }
 
 export interface DataEstacion {
-    contador:  number[];
-    fechas:    string[];
-    maximos:   number[];
-    minimos:   number[];
-    nombre:    string;
-    promedios: number[];
+    nombre_estacion: string
+    data: StepSerie []
+}
+
+export interface ResponseSeries {
+    variable: string
+    altura: string
+    unidad_medida: string
+    tipo_variable: string
+    estaciones: DataEstacion[]
 }

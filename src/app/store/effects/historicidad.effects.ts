@@ -15,7 +15,7 @@ export class HistoricidadEffects {
             ofType(historicidadActions.loadingGrafico),
             exhaustMap(action =>
                 this.historicidadServices.consultarDatos(action.parametros, action.tipo, action.estaciones).pipe(
-                    map(response => historicidadActions.loadingGraficoSuccess({ data: response })),
+                    map(response => historicidadActions.loadingGraficoSuccess({ newData: response })),
                     catchError((error) => of(historicidadActions.loadingGraficoError({ payload: error })))
                 )
             )
@@ -30,7 +30,7 @@ export class HistoricidadEffects {
             filter( ([, estaciones]) => estaciones.length>0),
             exhaustMap(([, estaciones]) =>
                 this.historicidadServices.consultarVariables(estaciones).pipe(
-                    map(response => historicidadActions.setVariables({ payload: response })),
+                    map(response => historicidadActions.setVariables({ payload: response.variables })),
                     catchError((error) => of(historicidadActions.setVariablesError({ payload: error })))
                 )
             )
