@@ -1,39 +1,42 @@
 <div class="h-100 d-flex flex-column">
 	<div class="d-flex w-100">
 		<mat-form-field class="w-100" appearance="fill">
-			<mat-label *ngIf="comparativa">Seleccione Estaciones para Comparativa</mat-label>
-			<mat-label *ngIf="!comparativa">Seleccione una unica estacion</mat-label>
+			<mat-label *ngIf="comparative">Seleccione Estaciones para Comparativa</mat-label>
+			<mat-label *ngIf="!comparative">Seleccione una unica estacion</mat-label>
+			
 			<mat-chip-list #chipList>
-				<mat-chip *ngFor="let estacion of estaciones" [selectable]="true" [removable]="true"
-					(removed)="removerEstacion(estacion)">
+				<mat-chip *ngFor="let estacion of _stationsSelected" [selectable]="true" [removable]="true"
+					(removed)="removeStation(estacion)">
 					{{estacion}}
 					<mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
 				</mat-chip>
 				<input placeholder="Estación..." #estacionInput [formControl]="estacionCtrl" [matAutocomplete]="auto"
 					[matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-					(matChipInputTokenEnd)="addEstacion($event)">
+					(matChipInputTokenEnd)="addStation($event)">
 			</mat-chip-list>
-			<mat-autocomplete #auto="matAutocomplete" (optionSelected)="seleccionEstacion($event)">
+
+			<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectionStation($event)">
 				<mat-option *ngFor="let estacion of estacionesFiltradas | async" [value]="estacion">
 					{{estacion}}
 				</mat-option>
 			</mat-autocomplete>
 		</mat-form-field>
 
-		<button class="boton" mat-mini-fab [disabled]="!comparativa" matTooltip="Seleccionar todas las estaciones"
+		<button class="boton" mat-mini-fab [disabled]="!comparative" matTooltip="Seleccionar todas las estaciones"
 			(click)="addAll()">
 			<mat-icon>add</mat-icon>
 		</button>
 
-		<button class="boton" mat-mini-fab [disabled]="!comparativa" matTooltip="Limpiar todas las estaciones"
+		<button class="boton" mat-mini-fab [disabled]="!comparative" matTooltip="Limpiar todas las estaciones"
 			(click)="clearAll()">
 			<mat-icon>clear_all</mat-icon>
 		</button>
 	</div>
+	
 	<div class="mapa h-100 w-100">
 		<google-map height="100%" width="100%" [options]="optionsMaps" >
-			<map-marker *ngFor="let mark of estacionesDetalle;let i = index" [position]="mark.pos" [options]="mark.opt"
-				(mapClick)="clickEstacion(i)">
+			<map-marker *ngFor="let mark of allStations;let i = index" [position]="mark.pos" [options]="mark.opt"
+				(mapClick)="clickMark(i)">
 			</map-marker>
 		</google-map>
 	</div>

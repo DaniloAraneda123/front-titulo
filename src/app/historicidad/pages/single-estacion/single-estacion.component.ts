@@ -1,17 +1,15 @@
-import { ResponseSeries } from './../../models/api.interface';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-
 import { Store } from '@ngrx/store';
-import { AppState } from '../../store/app.reducers';
-import * as actionsGraficaUnica from '../../store/actions/graficaUnica.actions'
-import * as actionsHistoricidad from '../../store/actions/historicidad.actions'
-
 import {
 	ApexAxisChartSeries, ApexChart, ApexXAxis, ApexDataLabels, ApexYAxis, ApexFill, ApexMarkers,
 	ApexStroke, ApexLegend, ApexTitleSubtitle, ApexPlotOptions, ApexTooltip
 } from "ng-apexcharts";
+import { Subscription } from 'rxjs';
+import { ResponseSeries } from 'src/app/models/api.interface';
+import { AppState } from 'src/app/store/app.reducers';
+import * as ActionsGraficaUnica from 'src/app/store/actions/graficaUnica.actions'
+
 
 export type ChartOptions = {
 	series: ApexAxisChartSeries;
@@ -31,13 +29,13 @@ export type ChartOptions = {
 	grid: any;
 };
 
-@Component({
-	selector: 'app-grafica-unica',
-	templateUrl: './grafica-unica.component.html',
-	styleUrls: ['./grafica-unica.component.scss']
-})
 
-export class GraficaUnicaComponent implements OnDestroy {
+@Component({
+	selector: 'app-single-estacion',
+	templateUrl: './single-estacion.component.html',
+	styleUrls: ['./single-estacion.component.scss']
+})
+export class SingleEstacionComponent{
 
 	//DATA STORE CONTROL
 	public cargando: boolean = false
@@ -121,7 +119,7 @@ export class GraficaUnicaComponent implements OnDestroy {
 		for (let { nombre, altura } of variablesActivadas) {
 			if (this.multiCharts.find((elem) => (elem.chart.id == nombre + '' + altura)) == undefined) {
 				const variable = this.data.find((elem) => (elem.variable == nombre && elem.altura == altura))
-				const fechas = variable.estaciones[0].data.map(el=>el.fecha)
+				const fechas = variable.estaciones[0].data.map(el => el.fecha)
 				this.multiCharts.push(
 					{
 						series: [{ name: variable.variable, data: variable.estaciones[Object.keys(variable.estaciones)[0]].promedios }],
@@ -150,7 +148,7 @@ export class GraficaUnicaComponent implements OnDestroy {
 			this.variablesDisponibles_MG[i].checked = true
 			const { altura, nombre } = this.variablesDisponibles_MG[i]
 			if (this.data.find((el) => (el.altura == altura && el.variable == nombre)) == undefined) {
-				this.store.dispatch(actionsGraficaUnica.loadingData({ variable: nombre, altura: altura }))
+				this.store.dispatch(ActionsGraficaUnica.loadingData({ variable: nombre, altura: altura }))
 			} else {
 				this.actualizarMultiVariables()
 			}
@@ -200,7 +198,7 @@ export class GraficaUnicaComponent implements OnDestroy {
 			this.variablesDisponibles_UG[i].checked = true
 			const { altura, nombre } = this.variablesDisponibles_UG[i]
 			if (this.data.find((el) => (el.altura == altura && el.variable == nombre)) == undefined) {
-				this.store.dispatch(actionsGraficaUnica.loadingData({ variable: nombre, altura: altura }))
+				this.store.dispatch(ActionsGraficaUnica.loadingData({ variable: nombre, altura: altura }))
 			} else {
 				this.actualizarMultiVariables()
 			}
@@ -217,7 +215,7 @@ export class GraficaUnicaComponent implements OnDestroy {
 
 	volverMap() {
 		this.router.navigate(['historicidad'])
-		this.store.dispatch(actionsHistoricidad.resetear())
+		// this.store.dispatch(ActionsGraficaUnica.resetear())
 	}
 
 	cambioGrafico(evento: any) {
@@ -232,7 +230,7 @@ export class GraficaUnicaComponent implements OnDestroy {
 		series: [],
 		chart: {
 			type: "line", height: 500,
-			background:"#ffffff",
+			background: "#ffffff",
 			toolbar: { autoSelected: "selection", show: true },
 			animations: {
 				enabled: true, easing: 'easeinout', speed: 400,
@@ -268,7 +266,7 @@ export class GraficaUnicaComponent implements OnDestroy {
 	chartOptionsVariables: Partial<ChartOptions> = {
 		series: [],
 		chart: {
-			type: "line", height: 500,background:"#ffffff",
+			type: "line", height: 500, background: "#ffffff",
 			toolbar: { autoSelected: "selection", show: true },
 			animations: {
 				enabled: true, easing: 'easeinout', speed: 400,
@@ -284,4 +282,5 @@ export class GraficaUnicaComponent implements OnDestroy {
 		yaxis: { title: { text: "" }/*, min: 20, max: 100, tickAmount: 3*/ },
 		legend: { position: "top", horizontalAlign: "center" }
 	};
+
 }

@@ -1,0 +1,14 @@
+<div class="d-flex flex-column-reverse flex-md-row flex-md-wrap m-2 mb-5 bg-light align-items-stretch">
+	<div class="me-md-2">
+		<div class="d-flex align-items-center justify-content-center py-3" style="background-color: rgba(128, 128, 128, 0.116);">
+			<mat-icon>show_chart</mat-icon>
+			Series
+		</div>
+		<div id="side-bar">
+			<app-side-bar-options (checked)="comparative=$event"></app-side-bar-options>
+		</div>
+	</div>
+	<div class="flex-grow-1 mapa ">
+		<app-map (stationsSelected)="setStationsSelected($event)" [setComparative]="comparative"></app-map>
+	</div>
+</div>

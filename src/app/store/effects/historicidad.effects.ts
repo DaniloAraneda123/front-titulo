@@ -6,6 +6,8 @@ import { HistoricidadService } from '../../services/historicidad.service'
 import { of } from 'rxjs';
 import { AppState } from '../app.reducers';
 import { Store } from '@ngrx/store';
+import { RequestSerie } from 'src/app/models/api.interface';
+import { C } from '@angular/cdk/keycodes';
 
 
 @Injectable()
@@ -13,25 +15,21 @@ export class HistoricidadEffects {
     grafico$ = createEffect(() =>
         this.actions$.pipe(
             ofType(historicidadActions.loadingGrafico),
-            exhaustMap(action =>
-                this.historicidadServices.consultarDatos(action.parametros, action.tipo, action.estaciones).pipe(
+            concatLatestFrom(() =>
+            this.store.select(el => {
+                    console.log("sadsadasdasdasd")
+                    let aux = el.historicidad
+                    let body:RequestSerie = {
+                        ...aux.parametros,
+                        estaciones:aux.estaciones
+                    }
+                    return body
+                })
+            ),
+            exhaustMap(([,body]) =>
+                this.historicidadServices.consultarSerie(body).pipe(
                     map(response => historicidadActions.loadingGraficoSuccess({ newData: response })),
                     catchError((error) => of(historicidadActions.loadingGraficoError({ payload: error })))
-                )
-            )
-        )
-    );
-
-    variables$ = createEffect(() =>
-        this.actions$.pipe(
-            ofType(historicidadActions.agregarEstacion, historicidadActions.quitarEstacion),
-            concatLatestFrom(() => this.store.select(state => state.historicidad.estaciones)),
-            debounceTime(800),
-            filter( ([, estaciones]) => estaciones.length>0),
-            exhaustMap(([, estaciones]) =>
-                this.historicidadServices.consultarVariables(estaciones).pipe(
-                    map(response => historicidadActions.setVariables({ payload: response.variables })),
-                    catchError((error) => of(historicidadActions.setVariablesError({ payload: error })))
                 )
             )
         )

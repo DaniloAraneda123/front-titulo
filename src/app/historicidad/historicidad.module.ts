@@ -1,22 +1,22 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from '../shared/shared.module';
 
 //Componentes
-import { SidebarComponent } from './sidebar/sidebar.component';
-import { MapComponent } from './map/map.component';
-import { HistoricidadComponent } from './historicidad/historicidad.component';
-import { SharedModule } from '../shared/shared.module';
-import { GraficaUnicaComponent } from './grafica-unica/grafica-unica.component';
-import { CommonModule } from '@angular/common';
-import { GraficaMultipleComponent } from './grafica-multiple/grafica-multiple.component';
+import { MapComponent } from './components/map/map.component';
+import { MainHistoricidadComponent } from './pages/main-page/main-historicidad.component';
+import { SideBarOptionsComponent } from './components/side-bar-options/side-bar-options.component';
+import { MultiEstacionComponent } from './pages/multi-estacion/multi-estacion.component';
+import { SingleEstacionComponent } from './pages/single-estacion/single-estacion.component';
 
 
 @NgModule({
 	declarations: [
-		SidebarComponent,
 		MapComponent,
-		HistoricidadComponent,
-		GraficaUnicaComponent,
-		GraficaMultipleComponent
+		SideBarOptionsComponent,
+		MainHistoricidadComponent,
+		SingleEstacionComponent,
+		MultiEstacionComponent,
 	],
 	imports: [
 		CommonModule,

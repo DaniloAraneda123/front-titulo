@@ -1,0 +1,55 @@
+.time-picker {
+    height: 45px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border: none;
+    background-color: rgba(238, 238, 238, 0.767);
+    border-bottom-style: solid;
+    padding-left: 15px;
+    padding-right: 12px;
+    font-size: 20px;
+    border-width: 1px;
+    width: 98%;
+  }
+  
+  .error {
+    color: rgb(241, 0, 0);
+    border-width: 2px;
+  }
+  
+  .contenedor {
+    border: solid;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    border-width: 1px;
+    border-color: rgb(12, 70, 179);
+  
+    .titulo {
+      color: rgb(0, 54, 201);
+      font-size: 19px;
+      margin-top: 8px;
+      margin-bottom: 3px;
+      font-weight: 500;
+    }
+  }
+  
+  .time-picker:focus {
+    outline: none;
+  }
+  
+  .time-picker:hover {
+    border-width: 2px;
+  }
+  
+  label {
+    font-size: 11px;
+  }
+  
+  .boton{
+    height: 50px;
+    div{
+      font-size: 18px;
+    }
+  }

@@ -18,3 +18,12 @@ export interface ResponseSeries {
     tipo_variable: string
     estaciones: DataEstacion[]
 }
+
+export interface RequestSerie{
+	variable:string,
+	altura:string,
+	estaciones:string[],
+	fecha_inicio:string,
+	fecha_termino:string,
+	agrupacion:string
+}

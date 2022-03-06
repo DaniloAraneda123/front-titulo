@@ -1,11 +1,9 @@
+import { MainHistoricidadComponent } from './historicidad/pages/main-page/main-historicidad.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 //General
 import { HomeComponent } from './home/home.component';
-import { HistoricidadComponent } from './historicidad/historicidad/historicidad.component';
-import { GraficaUnicaComponent } from './historicidad/grafica-unica/grafica-unica.component';
-import { GraficaMultipleComponent } from './historicidad/grafica-multiple/grafica-multiple.component';
 
 //Casos uso
 import { CasosUsoComponent } from './casos_uso/casos-uso.component';
@@ -22,16 +20,12 @@ const routes: Routes = [
 	},
 	{
 		path: 'historicidad',
-		component: HistoricidadComponent
+		component: MainHistoricidadComponent
 	},
-	{
-		path: 'historicidad/grafica_unica',
-		component: GraficaUnicaComponent,
-	},
-	{
-		path: 'historicidad/grafica_multiple',
-		component: GraficaMultipleComponent
-	},
+	// {
+	// 	path: 'historicidad/grafica_unica',
+	// 	component: GraficaUnicaComponent,
+	// },
 	{
 		path: 'casos_uso',
 		component: CasosUsoComponent

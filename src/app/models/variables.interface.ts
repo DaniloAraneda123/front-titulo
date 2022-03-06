@@ -3,6 +3,6 @@ export interface Variables {
 }
 
 export interface Variable {
-    variables: string
+    variable: string,
     alturas: string[]
 }

@@ -1,15 +1,12 @@
 import { AppState } from './../app.reducers';
 import { Injectable } from '@angular/core';
-import { Actions, ofType, createEffect, concatLatestFrom } from '@ngrx/effects';
-import { catchError, exhaustMap, map } from 'rxjs/operators';
-import * as graficaUnicaActions from '../actions/graficaUnica.actions'
+import { Actions } from '@ngrx/effects';
 import { HistoricidadService } from '../../services/historicidad.service'
-import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 
 @Injectable()
-export class GraficaUnicaEffects {
+export class GraficaMultipleEffects {
     // variable$ = createEffect(() =>
     //     this.actions$.pipe(
     //         ofType(graficaUnicaActions.loadingData),

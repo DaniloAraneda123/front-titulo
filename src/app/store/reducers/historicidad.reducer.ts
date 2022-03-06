@@ -33,41 +33,14 @@ const _historicidadReducer = createReducer(
 
     initialState,
 
-    on(historicidadActions.agregarEstacion, (state, { estacion }) => ({
+    on(historicidadActions.setStations, (state, { stations }) => ({
         ...state,
-        estaciones: [...state.estaciones, estacion],
-        loading: true
+        estaciones: [...stations]
     })),
 
-    on(historicidadActions.quitarEstacion, (state, { estacion }) => {
-        let cargando: boolean = false
-        if (state.estaciones.length > 1) {
-            cargando = true
-        }
-        return {
-            ...state,
-            estaciones: state.estaciones.filter(elemento => elemento !== estacion),
-            loading: cargando
-        }
-    }),
-
-    on(historicidadActions.comparativaOnOff, (state) => ({
-        ...state,
-        comparativa: !state.comparativa,
-        estaciones: []
-    })),
-
-    on(historicidadActions.quitarAllEstaciones, (state) => ({
-        ...state,
-        estaciones: [],
-        variablesDisponibles: []
-    })),
-
-    on(historicidadActions.loadingGrafico, (state, { parametros, tipo }) => ({
+    on(historicidadActions.loadingGrafico, (state) => ({
         ...state,
         loading: true,
-        tipoConsulta: tipo,
-        parametros: parametros
     })),
 
     on(historicidadActions.loadingGraficoSuccess, (state, { newData }) => ({
@@ -88,24 +61,10 @@ const _historicidadReducer = createReducer(
         }
     })),
 
-    on(historicidadActions.resetear, (state) => (initialState)),
-
-    on(historicidadActions.setVariables, (state, { payload }) => ({
-        ...state,
-        variablesDisponibles: payload,
-        error: null,
-        loading: false
-    })),
-
-    on(historicidadActions.setVariablesError, (state, { payload }) => ({
-        ...state,
-        variablesDisponibles: [],
-        error: payload,
-        loading: false
-    }))
+    on(historicidadActions.resetear, (state) => (initialState))
 
 );
 
-export function historicidadReducer(state: HistoricidadState | undefined, action: Action) {
+export function historicidadReducer(state: HistoricidadState, action: Action) {
     return _historicidadReducer(state, action);
 }

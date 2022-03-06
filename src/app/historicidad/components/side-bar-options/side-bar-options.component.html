@@ -1,0 +1,188 @@
+<form [formGroup]="formOptions" class=" mt-2 d-grid  px-2" id="formulario">
+
+
+	<div *ngIf="stationsEmpty">
+		<b class="text-right" style="color: brown;">Seleccione una estacion</b >
+	</div>
+
+
+	<mat-checkbox [color]="'primary'" (change)="comparative($event)" [checked]="false">
+		Comparativa de Estaciones
+	</mat-checkbox>
+
+
+	<div>
+		<div class="d-flex justify-content-between ">
+			<b>Variables</b>
+			<span class="material-icons" #tooltip="matTooltip" matTooltip="Son las variables que es encuentran disponibles en la o las estaciones seleccionadas"
+				[matTooltipPosition]="'right'" matTooltipHideDelay="5000">
+				info
+			</span>
+		</div>
+		<mat-form-field class="w-100" appearance="fill">
+			<mat-label>
+				Seleccione una Variable
+			</mat-label>
+			<mat-select formControlName="variable">
+				<mat-option *ngFor="let opcion of variables" [value]="opcion.value">
+					{{opcion.label}}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+	</div>
+
+
+	<div>
+		<div class="d-flex justify-content-between ">
+			<b>Altura</b>
+			<span class="material-icons" #tooltip="matTooltip" matTooltip="Alturas disponibles en sensores para la variable seleccionada"
+				[matTooltipPosition]="'right'" matTooltipHideDelay="5000">
+				info
+			</span>
+		</div>
+		<mat-form-field class="w-100" appearance="fill">
+			<mat-label>
+				Seleccione una Variable
+			</mat-label>
+			<mat-select formControlName="altura">
+				<mat-option *ngFor="let opcion of alturas" [value]="opcion.value">
+					{{opcion.label}}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+	</div>
+
+
+	<div>
+		<div class="d-flex justify-content-between ">
+			<b>Agrupacion</b>
+			<span class="material-icons" #tooltip="matTooltip" matTooltip="Forma de agrupar los datos"
+				[matTooltipPosition]="'right'" matTooltipHideDelay="5000">
+				info
+			</span>
+		</div>
+		<mat-form-field class="w-100" appearance="fill">
+			<mat-label>
+				Seleccione una Variable
+			</mat-label>
+			<mat-select [value]="'diario'" formControlName="agrupacion">
+				<mat-option value="diario">Diario</mat-option>
+				<mat-option value="mensual">Semanal</mat-option>
+				<mat-option value="mensual">Mensual</mat-option>
+			</mat-select>
+		</mat-form-field>
+	</div>
+ 
+
+	<div>
+		<div class="d-flex justify-content-between ">
+			<b>Fechas</b>
+			<span class="material-icons" #tooltip="matTooltip" matTooltip="Rango de fecha en donde se ejecutara la busqueda"
+				[matTooltipPosition]="'right'" matTooltipHideDelay="5000">
+				info
+			</span>
+		</div>
+		<mat-form-field class="w-100" appearance="fill">
+			<mat-label>Ingrese Rango de Fechas</mat-label>
+			<mat-date-range-input [rangePicker]="picker">
+				<input matStartDate placeholder="Inicio" formControlName="fecha_inicio">
+				<input matEndDate placeholder="Termino" formControlName="fecha_termino">
+			</mat-date-range-input>
+			<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+			<mat-date-range-picker #picker></mat-date-range-picker>
+		</mat-form-field>
+	</div>
+
+
+	<button class="mt-2 boton" (click)="loadingData()" [disabled]="!formOptions.valid" mat-raised-button color="primary">
+		<div class=" d-flex justify-content-center align-items-center">
+			<mat-icon>manage_search</mat-icon> 
+			Generar Grafico
+		</div>
+	</button>
+
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- /////////////////////////////////////////////////TEMPLATES//////////////////////////////////////////////// -->
+<!-- RANGO TIEMPO -->
+<!-- <ng-template #rangeTime let-item='item'>
+	<div class="d-flex justify-content-between">
+		<b>Rango Horas</b>
+		<span class="material-icons" matTooltip="{{item.descripcion}}" [matTooltipPosition]="'right'"
+			matTooltipHideDelay="5000">
+			info
+		</span>
+	</div>
+	<div class="row">
+		<div class="col-6 pe-1 ">
+			<input [class.error]="errorTiempo1" type="time" class="time-picker" value="00:00"
+				formControlName="{{item.formControlInicio}}">
+			<label [class.error]="errorTiempo1" class="d-block" for="">Inicio</label>
+		</div>
+		<div class="col-6 ps-1">
+			<input [class.error]="errorTiempo2" type="time" class="time-picker" value="00:00"
+				formControlName="{{item.formControlTermino}}">
+			<label [class.error]="errorTiempo2" class="d-block" style="text-align: right;" for="">Termino</label>
+		</div>
+	</div>
+</ng-template>
+
+RANGO FECHA --
+<ng-template #rangeDate let-item='item'>
+	<div class="d-flex justify-content-between ">
+		<b>Fecha</b>
+		<span class="material-icons" matTooltip="{{item.descripcion}}" [matTooltipPosition]="'right'"
+			matTooltipHideDelay="5000">
+			info
+		</span>
+	</div>
+	<mat-form-field class="w-100" appearance="fill">
+		<mat-label>Ingrese Rango de Fechas</mat-label>
+		<mat-date-range-input [rangePicker]="picker">
+			<input matStartDate placeholder="Inicio" formControlName="{{item.formControlInicio}}">
+			<input matEndDate placeholder="Termino" formControlName="{{item.formControlTermino}}">
+		</mat-date-range-input>
+		<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+		<mat-date-range-picker #picker></mat-date-range-picker>
+	</mat-form-field>
+</ng-template>
+
+COMBO BOX 
+<ng-template #comboBox let-item='item'>
+	<div class="d-flex justify-content-between ">
+		<b>{{item.nombre}}</b>
+		<span class="material-icons" #tooltip="matTooltip" matTooltip="{{item.descripcion}}"
+			[matTooltipPosition]="'right'" matTooltipHideDelay="5000">
+			info
+		</span>
+	</div>
+	<mat-form-field class="w-100" appearance="fill">
+		<mat-label>
+			{{item.mensajeCombo}}
+		</mat-label>
+		<mat-select formControlName="{{item.formControlName}}">
+			<mat-option *ngFor="let opcion of item.opciones" [value]="opcion.valor">
+				{{opcion.etiqueta}}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
+</ng-template> -->

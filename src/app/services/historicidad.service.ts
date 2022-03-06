@@ -1,25 +1,23 @@
-import { Variables } from './../models/variables.interface';
+import { Variable, Variables } from './../models/variables.interface';
 import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { ResponseSeries } from '../models/api.interface';
+import { RequestSerie, ResponseSeries } from '../models/api.interface';
 
-@Injectable({
-	providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 
 export class HistoricidadService {
 
 	constructor(private http: HttpClient) { }
 
-	private url: string = environment.urlAPI
+	private rootUrl: string = environment.urlAPI
 
-	public consultarDatos(body: any, tipo_consulta: string, estaciones: string[]): Observable<ResponseSeries> {
-		return this.http.post<ResponseSeries>(`${this.url}/${tipo_consulta}`, { ...body, estaciones })
+	public consultarSerie(body: RequestSerie): Observable<ResponseSeries> {
+		return this.http.post<ResponseSeries>(`${this.rootUrl}/serie_custom`, body)
 	}
 
-	public consultarVariables(estaciones: string[]): Observable<Variables> {
-		return this.http.post<Variables>(`${this.url}/alturas_variables`, { estaciones })
+	public consultarVariables(body: { estaciones: string[] }): Observable<Variable[]> {
+		return this.http.post<Variable[]>(`${this.rootUrl}/variables`, body)
 	}
 }
