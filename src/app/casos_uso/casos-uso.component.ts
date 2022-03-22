@@ -40,9 +40,9 @@ export class CasosUsoComponent {
 			url: "evapotranspiracion"
 		},
 		{
-			name: "Por Definir",
+			name: "Grados Día",
 			subtitle: "",
-			img: "",
+			img: "https://ichi.pro/assets/images/max/724/1*VWO_xMK8-w29HY00Wzty9w.jpeg",
 			description: "",
 			url: ""
 		}

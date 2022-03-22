@@ -179,9 +179,12 @@ export class MapComponent implements OnInit {
 			})
 
 		//TODO: Remplazar por el bueno -----------------------------------------------------------------------------------
-		if (filter == "height") this._stationsService.requestStationsCoastline(this.point)
+		if (filter == "height") this._stationsService.requestStationsHeight(this.point).pipe(take(1))
 			.subscribe((stations) => {
 				for (let i = 0; i < 5; i++) {
+					let index = this.mapMarkers.findIndex((el) => el.opt.title == stations.altura[i][0])
+					this.mapMarkers[index].opt = { ...this.mapMarkers[index].opt, icon: iconos.iconRojo }
+					this.estaciones.push(stations.altura[i][0])
 
 				}
 				this.selectedStations.emit(this.estaciones)

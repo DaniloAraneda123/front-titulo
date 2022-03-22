@@ -20,4 +20,7 @@ export class EstacionesService {
 	public requestStationsCoastline(body: { lat: number, lng: number }): Observable<any> {
 		return this.http.post<any[]>(`${this._rootURL}/busqueda_estaciones_similitud_costa`, body)
 	}
+	public requestStationsHeight(body: { lat: number, lng: number }): Observable<any> {
+		return this.http.post<any[]>(`${this._rootURL}/busqueda_estaciones_similitud_alturas`, body)
+	}
 }
