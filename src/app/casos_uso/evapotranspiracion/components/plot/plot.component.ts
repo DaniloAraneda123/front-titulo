@@ -12,12 +12,13 @@ export class PlotComponent implements OnInit {
 	chartOptionsLine: Partial<ChartOptions>;
 	@Input() titlePlot!: string
 	@Input() loadingData: boolean = false
+	//@Input() typePlot: string = "line"
 
 	constructor() {
 		this.chartOptionsLine = {
 			series: [],
 			chart: {
-				height: 350, type: "line", stacked: false,
+				height: 350, type: "bar", stacked: true,
 				toolbar: {
 					tools: { download: true, selection: true, zoom: true, zoomin: false, zoomout: false, pan: false, },
 					show: true, autoSelected: 'selection'
@@ -27,7 +28,20 @@ export class PlotComponent implements OnInit {
 			dataLabels: { enabled: false },
 			stroke: { width: [1, 2.5] },
 			// title: { text: "Horas Frio (9/6/20 - 20/6/20) Vicuña", align: "left", offsetX: 10 },
-			xaxis: { type: "datetime" },
+			xaxis: { type: "category",
+			categories: [
+				"01/2011",
+				"02/2011",
+				"03/2011",
+				"04/2011",
+				"05/2011",
+				"06/2011"
+			  ] },
+			  plotOptions: {
+				bar: {
+				  horizontal: false
+				}
+			  },
 			yaxis: [],
 			legend: { position: "bottom", horizontalAlign: "center" }
 		};

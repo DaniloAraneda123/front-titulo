@@ -44,6 +44,11 @@ export class EvapotranspiracionComponent implements OnInit {
 		{ value: "semanal", label: "Semanal" },
 		{ value: "mensual", label: "Mensual" }
 	]
+	agrupacionCustom2: { value: string, label: string }[] = [
+		{ value: "diaria", label: "Diaria" },
+		{ value: "semanal", label: "Semanal" },
+		{ value: "mensual", label: "Mensual" }
+	]
 
 	agrupacionTemporadas: { value: string, label: string }[] = [
 		{ value: "semanal", label: "Semanal" },
@@ -56,7 +61,10 @@ export class EvapotranspiracionComponent implements OnInit {
 	formTemporal = new FormGroup({
 		start: new FormControl(),
 		end: new FormControl(),
+		start2: new FormControl(),
+		end2: new FormControl(),
 		agrupacionCustom: new FormControl("diaria"),
+		agrupacionCustom2: new FormControl("diaria"),
 		agrupacionTemporadas: new FormControl("semanal"),
 		tipoConsulta: new FormControl("/serie_custom"),
 	});
@@ -71,6 +79,8 @@ export class EvapotranspiracionComponent implements OnInit {
 	dataEstaciones: any = null
 	invalidDates = true
 	stationsNoData: string[] = []
+	historico: boolean = false
+	comparacionIntervalo: boolean = false
 
 	colors_used: number[] = []
 	series_activate = 0
@@ -93,6 +103,14 @@ export class EvapotranspiracionComponent implements OnInit {
 
 
 		this.formTemporal$ = this.formTemporal.valueChanges.subscribe((value: any) => {
+			if(value.tipoConsulta == '/serie_comparacion'){
+				this.comparacionIntervalo = true 
+				value.tipoConsulta = '/serie_custom'
+			}
+			else{
+				this.comparacionIntervalo = false 
+			}
+	
 			value.tipoConsulta == '/serie_custom' ? this.groupCustom = true : this.groupCustom = false
 			this.invalidDates = true
 			console.log("formTemporalvalid", this.formTemporal)
@@ -135,19 +153,22 @@ export class EvapotranspiracionComponent implements OnInit {
 		let aux: string
 		this.formTemporal.get('tipoConsulta').value == "/serie_custom" ? aux = "agrupacionCustom" : aux = "agrupacionTemporadas"
 
-		if (this.formTemporal.get(aux).value == 'mensual') {
-			const endMonth = new Date(end.getFullYear(), end.getMonth() + 1, 0);
-			start.setDate(1)
-			end.setDate(endMonth.getDate())
-		}
+		if(aux === "agrupacionCustom"){
+			if (this.formTemporal.get(aux).value == 'mensual') {
+				const endMonth = new Date(end.getFullYear(), end.getMonth() + 1, 0);
+				start.setDate(1)
+				end.setDate(endMonth.getDate())
+			}
 
-		if (this.formTemporal.get(aux).value == 'semanal') {
-			while (start.getDay() != 1) { start.setDate(start.getDate() - 1) }
-			while (end.getDay() != 0) { end.setDate(end.getDate() + 1) }
+			if (this.formTemporal.get(aux).value == 'semanal') {
+				while (start.getDay() != 1) { start.setDate(start.getDate() - 1) }
+				while (end.getDay() != 0) { end.setDate(end.getDate() + 1) }
+			}
 		}
 	}
 
 	checkTabla(evento: MatCheckboxChange, estacion: string, check: MatCheckbox) {
+		console.log("REVISO NOMBRE ESTACION", estacion)
 		let estacion_data: DataEstacion = this.data.estaciones.find(el => el.nombre_estacion == estacion)
 
 		if (evento.checked) {
@@ -199,6 +220,7 @@ export class EvapotranspiracionComponent implements OnInit {
 					opciones: (this.series_activate < 3)
 				})
 				if (this.series_activate < 3) {
+					console.log("ESTACION",estacion)
 					seriesNormal.push(this._getNormalSerie(estacion))
 					seriesAccumulated.push(this._getAccumulatedSerie(estacion))
 					this.series_activate++
@@ -213,6 +235,7 @@ export class EvapotranspiracionComponent implements OnInit {
 		this.stationsNoData = stationsNoData
 		this.accumulatedSeries = seriesAccumulated
 		this.normalSeries = seriesNormal
+		console.log("SERIESFINAL", this.normalSeries)
 	}
 
 	limpiarVisualizacion() {

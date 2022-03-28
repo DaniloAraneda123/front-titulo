@@ -7,6 +7,7 @@ import { HorasFrioComponent } from './horas-frio/horas-frio.component';
 import { EvapotranspiracionComponent } from './evapotranspiracion/evapotranspiracion.component';
 import { MapComponent } from './horas-frio/components/map/map.component';
 import { PlotComponent } from './horas-frio/components/plot/plot.component';
+import { PlotStackedColumnsComponent } from './evapotranspiracion/components/plot-stacked-columns/plot-stacked-columns.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { PlotComponent } from './horas-frio/components/plot/plot.component';
     EvapotranspiracionComponent,
     MapComponent,
     PlotComponent,
+    PlotStackedColumnsComponent,
   ],
   imports: [
     CommonModule,

@@ -16,11 +16,38 @@
                 <form [formGroup]="formTemporal"
                     class="flex-grow-1 d-flex flex-column flex-sm-row justify-content-between">
                     <div>
+                        <div class="d-flex align-items-center">
+                            <mat-form-field class="mt-1 mt-sm-0" style="margin-bottom: -15px;" appearance="fill">
+                                <mat-label>Intervalo de Fechas</mat-label>
+                                <mat-date-range-input [rangePicker]="picker">
+                                    <input matStartDate placeholder="Inicio" required formControlName="start">
+                                    <input matEndDate placeholder="Termino" required formControlName="end">
+                                </mat-date-range-input>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-date-range-picker #picker></mat-date-range-picker>
+                            </mat-form-field>
+    
+                            <mat-form-field *ngIf="groupCustom" class="mt-1 mt-sm-0 ms-0 ms-sm-2"
+                                style="margin-bottom: -15px;" appearance="fill">
+                                <mat-label>Resolucion</mat-label>
+                                <mat-select formControlName="agrupacionCustom">
+                                    <mat-option *ngFor="let item of agrupacionCustom" [value]="item.value">{{item.label}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <h3 *ngIf="comparacionIntervalo" class="mt-2 mt-sm-0 ms-0 ms-sm-2">
+                                Periodo 1
+                            </h3>
+                        </div>
+                        <div *ngIf="comparacionIntervalo" class="d-flex align-items-center">
+
+                     
                         <mat-form-field class="mt-1 mt-sm-0" style="margin-bottom: -15px;" appearance="fill">
                             <mat-label>Intervalo de Fechas</mat-label>
                             <mat-date-range-input [rangePicker]="picker">
-                                <input matStartDate placeholder="Inicio" required formControlName="start">
-                                <input matEndDate placeholder="Termino" required formControlName="end">
+                                <input matStartDate placeholder="Inicio" required formControlName="start2">
+                                <input matEndDate placeholder="Termino" required formControlName="end2">
                             </mat-date-range-input>
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-date-range-picker #picker></mat-date-range-picker>
@@ -29,14 +56,14 @@
                         <mat-form-field *ngIf="groupCustom" class="mt-1 mt-sm-0 ms-0 ms-sm-2"
                             style="margin-bottom: -15px;" appearance="fill">
                             <mat-label>Resolucion</mat-label>
-                            <mat-select formControlName="agrupacionCustom">
+                            <mat-select formControlName="agrupacionCustom2">
                                 <mat-option *ngFor="let item of agrupacionCustom" [value]="item.value">{{item.label}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-
+                        
                         <mat-form-field *ngIf="!groupCustom" class="mt-1 mt-sm-0 ms-0 ms-sm-2"
-                            style="margin-bottom: -15px;" appearance="fill">
+                            style="margin-bottom: -15px; display: none;" appearance="fill">
                             <mat-label>Resolucion</mat-label>
                             <mat-select formControlName="agrupacionTemporadas">
                                 <mat-option *ngFor="let item of agrupacionTemporadas" [value]="item.value">
@@ -44,8 +71,11 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
+                        <h3 class="mt-2 mt-sm-0 ms-0 ms-sm-2">
+                            Periodo 2
+                        </h3>
                     </div>
-
+                    </div>
                     <div>
                         <mat-form-field class="mt-1 mt-sm-0 ms-0 ms-sm-2" style="margin-bottom: -15px;"
                             appearance="fill">
@@ -53,6 +83,7 @@
                             <mat-select formControlName="tipoConsulta">
                                 <mat-option value="/serie_custom">Examinar Intervalo</mat-option>
                                 <mat-option value="/serie_temporadas">Comparacion por Intervalo</mat-option>
+                                <mat-option value="/serie_comparacion">Comparacion entre periodos</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -204,15 +235,28 @@
 
     <!-- /////////////////////////////////////////////////////////////////////////////// -->
 
-    <div class="col-12">
+
+    <div *ngIf="comparacionIntervalo"  class="col-6">
         <mat-card class="card p-1 px-2">
-            <app-plot [titlePlot]="'Grafica Evolucion'" [series]="normalSeries" [loadingData]="loadingData"></app-plot>
+            <app-plot *ngIf="groupCustom" [titlePlot]="'Grafica Evolucion'" [series]="normalSeries" [loadingData]="loadingData"></app-plot>
+        </mat-card>
+    </div>
+    <div *ngIf="comparacionIntervalo"  class="col-6">
+        <mat-card class="card p-1 px-2">
+            <app-plot *ngIf="groupCustom" [titlePlot]="'Grafica Evolucion'" [series]="normalSeries" [loadingData]="loadingData"></app-plot>
         </mat-card>
     </div>
 
-    <div *ngIf="groupCustom" class="col-12">
+    <div *ngIf="!comparacionIntervalo"  class="col-12">
         <mat-card class="card p-1 px-2">
-            <app-plot [titlePlot]="'Grafica Evolucion Acumulada'" [series]="accumulatedSeries"
+            <app-plot *ngIf="groupCustom" [titlePlot]="'Grafica Evolucion'" [series]="normalSeries" [loadingData]="loadingData"></app-plot>
+            <app-plot-stacked-columns *ngIf="!groupCustom" ></app-plot-stacked-columns>
+        </mat-card>
+    </div>
+
+    <div *ngIf="groupCustom && !comparacionIntervalo" class="col-12">
+        <mat-card class="card p-1 px-2">
+            <app-plot [titlePlot]="'Gráfica Evolución Acumulada'" [series]="accumulatedSeries"
                 [loadingData]="loadingData"></app-plot>
         </mat-card>
     </div>
