@@ -11,6 +11,7 @@ import {
   ApexFill,
   ApexTooltip,
 } from "ng-apexcharts";
+import { SerieData } from 'src/app/models/serie.interface';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -31,30 +32,14 @@ export type ChartOptions = {
 })
 export class PlotStackedColumnsComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
+  @Input() loadingData: boolean = false
+  @Input() titlePlot: string;
     public chartOptions: Partial<ChartOptions>;
   
     constructor()
      {
       this.chartOptions = {
-        series: [
-          {
-            name: "PRODUCT A",
-            data: [44, 55, 41, 67, 22, 43]
-          },
-          {
-            name: "PRODUCT B",
-            data: [13, 23, 20, 8, 13, 27]
-            
-          },
-          {
-            name: "PRODUCT C",
-            data: [11, 17, 15, 15, 21, 14]
-          },
-          {
-            name: "PRODUCT D",
-            data: [21, 7, 25, 13, 22, 8]
-          }
-        ],
+        series: [],
         chart: {
           type: "bar",
           height: 350,
@@ -68,7 +53,7 @@ export class PlotStackedColumnsComponent implements OnInit {
         },
         responsive: [
           {
-            breakpoint: 480,
+            
             options: {
               legend: {
                 position: "bottom",
@@ -85,23 +70,19 @@ export class PlotStackedColumnsComponent implements OnInit {
         },
         xaxis: {
           type: "category",
-          categories: [
-            "01/2011",
-            "02/2011",
-            "03/2011",
-            "04/2011",
-            "05/2011",
-            "06/2011"
-          ]
         },
-        legend: {
-          position: "right",
-          offsetY: 40,
-        },
-        fill: {
-          opacity: 1
-        },
+        
+
+
   }
 }
   ngOnInit(): void {}
+
+
+	@Input() set series(values: SerieData[]) {
+		const aux = [...values]
+		this.chartOptions.series = [...aux]
+    console.log("SEris",this.chartOptions.series)
+	}
+
 }

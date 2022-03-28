@@ -65,7 +65,7 @@ export class EvapotranspiracionComponent implements OnInit {
 		end2: new FormControl(),
 		agrupacionCustom: new FormControl("diaria"),
 		agrupacionCustom2: new FormControl("diaria"),
-		agrupacionTemporadas: new FormControl("semanal"),
+		agrupacionTemporadas: new FormControl("temporada"),
 		tipoConsulta: new FormControl("/serie_custom"),
 	});
 	formTemporal$: Subscription;
@@ -76,6 +76,7 @@ export class EvapotranspiracionComponent implements OnInit {
 	loadingData: boolean = false
 	error: any = null
 	data: ResponseSeries = null
+	data2: ResponseSeries = null
 	dataEstaciones: any = null
 	invalidDates = true
 	stationsNoData: string[] = []
@@ -168,7 +169,7 @@ export class EvapotranspiracionComponent implements OnInit {
 	}
 
 	checkTabla(evento: MatCheckboxChange, estacion: string, check: MatCheckbox) {
-		console.log("REVISO NOMBRE ESTACION", estacion)
+
 		let estacion_data: DataEstacion = this.data.estaciones.find(el => el.nombre_estacion == estacion)
 
 		if (evento.checked) {
@@ -202,12 +203,16 @@ export class EvapotranspiracionComponent implements OnInit {
 		let stationsNoData: string[] = []
 		this.series_activate = 0
 		const seriesNormal: SerieData[] = []
+		const seriesNormal2: SerieData[] = []
+
 		const seriesAccumulated: SerieData[] = []
 
 		for (let estacion of this.data.estaciones) {
 			if (estacion.data.length != 0) {
 				todo_vacio = false
-				const valores = estacion.data.map(el=>el.promedio)
+				
+				const valores_aux = estacion.data.map(el=>el.promedio)
+				const valores = valores_aux.filter(el => el !== undefined)
 				const sum = valores.reduce((s, a) => s + a, 0)
 				const avg = ((sum / valores.length) || 0).toFixed(2)
 				const max = Math.max(...valores)

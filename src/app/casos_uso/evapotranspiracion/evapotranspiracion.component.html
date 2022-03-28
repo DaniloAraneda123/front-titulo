@@ -169,8 +169,10 @@
 
                     <ng-container matColumnDef="maximo">
                         <th mat-header-cell *matHeaderCellDef>Evapotranspiracion diario Max</th>
+                      <!-- <th mat-header-cell *ngIf="groupCustom">Evapotranspiracion Anual Max</th>--> 
                         <td mat-cell *matCellDef="let element"> {{element.maxima}} </td>
                     </ng-container>
+                    
 
                     <ng-container matColumnDef="opciones">
                         <th mat-header-cell *matHeaderCellDef style="text-align: right;">Ver estacion</th>
@@ -250,8 +252,9 @@
     <div *ngIf="!comparacionIntervalo"  class="col-12">
         <mat-card class="card p-1 px-2">
             <app-plot *ngIf="groupCustom" [titlePlot]="'Grafica Evolucion'" [series]="normalSeries" [loadingData]="loadingData"></app-plot>
-            <app-plot-stacked-columns *ngIf="!groupCustom" ></app-plot-stacked-columns>
-        </mat-card>
+            <app-plot-stacked-columns [titlePlot]="'Gráfica Evapotranspiración Acumulada por años'" [series]="normalSeries" [loadingData]="loadingData" *ngIf="!groupCustom" ></app-plot-stacked-columns>
+            
+            </mat-card>
     </div>
 
     <div *ngIf="groupCustom && !comparacionIntervalo" class="col-12">

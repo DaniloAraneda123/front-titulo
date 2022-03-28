@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ChartOptions } from 'src/app/models/apex.interface';
 import { SerieData } from 'src/app/models/serie.interface';
 
+
 @Component({
 	selector: 'app-plot',
 	templateUrl: './plot.component.html',
@@ -18,7 +19,7 @@ export class PlotComponent implements OnInit {
 		this.chartOptionsLine = {
 			series: [],
 			chart: {
-				height: 350, type: "bar", stacked: true,
+				height: 350, type: "line", stacked: false,
 				toolbar: {
 					tools: { download: true, selection: true, zoom: true, zoomin: false, zoomout: false, pan: false, },
 					show: true, autoSelected: 'selection'
@@ -28,20 +29,7 @@ export class PlotComponent implements OnInit {
 			dataLabels: { enabled: false },
 			stroke: { width: [1, 2.5] },
 			// title: { text: "Horas Frio (9/6/20 - 20/6/20) Vicuña", align: "left", offsetX: 10 },
-			xaxis: { type: "category",
-			categories: [
-				"01/2011",
-				"02/2011",
-				"03/2011",
-				"04/2011",
-				"05/2011",
-				"06/2011"
-			  ] },
-			  plotOptions: {
-				bar: {
-				  horizontal: false
-				}
-			  },
+			xaxis: { type: "datetime" },
 			yaxis: [],
 			legend: { position: "bottom", horizontalAlign: "center" }
 		};
