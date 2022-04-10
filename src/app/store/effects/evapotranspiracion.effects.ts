@@ -31,7 +31,7 @@ export class EvapotranspiracionEffects {
                             map(response => evActions.setData({ payload: response })),
                             catchError((error) => of(evActions.setDataError({ payload: error })))
                         )
-                } else {
+                } else if(parametros.tipoConsulta == '/serie_temporadas')  {
                     return this.evapotranspiracionService.consultarSerieTemporadas(
                         {
                             estaciones: parametros.estaciones,
@@ -42,6 +42,23 @@ export class EvapotranspiracionEffects {
                             altura: "0.1m"
                         }).pipe(
                             map(response => evActions.setData({ payload: response })),
+                            catchError((error) => of(evActions.setDataError({ payload: error })))
+                        )
+                }
+                else {    
+                
+                    return this.evapotranspiracionService.consultarSerieComparacion(
+                        {
+                            estaciones: parametros.estaciones,
+                            fecha_inicio1: parametros.temporalInputComparacion.fechaInicio1,
+                            fecha_final1: parametros.temporalInputComparacion.fechaTermino1,
+                            fecha_inicio2: parametros.temporalInputComparacion.fechaInicio2,
+                            fecha_final2: parametros.temporalInputComparacion.fechaTermino2,
+                            agrupacion: parametros.temporalInputComparacion.agrupacionCustom,
+                            variable: "evapotranspiracion",
+                            altura: "0.1m"
+                        }).pipe(
+                            map(response => evActions.setDataComparacion({ payload: response })),
                             catchError((error) => of(evActions.setDataError({ payload: error })))
                         )
                 }

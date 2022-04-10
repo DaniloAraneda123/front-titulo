@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { ResponseSeries } from 'src/app/models/api.interface';
+import { ResponseSeriesComparacion } from 'src/app/models/api.interface';
 
 export const agregarEstaciones = createAction(
     '[Evapotranspiracion - Mapa] Agregar Estaciones al Filtro',
@@ -25,13 +26,22 @@ export const inputTemporal = createAction(
     props<{ fechaInicio: any, fechaTermino: any, agrupacionCustom: string, agrupacionTemporadas: string, tipoConsulta: string }>()
 );
 
+export const inputTemporalComparacion = createAction(
+    '[Evapotranspiracion - Input Temporal Comparacion] Actualizamos parametros temporales',
+    props<{ fechaInicio1: any, fechaTermino1: any, fechaInicio2: any, fechaTermino2: any, agrupacionCustom: string, agrupacionTemporadas: string, tipoConsulta: string }>()
+);
+
 export const loadingData = createAction(
     '[Evapotranspiracion - loading Data]  loading Data...',
 );
 
 export const setData = createAction(
     '[Evapotranspiracion - loading Data]  Data loaded SUCCESS',
-    props<{ payload: ResponseSeries }>()
+    props<{ payload: ResponseSeries  }>()
+);
+export const setDataComparacion = createAction(
+    '[Evapotranspiracion - loading Data Comparación]  Data loaded SUCCESS',
+    props<{ payload: ResponseSeriesComparacion  }>()
 );
 
 export const setDataError = createAction(

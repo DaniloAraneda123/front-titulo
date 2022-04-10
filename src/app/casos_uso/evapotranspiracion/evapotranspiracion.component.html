@@ -27,7 +27,7 @@
                                 <mat-date-range-picker #picker></mat-date-range-picker>
                             </mat-form-field>
     
-                            <mat-form-field *ngIf="groupCustom" class="mt-1 mt-sm-0 ms-0 ms-sm-2"
+                            <mat-form-field *ngIf="groupCustom && !comparacionIntervalo" class="mt-1 mt-sm-0 ms-0 ms-sm-2"
                                 style="margin-bottom: -15px;" appearance="fill">
                                 <mat-label>Resolucion</mat-label>
                                 <mat-select formControlName="agrupacionCustom">
@@ -39,28 +39,26 @@
                             <h3 *ngIf="comparacionIntervalo" class="mt-2 mt-sm-0 ms-0 ms-sm-2">
                                 Periodo 1
                             </h3>
-                        </div>
+                       </div>
                         <div *ngIf="comparacionIntervalo" class="d-flex align-items-center">
+                            <mat-form-field class="mt-1 mt-sm-0" style="margin-bottom: -15px;" appearance="fill">
+                                <mat-label>Intervalo de Fechas</mat-label>
+                                <mat-date-range-input [rangePicker]="picker">
+                                    <input matStartDate placeholder="Inicio"  formControlName="start2">
+                                    <input matEndDate placeholder="Termino"  formControlName="end2">
+                                </mat-date-range-input>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-date-range-picker #picker></mat-date-range-picker>
+                            </mat-form-field>
+                            <h3 class="mt-2 mt-sm-0 ms-0 ms-sm-2">
+                                Periodo 2
+                            </h3>
+                        </div>
 
+                        <div>
                      
-                        <mat-form-field class="mt-1 mt-sm-0" style="margin-bottom: -15px;" appearance="fill">
-                            <mat-label>Intervalo de Fechas</mat-label>
-                            <mat-date-range-input [rangePicker]="picker">
-                                <input matStartDate placeholder="Inicio" required formControlName="start2">
-                                <input matEndDate placeholder="Termino" required formControlName="end2">
-                            </mat-date-range-input>
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-date-range-picker #picker></mat-date-range-picker>
-                        </mat-form-field>
 
-                        <mat-form-field *ngIf="groupCustom" class="mt-1 mt-sm-0 ms-0 ms-sm-2"
-                            style="margin-bottom: -15px;" appearance="fill">
-                            <mat-label>Resolucion</mat-label>
-                            <mat-select formControlName="agrupacionCustom2">
-                                <mat-option *ngFor="let item of agrupacionCustom" [value]="item.value">{{item.label}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
+
                         
                         <mat-form-field *ngIf="!groupCustom" class="mt-1 mt-sm-0 ms-0 ms-sm-2"
                             style="margin-bottom: -15px; display: none;" appearance="fill">
@@ -71,11 +69,8 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <h3 class="mt-2 mt-sm-0 ms-0 ms-sm-2">
-                            Periodo 2
-                        </h3>
                     </div>
-                    </div>
+                </div>
                     <div>
                         <mat-form-field class="mt-1 mt-sm-0 ms-0 ms-sm-2" style="margin-bottom: -15px;"
                             appearance="fill">
@@ -87,10 +82,29 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
+                    
+                </form>
+                </div>
+            </mat-card>
+            </div>
+
+                <!--
+                <form formGroup]="formTemporal2"
+                class="flex-grow-1 d-flex flex-column flex-sm-row justify-content-between">
+                <mat-form-field class="mt-1 mt-sm-0" style="margin-bottom: -15px;" appearance="fill">
+                    <mat-label>Intervalo de Fechas</mat-label>
+                    <mat-date-range-input [rangePicker]="picker">
+                        <input matStartDate placeholder="Inicio"  formControlName="start2">
+                        <input matEndDate placeholder="Termino"  formControlName="end2">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
                 </form>
             </div>
         </mat-card>
     </div>
+    -->
 
     <!---->
 
@@ -150,7 +164,7 @@
                 </mat-spinner>
             </div>
             <div style="overflow-y: auto; max-height: 58vh;">
-                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100">
+                <table *ngIf="!comparacionIntervalo" mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100">
 
                     <ng-container matColumnDef="estacion">
                         <th mat-header-cell *matHeaderCellDef>Estacion </th>
@@ -188,6 +202,50 @@
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <table *ngIf="comparacionIntervalo" mat-table [dataSource]="dataSource2" class="mat-elevation-z8 w-100">
+
+                    <ng-container matColumnDef="estacion">
+                        <th mat-header-cell *matHeaderCellDef>Estacion </th>
+                        <td mat-cell *matCellDef="let element"> {{element.estacion}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="acumulado_1">
+                        <th mat-header-cell *matHeaderCellDef>Evapotranspiracion Acumulada 1</th>
+                        <td mat-cell *matCellDef="let element"> {{element.acumulado1}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="promedio_1">
+                        <th mat-header-cell *matHeaderCellDef>Evapotranspiracion Promedio 1</th>
+                        <td mat-cell *matCellDef="let element"> {{element.promedio1}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="maximo_1">
+                        <th mat-header-cell *matHeaderCellDef>Evapotranspiracion diario Max 1</th>
+                      <!-- <th mat-header-cell *ngIf="groupCustom">Evapotranspiracion Anual Max</th>--> 
+                        <td mat-cell *matCellDef="let element"> {{element.maxima1}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="acumulado_2">
+                        <th mat-header-cell *matHeaderCellDef>Evapotranspiracion Acumulada 2</th>
+                        <td mat-cell *matCellDef="let element"> {{element.acumulado2}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="promedio_2">
+                        <th mat-header-cell *matHeaderCellDef>Evapotranspiracion Promedio 2</th>
+                        <td mat-cell *matCellDef="let element"> {{element.promedio2}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="maximo_2">
+                        <th mat-header-cell *matHeaderCellDef>Evapotranspiracion diario Max 2</th>
+                      <!-- <th mat-header-cell *ngIf="groupCustom">Evapotranspiracion Anual Max</th>--> 
+                        <td mat-cell *matCellDef="let element"> {{element.maxima2}} </td>
+                    </ng-container>
+                    
+                  
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
                 </table>
             </div>
         </mat-card>
@@ -245,7 +303,7 @@
     </div>
     <div *ngIf="comparacionIntervalo"  class="col-6">
         <mat-card class="card p-1 px-2">
-            <app-plot *ngIf="groupCustom" [titlePlot]="'Grafica Evolucion'" [series]="normalSeries" [loadingData]="loadingData"></app-plot>
+            <app-plot *ngIf="groupCustom" [titlePlot]="'Grafica Evolucion'" [series]="normalSeries2" [loadingData]="loadingData"></app-plot>
         </mat-card>
     </div>
 
