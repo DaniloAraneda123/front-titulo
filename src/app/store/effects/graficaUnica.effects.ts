@@ -10,18 +10,20 @@ import { Store } from '@ngrx/store';
 
 @Injectable()
 export class GraficaUnicaEffects {
-    // variable$ = createEffect(() =>
-    //     this.actions$.pipe(
-    //         ofType(graficaUnicaActions.loadingData),
-    //         concatLatestFrom(() => this.store.select(state => (state.historicidad))),
-    //         exhaustMap(([{ altura, variable }, { parametros, tipoConsulta, estaciones }]) =>
-    //             this.API_Services.consultarDatos({ ...parametros, altura, variable}, tipoConsulta, estaciones).pipe(
-    //                 map(data => graficaUnicaActions.loadingDataSuccess({ data })),
-    //                 catchError((error) => of(graficaUnicaActions.loadDataError({ error })))
-    //             )
-    //         )
-    //     )
-    // );
+    variable$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(graficaUnicaActions.loadingVariable),
+            concatLatestFrom(() => this.store.select(state => state.graficaUnica.parametros)),
+            exhaustMap(([{ altura, variable }, parametros ]) =>{
+                console.log({ parametros, altura, variable})
+                return this.API_Services.consultarSerie({ ...parametros, altura, variable}).pipe(
+                    map(data => graficaUnicaActions.loadingVariableSuccess({ data })),
+                    catchError((error) => of(graficaUnicaActions.loadVariableError({ error })))
+                )
+            }
+            )
+        )
+    );
 
     constructor(
         private actions$: Actions,

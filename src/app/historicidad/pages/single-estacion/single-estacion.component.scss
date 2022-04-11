@@ -1,15 +1,12 @@
-.row {
-    border-radius: 8px;
-  }
-  
-  #sidebar {
-    border-color: #805e5c;
-    border-radius: 8px;
-    border-style: solid;
-    border-width: thin;
-  }
-  
-  .mapa{
-    height: 85vh;
-  }
-  
+.main-frame{
+  width: auto;
+  height: 100vh;
+}
+
+a{
+  cursor: pointer;
+}
+
+.material-li{
+  color: rgb(160, 0, 0);
+}

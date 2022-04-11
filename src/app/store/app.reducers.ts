@@ -13,7 +13,8 @@ export interface AppState {
 export const appReducers: ActionReducerMap<AppState> = {
     historicidad: reducers.historicidadReducer,
     graficaUnica: reducers.graficaUnicaReducer,
-    horasFrio: reducers.horasFrioReducer,
     graficaMultiple: reducers.graficaMultipleReducer,
+    horasFrio: reducers.horasFrioReducer,
+    // gradosDia: reducers.horasFrioReducer,
     evapotranspiracion: reducers.evapotranspiracionReducer
 }

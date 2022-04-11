@@ -8,7 +8,7 @@ export interface StepSerie {
 
 export interface DataEstacion {
     nombre_estacion: string
-    data: StepSerie []
+    data: StepSerie[]
 }
 
 export interface ResponseSeries {
@@ -24,6 +24,6 @@ export interface RequestSerie{
 	altura:string,
 	estaciones:string[],
 	fecha_inicio:string,
-	fecha_termino:string,
+	fecha_final:string,
 	agrupacion:string
 }

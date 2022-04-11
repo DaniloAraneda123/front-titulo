@@ -105,8 +105,9 @@ export class MapComponent {
 
 	removeStation(estacion: string): void {
 		//Sacar de lista
-		const index = this._stationsSelected.indexOf(estacion);
+		const index = this._stationsSelected.indexOf(estacion)
 		this._stationsUnselected.push(this._stationsSelected[index])
+		this._stationsSelected.splice(index, 1);
 
 		//Cambiar Icono
 		const indice = this.allStations.findIndex((elemento) => (elemento.opt.title === estacion))
