@@ -1,0 +1,77 @@
+.titulo {
+    background-color: #ffffff;
+    text-align: center;
+  }
+  
+  .input {
+    text-align: left;
+  }
+  
+  .dato {
+    height: 95px;
+    text-align: left;
+  
+    h1 {
+      float: right;
+      font-size: 35px;
+      font-style: oblique;
+      color: #1a32b9;
+      position: relative;
+      top: -18px;
+      clear: none;
+  
+      p {
+        display: inline;
+        font-size: 19px;
+      }
+    }
+  }
+  
+  .alert-input{
+    color: rgb(187, 0, 0);
+  }
+  
+  .mn{
+    margin: 0px 0px -15px 0px;
+  }
+  
+  .mn-c{
+    margin-bottom: -18px;
+  }
+  
+  
+  apex-chart {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .chip-list {
+    width: 100%;
+  }
+  
+  .card {
+    background-color: #ebebebc2;
+  }
+  
+  .mat-row .mat-cell {
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+  }
+  
+  .mat-row:hover .mat-cell {
+    border-color: currentColor;
+  }
+  
+  .demo-row-is-clicked {
+    font-weight: bold;
+  }
+  
+  mat-icon {
+    cursor: pointer;
+  }
+  
+  mat-card-title {
+    font-size: 19px;
+  }
+  
+  

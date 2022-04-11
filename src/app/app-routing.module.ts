@@ -8,9 +8,10 @@ import { HomeComponent } from './home/home.component';
 //Casos uso
 import { CasosUsoComponent } from './casos_uso/casos-uso.component';
 import { HorasFrioComponent } from './casos_uso/horas-frio/horas-frio.component';
+import { GradosDiaComponent } from './casos_uso/grados-dia/grados-dia.component';
 import { PrecipitacionComponent } from './casos_uso/precipitacion/precipitacion.component';
 import { EvapotranspiracionComponent } from './casos_uso/evapotranspiracion/evapotranspiracion.component';
-//import { EvapotranspiracionComponent } from './casos_uso/evapotranspiracion/evapotranspiracion.component';
+
 
 
 const routes: Routes = [
@@ -30,13 +31,18 @@ const routes: Routes = [
 		path: 'casos_uso',
 		component: CasosUsoComponent
 	},
-	{
-		path: 'casos_uso/precipitacion',
-		component: PrecipitacionComponent
-	},
+	//{
+	//	path: 'casos_uso/precipitacion',
+	//	component: PrecipitacionComponent
+	//},
 	{
 		path: 'casos_uso/horas_frio',
 		component: HorasFrioComponent
+	}
+	,
+	{
+		path: 'casos_uso/grados_dia',
+		component: GradosDiaComponent
 	}
 	,
 	{

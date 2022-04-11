@@ -1,0 +1,11 @@
+<div class="d-flex justify-content-between">
+    <h2 class="mb-0">{{titlePlot}}</h2>
+    <mat-spinner class="d-inline" [diameter]="30" *ngIf="loadingData">
+        <!-- *ngIf="data == null && loadingData && complete" -->
+    </mat-spinner>
+</div>
+<apx-chart [series]="chartOptionsLine.series" [chart]="chartOptionsLine.chart" [xaxis]="chartOptionsLine.xaxis"
+    [markers]="chartOptionsLine.markers" [stroke]="chartOptionsLine.stroke" [yaxis]="chartOptionsLine.yaxis"
+    [dataLabels]="chartOptionsLine.dataLabels" [fill]="chartOptionsLine.fill"
+    [tooltip]="chartOptionsLine.tooltip" [legend]="chartOptionsLine.legend">
+</apx-chart>

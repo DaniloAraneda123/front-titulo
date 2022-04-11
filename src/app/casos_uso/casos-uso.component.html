@@ -1,5 +1,5 @@
 
-<div class="conteiner">
+<div class="conteiner" style="background-color: lightgray;">
     <div class="grid">
 
         <div *ngFor="let card of sections" class="skill-card" (click)="clickCard(card.url)">
@@ -9,7 +9,7 @@
         
             <section class="skill-card__body">
                 <h2 class="skill-card__title mb-0">{{card.name}}</h2>
-                <span class="skill-card__duration mb-2">{{"Subtitulo cualquiera"}}</span>
+               
                 <hr>
                 <p>{{card.description}}</p>
             </section>
