@@ -14,5 +14,8 @@ export class SelectVariableComponent {
 		@Inject(MAT_DIALOG_DATA) public data: { variable: string; altura: string; }[],
 	) { }
 
-	selectVariable(select: MatSelect) { this.dialogRef.close(this.data[select.value]) }
+	selectVariable(variable: MatSelect, operacion: MatSelect) {
+		console.log(variable.value, operacion.value)
+		this.dialogRef.close(this.data[variable.value])
+	}
 }

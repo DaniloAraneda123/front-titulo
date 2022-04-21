@@ -28,7 +28,7 @@ const initialState: graficaUnicaState = {
     errorVariable: null,
 
     data: [],
-    parametros: {},
+    parametros: undefined,
     nombreEstacion: "",
     variablesSelected:[]
 }

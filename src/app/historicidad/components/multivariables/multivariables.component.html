@@ -1,1 +1,13 @@
-<p>multivariables works!</p>
+<div class="container-fluid m-1">
+    <h2 class="text-center"> <b>
+
+            {{title}}
+        </b>
+    </h2>
+    <apx-chart [series]="chartOptionsVariables.series" [chart]="chartOptionsVariables.chart"
+        [colors]="chartOptionsVariables.colors" [yaxis]="chartOptionsVariables.yaxis"
+        [dataLabels]="chartOptionsVariables.dataLabels" [markers]="chartOptionsVariables.markers"
+        [stroke]="chartOptionsVariables.stroke" [grid]="chartOptionsVariables.grid"
+        [xaxis]="chartOptionsVariables.xaxis" [tooltip]="chartOptionsVariables.tooltip">
+    </apx-chart>
+</div>

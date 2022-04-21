@@ -50,7 +50,7 @@ export class MultigraficoComponent {
 		let multiCharts: (Partial<ChartOptions> & { unidad_medida: string, altura: string, variable: string })[] = []
 		let i = 0
 		for (let serie of series) {
-			console.log("asdasd")
+			console.log("Cambiar el a graefico de barra si solo esta el 'instantaneo'")
 			multiCharts.push({
 				series: [{ ...serie, tipo: "step", type: "bar", name:`${serie.name} unico` }],
 				chart: { id: serie.name + serie.altura, group: "social", type: "line", height: 180 },
@@ -83,7 +83,6 @@ export class MultigraficoComponent {
 			this.multiCharts[i].yaxis = [
 				...this.multiCharts[i].yaxis,
 				{ tickAmount: 1, labels: { minWidth: 30 }, title: { text: this.dataSource[i].unidad_medida }, opposite: true, seriesName: serie.name }]
-			console.log(this.multiCharts[i].series.length, this.multiCharts[i].yaxis.length)
 		} else {
 			this.multiCharts[i].series = this.multiCharts[i].series.filter(el => el.tipo != "acumulado")
 			this.multiCharts[i].yaxis = this.multiCharts[i].yaxis.filter(el => !el.seriesName.includes(`${this.dataSource[i].name} acumulado`))

@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { SelectVariableComponent } from '../../components/select-variable/select-variable.component';
 import { stringify } from 'querystring';
 import { take } from 'rxjs/operators';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -30,6 +31,7 @@ export class SingleEstacionComponent implements OnInit {
 	public error: any = null;
 	nombreEstacion: string = ""
 	suscripcion$: Subscription
+	plotSelected: string = 'multicharts'
 
 	series: (SerieData & { unidad_medida: string, altura: string })[] = []
 	stroke: string;
@@ -37,14 +39,28 @@ export class SingleEstacionComponent implements OnInit {
 	data: ResponseSeries[] = []
 	variablesSelected: { variable: string, altura: string }[] = []
 
+	range = new FormGroup({
+		start: new FormControl(undefined, [Validators.required]),
+		end: new FormControl(undefined, [Validators.required]),
+	});
+
 	constructor(
 		private store: Store<AppState>,
 		private router: Router,
 		public dialog: MatDialog
 	) { }
 
+
+	test() {
+		if (this.range.valid) {
+			console.log("valido", this.range.value)
+			console.log(this.data)
+		}
+	}
+
+
 	ngOnInit(): void {
-		this.suscripcion$ = this.store.select(el => el.graficaUnica).subscribe(({ error, loaded, loading, data, nombreEstacion, variablesSelected }) => {
+		this.suscripcion$ = this.store.select(el => el.graficaUnica).subscribe(({ error, loaded, loading, data, nombreEstacion, variablesSelected, parametros }) => {
 			this.nombreEstacion = nombreEstacion
 			this.cargando = loading
 			this.error = error
@@ -52,8 +68,13 @@ export class SingleEstacionComponent implements OnInit {
 			this.data = data
 			if (loading == false && loaded == true) {
 				this.responseData = data
+				this.range.controls["start"].setValue(parametros.fecha_inicio)
+				this.range.controls["end"].setValue(parametros.fecha_final)
 				this.generarSeries(data)
 			}
+			// if(loading == false && loaded == false && parametros == undefined){
+			// 	this.router.navigate(["historicidad"])
+			// }
 		})
 	}
 

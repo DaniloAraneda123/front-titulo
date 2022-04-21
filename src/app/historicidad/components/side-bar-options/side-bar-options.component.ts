@@ -29,6 +29,7 @@ export class SideBarOptionsComponent implements OnInit {
 	formOptions: FormGroup = new FormGroup({
 		variable: new FormControl('', [Validators.required]),
 		altura: new FormControl('', [Validators.required]),
+		tipo_operacion: new FormControl(undefined, [Validators.required]),
 		agrupacion: new FormControl(undefined, [Validators.required]),
 		fecha_inicio: new FormControl(undefined, [Validators.required]),
 		fecha_final: new FormControl(undefined, [Validators.required])

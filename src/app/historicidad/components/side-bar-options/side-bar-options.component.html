@@ -73,6 +73,26 @@
 			</mat-select>
 		</mat-form-field>
 	</div>
+
+
+	<div>
+		<div class="d-flex justify-content-between ">
+			<b>Operacion de Agrupacion</b>
+			<span class="material-icons" #tooltip="matTooltip" matTooltip="Se refiere al tipo de operacion que se le aplicara a los grupos generados"
+				[matTooltipPosition]="'right'" matTooltipHideDelay="5000">
+				info
+			</span>
+		</div>
+		<mat-form-field class="w-100" appearance="fill">
+			<mat-label>
+				Seleccione la operacion a aplicar
+			</mat-label>
+			<mat-select formControlName="tipo_operacion">
+				<mat-option value="aditiva">Acumulado</mat-option>
+				<mat-option value="promediada">Promedio</mat-option>
+			</mat-select>
+		</mat-form-field>
+	</div>
  
 
 	<div>
