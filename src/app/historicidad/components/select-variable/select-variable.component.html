@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Seleccione una Variable</h1>
+<div mat-dialog-content>
+    <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Variables</mat-label>
+        <mat-select #select>
+            <mat-option *ngFor="let v of data;let i = index" [value]="i">
+                {{v.variable}} - {{v.altura}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <br>
+    <button class="w-100" (click)="selectVariable(select)" mat-raised-button color="primary">Primary</button>
+</div>

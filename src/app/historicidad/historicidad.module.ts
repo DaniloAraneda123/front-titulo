@@ -8,6 +8,9 @@ import { MainHistoricidadComponent } from './pages/main-page/main-historicidad.c
 import { SideBarOptionsComponent } from './components/side-bar-options/side-bar-options.component';
 import { MultiEstacionComponent } from './pages/multi-estacion/multi-estacion.component';
 import { SingleEstacionComponent } from './pages/single-estacion/single-estacion.component';
+import { MultigraficoComponent } from './components/multigrafico/multigrafico.component';
+import { MultivariablesComponent } from './components/multivariables/multivariables.component';
+import { SelectVariableComponent } from './components/select-variable/select-variable.component';
 
 
 @NgModule({
@@ -17,6 +20,9 @@ import { SingleEstacionComponent } from './pages/single-estacion/single-estacion
 		MainHistoricidadComponent,
 		SingleEstacionComponent,
 		MultiEstacionComponent,
+		MultigraficoComponent,
+		MultivariablesComponent,
+		SelectVariableComponent,
 	],
 	imports: [
 		CommonModule,

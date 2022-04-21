@@ -6,7 +6,7 @@
 	</div>
 
 
-	<mat-checkbox [color]="'primary'" (change)="comparative($event)" [checked]="false">
+	<mat-checkbox class="mb-1" [color]="'primary'" (change)="comparative($event)" [checked]="false">
 		Comparativa de Estaciones
 	</mat-checkbox>
 
@@ -66,8 +66,9 @@
 				Seleccione una Variable
 			</mat-label>
 			<mat-select [value]="'diario'" formControlName="agrupacion">
-				<mat-option value="diario">Diario</mat-option>
-				<mat-option value="mensual">Semanal</mat-option>
+				<!-- <mat-option value="hora">Diario</mat-option> -->
+				<mat-option value="diaria">Diario</mat-option>
+				<mat-option value="semanal">Semanal</mat-option>
 				<mat-option value="mensual">Mensual</mat-option>
 			</mat-select>
 		</mat-form-field>
@@ -86,7 +87,7 @@
 			<mat-label>Ingrese Rango de Fechas</mat-label>
 			<mat-date-range-input [rangePicker]="picker">
 				<input matStartDate placeholder="Inicio" formControlName="fecha_inicio">
-				<input matEndDate placeholder="Termino" formControlName="fecha_termino">
+				<input matEndDate placeholder="Termino" formControlName="fecha_final">
 			</mat-date-range-input>
 			<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 			<mat-date-range-picker #picker></mat-date-range-picker>

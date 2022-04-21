@@ -8,9 +8,7 @@ export interface HistoricidadState {
     comparativa: boolean,
     loading: boolean,
     loaded: boolean,
-    tipoConsulta: string,
     parametros: any,
-    data: ResponseSeries[],
     error: any,
     variablesDisponibles: Variable[]
 }
@@ -20,8 +18,6 @@ const initialState: HistoricidadState = {
     comparativa: false,
     loading: false,
     loaded: false,
-    tipoConsulta: "",
-    data: null,
     parametros: {},
     error: null,
     variablesDisponibles: []
@@ -38,29 +34,22 @@ const _historicidadReducer = createReducer(
         estaciones: [...stations]
     })),
 
+    on(historicidadActions.setForm, (state, { form }) => ({
+        ...state,
+        parametros: {...form}
+    })),
+
+    on(historicidadActions.setVariables, (state, { payload }) => ({
+        ...state,
+        variablesDisponibles:payload
+    })),
+
     on(historicidadActions.loadingGrafico, (state) => ({
         ...state,
-        loading: true,
+        loading:true,
+        loaded:false
     })),
-
-    on(historicidadActions.loadingGraficoSuccess, (state, { newData }) => ({
-        ...state,
-        loading: false,
-        loaded: true,
-        data: [...state.data, newData]
-    })),
-
-    on(historicidadActions.loadingGraficoError, (state, { payload }) => ({
-        ...state,
-        loading: false,
-        loaded: false,
-        error: {
-            url: payload.url,
-            name: payload.name,
-            message: payload.message
-        }
-    })),
-
+    
     on(historicidadActions.resetear, (state) => (initialState))
 
 );

@@ -4,10 +4,11 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Store } from '@ngrx/store';
-import { filter, map, take } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
+import { distinctUntilChanged, filter, map, take } from 'rxjs/operators';
 import { AppState } from 'src/app/store/app.reducers';
 import * as ActionsHistoricidad from 'src/app/store/actions/historicidad.actions'
+import { Router } from '@angular/router';
 
 export interface OptionsSideBar {
 	nameOption: string
@@ -30,7 +31,7 @@ export class SideBarOptionsComponent implements OnInit {
 		altura: new FormControl('', [Validators.required]),
 		agrupacion: new FormControl(undefined, [Validators.required]),
 		fecha_inicio: new FormControl(undefined, [Validators.required]),
-		fecha_termino: new FormControl(undefined, [Validators.required])
+		fecha_final: new FormControl(undefined, [Validators.required])
 	})
 
 	dataVariables: Variable[]
@@ -39,33 +40,47 @@ export class SideBarOptionsComponent implements OnInit {
 	variables: { value: string, label: string }[] = []
 	alturas: { value: string, label: string }[] = []
 
+	estaciones: string[] = []
+
 	@Output() checked: EventEmitter<boolean> = new EventEmitter(false)
 	loading: boolean;
 	stationsEmpty: boolean;
 
 	constructor(
 		private _store: Store<AppState>,
+		private _router: Router,
 		private _snackBar: MatSnackBar,
 		private _variablesService: HistoricidadService
 	) { }
 
 
 	ngOnInit(): void {
-		this._store.select("historicidad").pipe(map(el => el.estaciones)).subscribe((estaciones: string[]) => {
+		this._store.pipe(
+			select(el=>el.historicidad.estaciones),
+			distinctUntilChanged((prev,curr)=>{
+				return JSON.stringify(prev) == JSON.stringify(curr)
+			})
+			).subscribe((estaciones: string[]) => {
+			this.estaciones = estaciones
 			if (estaciones.length > 0) {
+				console.log("asdasd")
 				this.stationsEmpty = false
 				this.loadingVariables = true
 				this._variablesService.consultarVariables({ estaciones }).pipe(take(1)).subscribe((response: Variable[]) => {
 					this.dataVariables = response
+					this._store.dispatch(ActionsHistoricidad.setVariables({payload:response}))
 
 					this.variables = response.map(el => ({ value: el.variable, label: el.variable }))
-					this.formOptions.controls["variable"].setValue(this.variables[0].value)
+					this.formOptions.controls["variable"].setValue(null)
 
 					this.loadingVariables = false
 					this.formOptions.enable()
 				});
 			} else {
 				this.stationsEmpty = true
+				this.formOptions.controls["variable"].setValue(null)
+				this.formOptions.controls["altura"].setValue(null)
+				this.formOptions.controls["agrupacion"].setValue(null)
 				this.formOptions.disable()
 			}
 		})
@@ -73,10 +88,11 @@ export class SideBarOptionsComponent implements OnInit {
 		this.formOptions.controls["variable"].valueChanges.pipe(filter(el => el != undefined && el != '')).subscribe((el) => {
 			let index = this.dataVariables.findIndex(e => e.variable == el)
 			this.alturas = this.dataVariables[index].alturas.map(el => ({ label: el, value: el }))
-			this.formOptions.controls["altura"].setValue(this.alturas[0].value)
+			this.formOptions.controls["altura"].setValue(undefined)
 		})
 
 		this.formOptions.valueChanges.pipe(filter(el => this.formOptions.valid)).subscribe(el => {
+			const form = {...this.formOptions.value}
 			this._store.dispatch(ActionsHistoricidad.setForm({ form: this.formOptions.value }))
 		})
 	}
@@ -85,16 +101,11 @@ export class SideBarOptionsComponent implements OnInit {
 
 	loadingData() {
 		this._store.dispatch(ActionsHistoricidad.loadingGrafico())
-	}
-}
-
-
-function validadorTime(): ValidatorFn {
-	return (control: AbstractControl): ValidationErrors => {
-		const value = control.value;
-		if (value != null) {
-			return null
+		if (this.estaciones.length == 1) {
+			this._router.navigate(["historicidad","grafica_unica"])
 		}
-		return { error: true }
+		else if (this.estaciones.length > 1) {
+			this._router.navigate(["historicidad","grafica_multiple"])
+		}
 	}
 }

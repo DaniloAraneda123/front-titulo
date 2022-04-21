@@ -1,104 +1,126 @@
-<div *ngIf="cargando" class="d-flex justify-content-center h-100">
-    <mat-spinner [diameter]="200" class="align-self-center"></mat-spinner>
+<div style="height: 100vh;">
+    <mat-drawer-container class="example-container" autosize>
+        <mat-drawer #drawer class="p-2 " mode="side">
+                <h3>Visualizacion</h3>
+                <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+                    <mat-button-toggle>Multi Grafico</mat-button-toggle>
+                    <mat-button-toggle>Grafica Unica</mat-button-toggle>
+                </mat-button-toggle-group>
+    
+                <hr>
+    
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="mb-0">Variables Seleccionadas</h3>
+                    <button mat-mini-fab color="primary" (click)="addVariable()" ><mat-icon>add</mat-icon></button>
+                </div>
+                <ul>
+                    <li  *ngFor="let variable of variablesSelected">
+                        <div class="d-flex justify-content-between">
+                            <div>{{variable.variable}} {{variable.altura}}</div>
+                            <a (click)="eliminarVariable(variable.variable,variable.altura)"><mat-icon class="material-li">delete</mat-icon></a>
+                        </div>
+                    </li>
+                </ul>
+    
+                <hr>
+    
+                <h3>Rango de Fechas</h3>
+                <mat-form-field appearance="fill">
+                    <mat-label>Enter a date range</mat-label>
+                    <mat-date-range-input [rangePicker]="picker">
+                        <input matStartDate placeholder="Start date">
+                        <input matEndDate placeholder="End date">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+    
+                    <!-- <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date
+                        </mat-error>
+                        <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error> -->
+                </mat-form-field>
+        </mat-drawer>
+
+        <div class="main-frame">
+            <div class="d-flex flex-column-reverse flex-md-row justify-content-between align-items-stretch">
+                <button class="mx-2 mt-2" mat-button style="background-color: rgb(187, 187, 187);"
+                    (click)="drawer.toggle()">
+                    <mat-icon>reorder</mat-icon>
+                </button>
+
+                <!-- {{estacion}} -->
+
+                <button class="opciones mx-2 mt-2" mat-stroked-button color="primary" (click)="volverMap()">
+                    <mat-icon>map</mat-icon>
+                    Volver al Mapa
+                </button>
+            </div>
+
+            <app-multigrafico [data]="series"></app-multigrafico>
+        </div>
+
+
+
+        <!-- <div *ngIf="cargando" class="d-flex justify-content-center h-100">
+            <mat-spinner [diameter]="200" class="align-self-center"></mat-spinner>
+        </div>
+        <div *ngIf="error">
+            <h1>{{error|json}}</h1>
+        </div> -->
+
+    </mat-drawer-container>
 </div>
 
-<!-- MAIN FRAME -->
-<div class="h-100 d-flex flex-column" style="margin: 10px  0px 10px 0px;" *ngIf="!cargando && !error">
-
-    <h1 class="text-center">{{nombreEstacion}} dfasdasdasdasfasf</h1>
-
-    <!-- AREA OPCIONES -->
-    <div class="d-flex flex-column-reverse flex-md-row justify-content-between align-items-stretch">
-        <div class="d-flex mt-3 mt-md-0">
-            <mat-form-field class="flex-grow-1 mx-2" appearance="fill">
-                <mat-label>Tipo de Grafico</mat-label>
-                <mat-select [(value)]="tipoGrafico" (selectionChange)="cambioGrafico($event)">
-                    <mat-option value="Linea">Linea</mat-option>
-                    <mat-option value="Bigotes">Bigotes</mat-option>
-                    <mat-option value="MultiGrafico">Multi Graficos</mat-option>
-                    <mat-option value="MultiVariables">Multi Variable</mat-option>
-                    <mat-option value="Test">Test</mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <button mat-button class="opciones flex-grow-1 mx-2" style="text-align: left;"
-                [matMenuTriggerFor]="opciones">
-                <mat-icon>more_vert</mat-icon>
-                Opciones de Grafico
-            </button>
-            <mat-menu #opciones="matMenu">
-                <button *ngIf="tipoGrafico=='MultiGrafico'" mat-menu-item
-                    [matMenuTriggerFor]="multiGraficas">Variables</button>
-                <button *ngIf="tipoGrafico=='MultiVariables'" mat-menu-item
-                    [matMenuTriggerFor]="multiVariable">Variables</button>
-                <mat-checkbox class="checkBox" [color]="'primary'" (change)="suavizarCurva($event)">
-                    Suavizar Curvas
-                </mat-checkbox><br>
-            </mat-menu>
-            <mat-menu #multiGraficas="matMenu">
-                <mat-checkbox *ngFor="let variable of variablesDisponibles_MG; let i = index"
-                    (change)="seleccionVariable_MG(i)" class="checkBox" [color]="'primary'"
-                    [checked]="variable.checked">
-                    {{variable.nombre}} [{{variable.altura}}]
-                </mat-checkbox><br>
-            </mat-menu>
-            <mat-menu #multiVariable="matMenu">
-                <mat-checkbox *ngFor="let variable of variablesDisponibles_UG; let i = index"
-                    (change)="seleccionVariable_UG(i)" class="checkBox" [color]="'primary'"
-                    [checked]="variable.checked">
-                    {{variable.nombre}} [{{variable.altura}}]
-                </mat-checkbox><br>
-            </mat-menu>
-
-        </div>
 
 
-        <button class="opciones mx-2" mat-stroked-button color="primary" (click)="volverMap()">
-            <mat-icon>map</mat-icon>
-            Volver al Mapa
-        </button>
-
-    </div>
 
 
-    <!-- AREA GRAFICOS -->
-    <div class="h-100">
 
-        <!-- GRAFICA LINEA UNICO -->
-        <div *ngIf="tipoGrafico=='Linea'">
-            <apx-chart [series]="chartOptionsLine.series" [chart]="chartOptionsLine.chart"
-                [xaxis]="chartOptionsLine.xaxis" [yaxis]="chartOptionsLine.yaxis"
-                [dataLabels]="chartOptionsLine.dataLabels" [title]="chartOptionsLine.title"
-                [colors]="chartOptionsLine.colors" [fill]="chartOptionsLine.fill" [markers]="chartOptionsLine.markers"
-                [stroke]="chartOptionsLine.stroke" [legend]="chartOptionsLine.legend">
-            </apx-chart>
-        </div>
 
-        <!--MULTIPLES GRAFICAS LINEA  -->
-        <div class="multigrafico" *ngIf="tipoGrafico=='MultiGrafico'">
-            <!-- MULTIPLES -->
-            <apx-chart *ngFor="let chartOp of multiCharts" [series]="chartOp.series" [chart]="chartOp.chart"
-                [colors]="chartOp.colors" [xaxis]="chartOp.xaxis" [yaxis]="chartOp.yaxis" [title]="chartOp.title"
-                [dataLabels]="commonOptionsMultiCharts.dataLabels" [markers]="commonOptionsMultiCharts"
-                [stroke]="commonOptionsMultiCharts.stroke" [grid]="commonOptionsMultiCharts.grid"
-                [tooltip]="commonOptionsMultiCharts.tooltip">
-            </apx-chart>
-        </div>
 
-        <!--MULTI VARIABLES LINEA  -->
-        <div *ngIf="tipoGrafico=='MultiVariables'">
-            <apx-chart [series]="chartOptionsVariables.series" [chart]="chartOptionsVariables.chart"
-                [xaxis]="chartOptionsVariables.xaxis" [yaxis]="chartOptionsVariables.yaxis"
-                [dataLabels]="chartOptionsVariables.dataLabels" [title]="chartOptionsVariables.title"
-                [colors]="chartOptionsVariables.colors" [fill]="chartOptionsVariables.fill"
-                [markers]="chartOptionsVariables.markers" [stroke]="chartOptionsVariables.stroke"
-                [legend]="chartOptionsVariables.legend">
-            </apx-chart>
-        </div>
-    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="d-flex mt-3 mt-md-0">
+
+    <!-- <button mat-button class="opciones flex-grow-1 mx-2" style="text-align: left;"
+        [matMenuTriggerFor]="opciones">
+        <mat-icon>more_vert</mat-icon>
+        Opciones de Grafico
+    </button>
+    <mat-menu #opciones="matMenu">
+        <button *ngIf="tipoGrafico=='MultiGrafico'" mat-menu-item
+            [matMenuTriggerFor]="multiGraficas">Variables</button>
+        <button *ngIf="tipoGrafico=='MultiVariables'" mat-menu-item
+            [matMenuTriggerFor]="multiVariable">Variables</button>
+        <mat-checkbox class="checkBox" [color]="'primary'" (change)="suavizarCurva($event)">
+            Suavizar Curvas
+        </mat-checkbox><br>
+    </mat-menu>
+
+    <mat-menu #multiGraficas="matMenu">
+        <mat-checkbox *ngFor="let variable of variablesDisponibles_MG; let i = index"
+            (change)="seleccionVariable_MG(i)" class="checkBox" [color]="'primary'"
+            [checked]="variable.checked">
+            {{variable.nombre}} [{{variable.altura}}]
+        </mat-checkbox><br>
+    </mat-menu>
+    <mat-menu #multiVariable="matMenu">
+        <mat-checkbox *ngFor="let variable of variablesDisponibles_UG; let i = index"
+            (change)="seleccionVariable_UG(i)" class="checkBox" [color]="'primary'"
+            [checked]="variable.checked">
+            {{variable.nombre}} [{{variable.altura}}]
+        </mat-checkbox><br>
+    </mat-menu> -->
+
 </div>
-
-<div *ngIf="error">
-    <h1>{{error|json}}</h1>
-</div>
-<!-- spinner -->

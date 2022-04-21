@@ -1,0 +1,16 @@
+<div class="container-fluid m-1">
+    <div *ngFor="let chart of multiCharts;let i = index" class="multigrafico ms-2">
+        <div class="d-flex justify-content-between">
+            <h3 class="mb-0 mx-2 me-2"> <b>{{chart.variable}} [{{chart.altura}}]</b></h3>
+            <div>
+                <mat-checkbox [checked]="true" (change)="setSerieNormal($event,i)"> Instantaneo</mat-checkbox>
+                <mat-checkbox (change)="setSerieAcumulado($event,i)" class="mx-3">Acumulado</mat-checkbox>
+            </div>
+        </div>
+        <apx-chart  [series]="chart.series" [chart]="chart.chart" [colors]="chart.colors"
+            [yaxis]="chart.yaxis" [dataLabels]="commonOptions.dataLabels" [markers]="commonOptions.markers"
+            [stroke]="commonOptions.stroke" [grid]="commonOptions.grid" [xaxis]="commonOptions.xaxis"
+            [tooltip]="commonOptions.tooltip">
+        </apx-chart>
+    </div>
+</div>
