@@ -1,7 +1,7 @@
 <div style="height: 100vh;">
     <mat-drawer-container class="example-container" autosize>
         <mat-drawer #drawer class="p-2" mode="side">
-            <h3>Visualizacion</h3>
+            <h3 class="mb-1"><b>Visualizacion (Grafico)</b></h3>
             <mat-button-toggle-group class="w-100" (valueChange)="plotSelected=$event" value="multicharts">
                 <mat-button-toggle class="w-50 text-center" value="multicharts">Multi Grafico</mat-button-toggle>
                 <mat-button-toggle class="w-50 text-center" value="multilines">Grafica Unica</mat-button-toggle>
@@ -9,27 +9,49 @@
 
             <hr>
 
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h3 class="mb-0">Variables Seleccionadas</h3>
+            <h3 class="mb-1"><b>Visualizacion</b></h3>
+            <mat-button-toggle-group class="d-flex w-100" (valueChange)="setSubSerie($event)" value="promedio">
+                <mat-button-toggle class="flex-grow-1 text-center" value="minimo">Minimo</mat-button-toggle>
+                <mat-button-toggle class="flex-grow-1 text-center" value="promedio">Promedio</mat-button-toggle>
+                <mat-button-toggle class="flex-grow-1 text-center" value="maximo">Maximo</mat-button-toggle>
+            </mat-button-toggle-group>
+
+            <hr>
+
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <h3 class="mb-0"><b>Variables Seleccionadas</b></h3>
                 <button mat-mini-fab color="primary" (click)="addVariable()">
                     <mat-icon>add</mat-icon>
                 </button>
             </div>
-            <ul>
-                <li *ngFor="let variable of variablesSelected">
-                    <div class="d-flex justify-content-between">
-                        <div>{{variable.variable}} {{variable.altura}}</div>
-                        <a (click)="eliminarVariable(variable.variable,variable.altura)">
-                            <mat-icon class="material-li">delete</mat-icon>
-                        </a>
-                    </div>
-                </li>
-            </ul>
+
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Variable</th>
+                        <th scope="col">Altura</th>
+                        <th scope="col">Tipo agrupacion</th>
+                        <th class="text-center" scope="col">#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let v of variablesSelected">
+                        <td>{{v.variable}}</td>
+                        <td>{{v.altura}}</td>
+                        <td>{{v.tipo_operacion}}</td>
+                        <td class="text-right">
+                            <a (click)="eliminarVariable(v.variable,v.altura)">
+                                <mat-icon color="red">delete</mat-icon>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
             <hr>
 
-            <h3 class="mb-1">Rango de Fechas</h3>
-            <mat-form-field appearance="fill" [formGroup]="range">
+            <h3 class="mb-1"><b>Rango de Fechas</b></h3>
+            <mat-form-field class="w-100" appearance="fill" [formGroup]="range">
                 <mat-label>Ingrese un Nuevo Rango</mat-label>
                 <mat-date-range-input [rangePicker]="picker">
                     <input matStartDate placeholder="Start date" formControlName="start">
@@ -44,7 +66,7 @@
             </mat-form-field>
             <br>
 
-            <button class="w-100" mat-raised-button (click)="test()" color="primary">Actualizar</button>
+            <button class="w-100" mat-raised-button (click)="changeRange()" color="primary">Actualizar</button>
         </mat-drawer>
 
         <div class="main-frame">
@@ -62,8 +84,19 @@
                 </button>
             </div>
 
-            <app-multigrafico *ngIf="plotSelected == 'multicharts'" [data]="series"></app-multigrafico>
-            <app-multivariables *ngIf="plotSelected == 'multilines'" [data]="series"></app-multivariables>
+            <div *ngIf="variablesSelected.length >0">
+                <app-multigrafico *ngIf="plotSelected == 'multicharts'" [data]="series"></app-multigrafico>
+                <app-multivariables *ngIf="plotSelected == 'multilines'" [data]="series"></app-multivariables>
+            </div>
+            <div *ngIf="variablesSelected.length == 0">
+                <h1 class="text-center">No hay variables Seleccionadas</h1>
+            </div>
+            <div class="m-a w-100" *ngIf="cargando">
+                <mat-spinner style="margin: auto"></mat-spinner>
+            </div> 
+            <div *ngIf="error">
+                <h1 class="text-center">Error: {{error|json}}</h1>
+            </div>
         </div>
 
 

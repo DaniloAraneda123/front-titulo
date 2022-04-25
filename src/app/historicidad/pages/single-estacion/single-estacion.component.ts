@@ -1,21 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import {
-	ApexAxisChartSeries, ApexChart, ApexXAxis, ApexDataLabels, ApexYAxis, ApexFill, ApexMarkers,
-	ApexStroke, ApexLegend, ApexTitleSubtitle, ApexPlotOptions, ApexTooltip
-} from "ng-apexcharts";
 import { Subscription } from 'rxjs';
-import { DataEstacion, ResponseSeries } from 'src/app/models/api.interface';
+import { ResponseSeries } from 'src/app/models/api.interface';
 import { AppState } from 'src/app/store/app.reducers';
 import * as ActionsGraficaUnica from 'src/app/store/actions/graficaUnica.actions'
 import { SerieData } from 'src/app/models/serie.interface';
-import { getLocaleDateFormat } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectVariableComponent } from '../../components/select-variable/select-variable.component';
-import { stringify } from 'querystring';
 import { take } from 'rxjs/operators';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { HistoricidadService } from 'src/app/services/historicidad.service';
 
 
 @Component({
@@ -37,7 +33,8 @@ export class SingleEstacionComponent implements OnInit {
 	stroke: string;
 	responseData: ResponseSeries[];
 	data: ResponseSeries[] = []
-	variablesSelected: { variable: string, altura: string }[] = []
+	variablesSelected: { variable: string, altura: string, tipo_operacion: string }[] = []
+	subSerie: string = "promedio"
 
 	range = new FormGroup({
 		start: new FormControl(undefined, [Validators.required]),
@@ -45,36 +42,60 @@ export class SingleEstacionComponent implements OnInit {
 	});
 
 	constructor(
-		private store: Store<AppState>,
+		private _store: Store<AppState>,
 		private router: Router,
-		public dialog: MatDialog
+		public dialog: MatDialog,
+		private _snack: MatSnackBar,
+		private _router: Router,
+		private apiService: HistoricidadService
 	) { }
 
 
-	test() {
+	setSubSerie(subserie: string) {
+		this.subSerie = subserie
+		this.generarSeries()
+	}
+
+
+	async changeRange() {
+		const data: ResponseSeries[] = []
 		if (this.range.valid) {
-			console.log("valido", this.range.value)
-			console.log(this.data)
+			let { start, end } = this.range.value
+			if (typeof (start) != "string") start = start.toISOString()
+			if (typeof (end) != "string") end = end.toISOString()
+			this._store.dispatch(ActionsGraficaUnica.setNewRange({ start, end }))
+
+			console.log("Eliminar mas adelante y remplazarlo por un efecto al corregir el endpoint")
+			const { parametros, estacion } = await this._store.select(el => el.graficaUnica).pipe(take(1)).toPromise()
+			for (let variable of this.variablesSelected) {
+				data.push(await this.apiService.consultarSerie({ ...parametros, estaciones: [estacion], ...variable }).toPromise())
+			}
+			this._store.dispatch(ActionsGraficaUnica.setNewData({ data }))
 		}
 	}
 
 
 	ngOnInit(): void {
-		this.suscripcion$ = this.store.select(el => el.graficaUnica).subscribe(({ error, loaded, loading, data, nombreEstacion, variablesSelected, parametros }) => {
-			this.nombreEstacion = nombreEstacion
+		this.suscripcion$ = this._store.select(el => el.graficaUnica).subscribe(({ error, loaded, loading, data, estacion, variablesSelected, parametros }) => {
+			this.nombreEstacion = estacion
 			this.cargando = loading
 			this.error = error
 			this.variablesSelected = variablesSelected
 			this.data = data
-			if (loading == false && loaded == true) {
-				this.responseData = data
-				this.range.controls["start"].setValue(parametros.fecha_inicio)
-				this.range.controls["end"].setValue(parametros.fecha_final)
-				this.generarSeries(data)
-			}
-			// if(loading == false && loaded == false && parametros == undefined){
-			// 	this.router.navigate(["historicidad"])
+
+			// if (!estacion) {
+			// 	this._snack.open("No hay datos seleccionadas, establesca los parametros de busqueda.", "Cerrar", { duration: 5000 })
+			// 	this._router.navigate(["historicidad"])
 			// }
+
+			if (loading == false && loaded == true && !error) {
+				this.responseData = data
+				if (data.length > 0) {
+					this.range.controls["start"].setValue(parametros.fecha_inicio)
+					this.range.controls["end"].setValue(parametros.fecha_final)
+					this.generarSeries()
+				}
+			}
 		})
 	}
 
@@ -84,12 +105,12 @@ export class SingleEstacionComponent implements OnInit {
 	}
 
 
-	generarSeries(varialbles: ResponseSeries[]) {
+	generarSeries() {
 		let series: (SerieData & { unidad_medida: string, altura: string })[] = []
-		for (let variable of varialbles) {
+		for (let variable of this.responseData) {
 			let datos: {}[] = []
 			for (let tupla of variable.estaciones[0].data) {
-				datos.push({ x: this.getDate(tupla.fecha, ""), y: tupla.promedio.toFixed(2) })
+				datos.push({ x: this.getDate(tupla.fecha, ""), y: tupla[this.subSerie] })
 			}
 
 			series.push({
@@ -104,7 +125,7 @@ export class SingleEstacionComponent implements OnInit {
 	}
 
 	async addVariable() {
-		const variables = await this.store.select(el => el.historicidad.variablesDisponibles).pipe(take(1)).toPromise()
+		const variables = await this._store.select(el => el.historicidad.variablesDisponibles).pipe(take(1)).toPromise()
 
 		let varAux: { variable: string, altura: string }[] = []
 		for (let v of variables) {
@@ -115,19 +136,17 @@ export class SingleEstacionComponent implements OnInit {
 
 		const dialogRef = this.dialog.open(SelectVariableComponent, { data: varAux });
 
-		dialogRef.afterClosed().subscribe((result: { variable: string, altura: string }) => {
+		dialogRef.afterClosed().subscribe((result: { variable: string, altura: string, tipo_operacion: string }) => {
 			if (result) {
-				const { variable, altura } = result
-				this.store.dispatch(ActionsGraficaUnica.loadingVariable({ variable, altura }))
+				const { variable, altura, tipo_operacion } = result
+				this._store.dispatch(ActionsGraficaUnica.loadingNewVariable({ variable, altura, tipo_operacion }))
 			}
 		});
 	}
 
 	eliminarVariable(variable: string, altura: string) {
-		this.store.dispatch(ActionsGraficaUnica.deleteVariable({ variable, altura }))
-		//dialog
+		this._store.dispatch(ActionsGraficaUnica.deleteVariable({ variable, altura }))
 	}
-
 
 	suavizarCurva(evento: any) { (evento.checked) ? this.stroke = "smooth" : this.stroke = "straight" }
 

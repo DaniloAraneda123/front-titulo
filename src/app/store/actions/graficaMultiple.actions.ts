@@ -1,17 +1,22 @@
 import { createAction, props } from '@ngrx/store';
+import { ResponseSeries } from 'src/app/models/api.interface';
 
-export const loadingData = createAction(
-    '[Multi Variable] Cargando Data Variable',
+export const setParametros = createAction(
+    '[Multi Estaciones] setear parametros de consulta y realizando primera consulta',
+    props<{ parametros:any, estaciones:string[]}>()
+);
+
+export const changeVariable = createAction(
+    '[Multi Estaciones] Cargando nueva variable',
     props<{ variable: string, altura: string }>()
 );
 
 export const loadingDataSuccess = createAction(
-    '[Multi Variable] Exito Cargando Variable',
-    props<{ data: any }>()
+    '[Multi Estaciones] Exito Cargando Variable',
+    props<{ data: ResponseSeries }>()
 );
 
 export const loadDataError = createAction(
-    '[Multi Variable] Error Cargando Variable',
+    '[Multi Estaciones] Error Cargando Variable',
     props<{ error: any }>()
 );
-

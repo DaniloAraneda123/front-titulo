@@ -5,33 +5,37 @@ import * as graficaMultipleActions from '../actions/graficaMultiple.actions';
 export interface graficaMultipleState {
     loading: boolean,
     loaded: boolean,
-    data: ResponseSeries[],
+    data: ResponseSeries,
+    estaciones: string[]
+    parametros: {
+        variable: string,
+        altura: string,
+        tipo_operacion: string,
+        agrupacion: string
+        fecha_inicio: string
+        fecha_final: string
+    }
     error: any,
 }
 
 const initialState: graficaMultipleState = {
-    data: [],
+    data: undefined,
     error: null,
     loading: false,
-    loaded: false
+    loaded: false,
+    estaciones: [],
+    parametros: undefined
 }
 
 const _graficaMultipleReducer = createReducer(
 
     initialState,
 
-    on(graficaMultipleActions.loadingData, (state) => ({
-        ...state,
-        loading: true,
-        loaded: false,
-        error: null
-    })),
-
     on(graficaMultipleActions.loadingDataSuccess, (state, { data }) => ({
         ...state,
         loading: false,
         loaded: true,
-        variables: [...state.data, data]
+        data: data
     })),
 
     on(graficaMultipleActions.loadDataError, (state, { error }) => ({
@@ -39,6 +43,20 @@ const _graficaMultipleReducer = createReducer(
         loading: false,
         loaded: false,
         error
+    })),
+
+    on(graficaMultipleActions.setParametros, (state, { parametros, estaciones }) => ({
+        ...state,
+        parametros,
+        nombreEstaciones: estaciones
+    })),
+
+    on(graficaMultipleActions.changeVariable, (state, { variable, altura }) => ({
+        ...state,
+        loading: true,
+        loaded: false,
+        data: undefined,
+        parametros: { ...state.parametros, variable, altura }
     }))
 );
 

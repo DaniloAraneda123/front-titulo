@@ -45,13 +45,24 @@ export class MultivariablesComponent {
 		legend: { position: "top", horizontalAlign: "center" }
 	};
 	title: string = ""
+	dataSource: (SerieData & { unidad_medida: string; altura: string; })[];
 
 	constructor() { }
 
+	@Input() set subSerie(nombre:string) {
+		this.subSerie = nombre
+		this.createSeries()
+	}
+	
 	@Input() set data(data: (SerieData & { unidad_medida: string, altura: string })[]) {
+		this.dataSource = data
+		this.createSeries()
+	}
+
+	createSeries(){
 		let series: ApexAxisChartSeries = []
 		this.title = ""
-		for (let serie of data) {
+		for (let serie of this.dataSource) {
 			this.title += `${serie.name} vs `
 			series.push({
 				name: `${serie.name} [${serie.unidad_medida}]`,

@@ -7,7 +7,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { select, Store } from '@ngrx/store';
 import { distinctUntilChanged, filter, map, take } from 'rxjs/operators';
 import { AppState } from 'src/app/store/app.reducers';
+
 import * as ActionsHistoricidad from 'src/app/store/actions/historicidad.actions'
+import * as ActionsGraficaUnica from 'src/app/store/actions/graficaUnica.actions'
+import * as ActionsGraficaMultiple from 'src/app/store/actions/graficaMultiple.actions'
+
+
 import { Router } from '@angular/router';
 
 export interface OptionsSideBar {
@@ -57,19 +62,18 @@ export class SideBarOptionsComponent implements OnInit {
 
 	ngOnInit(): void {
 		this._store.pipe(
-			select(el=>el.historicidad.estaciones),
-			distinctUntilChanged((prev,curr)=>{
+			select(el => el.historicidad.estaciones),
+			distinctUntilChanged((prev, curr) => {
 				return JSON.stringify(prev) == JSON.stringify(curr)
 			})
-			).subscribe((estaciones: string[]) => {
+		).subscribe((estaciones: string[]) => {
 			this.estaciones = estaciones
 			if (estaciones.length > 0) {
-				console.log("asdasd")
 				this.stationsEmpty = false
 				this.loadingVariables = true
 				this._variablesService.consultarVariables({ estaciones }).pipe(take(1)).subscribe((response: Variable[]) => {
 					this.dataVariables = response
-					this._store.dispatch(ActionsHistoricidad.setVariables({payload:response}))
+					this._store.dispatch(ActionsHistoricidad.setVariables({ payload: response }))
 
 					this.variables = response.map(el => ({ value: el.variable, label: el.variable }))
 					this.formOptions.controls["variable"].setValue(null)
@@ -93,20 +97,22 @@ export class SideBarOptionsComponent implements OnInit {
 		})
 
 		this.formOptions.valueChanges.pipe(filter(el => this.formOptions.valid)).subscribe(el => {
-			const form = {...this.formOptions.value}
+			const form = { ...this.formOptions.value }
 			this._store.dispatch(ActionsHistoricidad.setForm({ form: this.formOptions.value }))
 		})
 	}
 
 	comparative(value: MatCheckboxChange) { this.checked.emit(value.checked) }
 
-	loadingData() {
-		this._store.dispatch(ActionsHistoricidad.loadingGrafico())
+	async loadingData() {
+		const { parametros, estaciones } = await this._store.select(el => el.historicidad).pipe(take(1)).toPromise()
 		if (this.estaciones.length == 1) {
-			this._router.navigate(["historicidad","grafica_unica"])
+			this._store.dispatch(ActionsGraficaUnica.setParametros({ estacion: estaciones[0], parametros }))
+			this._router.navigate(["historicidad", "grafica_unica"])
 		}
 		else if (this.estaciones.length > 1) {
-			this._router.navigate(["historicidad","grafica_multiple"])
+			this._store.dispatch(ActionsGraficaMultiple.setParametros({ estaciones, parametros }))
+			this._router.navigate(["historicidad", "grafica_multiple"])
 		}
 	}
 }
