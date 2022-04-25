@@ -37,10 +37,10 @@ const routes: Routes = [
 		path: 'casos_uso',
 		component: CasosUsoComponent
 	},
-	//{
-	//	path: 'casos_uso/precipitacion',
-	//	component: PrecipitacionComponent
-	//},
+	{
+		path: 'casos_uso/precipitacion',
+		component: PrecipitacionComponent
+	},
 	{
 		path: 'casos_uso/horas_frio',
 		component: HorasFrioComponent
