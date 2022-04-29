@@ -15,14 +15,13 @@ import { EvapotranspiracionComponent } from './casos_uso/evapotranspiracion/evap
 import { SingleEstacionComponent } from './historicidad/pages/single-estacion/single-estacion.component';
 import { MultiEstacionComponent } from './historicidad/pages/multi-estacion/multi-estacion.component';
 
-
 const routes: Routes = [
 	{
-		path: '',
+		path: 'acerca_de',
 		component: HomeComponent
 	},
 	{
-		path: 'historicidad',
+		path: '',
 		component: MainHistoricidadComponent
 	}, 
 	{
@@ -58,7 +57,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-	imports: [RouterModule.forRoot(routes)],
+	imports: [RouterModule.forRoot(routes, {useHash:true})],
 	exports: [RouterModule]
 })
 
