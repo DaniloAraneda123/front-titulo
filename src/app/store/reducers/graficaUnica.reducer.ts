@@ -1,3 +1,4 @@
+import { setParametros } from './../actions/graficaMultiple.actions';
 import { createReducer, on, Action } from '@ngrx/store';
 import { ResponseSeries } from 'src/app/models/api.interface';
 import * as graficaUnicaActions from '../actions/graficaUnica.actions'
@@ -11,53 +12,53 @@ export interface graficaUnicaState {
     loadedVariable: boolean,
     errorVariable: any,
 
-    data: ResponseSeries[],
     parametros: any,
-    nombreEstacion: string
+    estacion: string
+    data: ResponseSeries[],
 
-    variablesSelected:{variable:string, altura:string}[]
+    variablesSelected: { variable: string, altura: string, tipo_operacion: string }[]
 }
 
 const initialState: graficaUnicaState = {
     loading: false,
     loaded: false,
     error: null,
-
     loadingVariable: false,
     loadedVariable: false,
     errorVariable: null,
-
     data: [],
     parametros: undefined,
-    nombreEstacion: "",
-    variablesSelected:[]
+    estacion: undefined,
+    variablesSelected: []
 }
 
 const _graficaUnicaReducer = createReducer(
 
     initialState,
 
-    on(graficaUnicaActions.loadingData, (state, { name, parametros }) => ({
+    on(graficaUnicaActions.setParametros, (state, { estacion, parametros }) => ({
         ...state,
         loading: true,
         loaded: false,
         error: null,
         data: [],
         parametros,
-        nombreEstacion: name,
-        variablesSelected:[{variable:parametros.variable,altura:parametros.altura}
-        ]
+        estacion,
+        variablesSelected: [{
+            variable: parametros.variable,
+            altura: parametros.altura,
+            tipo_operacion: parametros.tipo_operacion
+        }]
     })),
 
     ////////////////////////////////////////////////////////////////////////////////////
 
-    on(graficaUnicaActions.loadingVariable, (state, { variable, altura }) => ({
+    on(graficaUnicaActions.loadingNewVariable, (state, { variable, altura, tipo_operacion }) => ({
         ...state,
-        parametros: { ...state.parametros, variable, altura },
         loading: true,
         loaded: false,
         error: null,
-        variablesSelected:[...state.variablesSelected,{variable,altura}]
+        variablesSelected: [...state.variablesSelected, { variable, altura, tipo_operacion }]
     })),
 
     on(graficaUnicaActions.loadingVariableSuccess, (state, { data }) => ({
@@ -75,15 +76,25 @@ const _graficaUnicaReducer = createReducer(
         error
     })),
 
-    on(graficaUnicaActions.deleteVariable, (state, { variable,altura }) => {
-        let data = state.data.filter(el=>el.variable!=variable || el.altura != altura)
-        let variablesSelected = state.variablesSelected.filter(el=>el.variable!=variable || el.altura != altura)
+    on(graficaUnicaActions.deleteVariable, (state, { variable, altura }) => {
+        let data = state.data.filter(el => el.variable != variable || el.altura != altura)
+        let variablesSelected = state.variablesSelected.filter(el => el.variable != variable || el.altura != altura)
         return ({
             ...state,
             variablesSelected,
             data
         })
-    })
+    }),
+
+    on(graficaUnicaActions.setNewRange, (state, { start, end }) => ({
+        ...state,
+        parametros: { ...state.parametros, fecha_inicio: start, fecha_final: end },
+    })),
+
+    on(graficaUnicaActions.setNewData, (state, { data }) => ({
+        ...state,
+        data
+    }))
 );
 
 export function graficaUnicaReducer(state: graficaUnicaState | undefined, action: Action) {

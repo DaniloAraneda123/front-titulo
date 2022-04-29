@@ -17,6 +17,5 @@ export const appReducers: ActionReducerMap<AppState> = {
     horasFrio: reducers.horasFrioReducer,
     gradosDia: reducers.gradosDiaReducer,
     graficaMultiple: reducers.graficaMultipleReducer,
-    // gradosDia: reducers.horasFrioReducer,
     evapotranspiracion: reducers.evapotranspiracionReducer
 }

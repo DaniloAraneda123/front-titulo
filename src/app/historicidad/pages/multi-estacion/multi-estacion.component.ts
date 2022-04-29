@@ -1,10 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { ResponseSeries } from 'src/app/models/api.interface';
+import { SerieData } from 'src/app/models/serie.interface';
 import { AppState } from 'src/app/store/app.reducers';
+import { SelectVariableComponent } from '../../components/select-variable/select-variable.component';
+import * as ActionsGraficaMultiple from 'src/app/store/actions/graficaMultiple.actions'
 
 @Component({
 	selector: 'app-multi-estacion',
@@ -19,12 +24,19 @@ export class MultiEstacionComponent{
 	public error: any = null;
 	nombreEstacion: string = ""
 	suscripcion$: Subscription
+	plotSelected: string = 'multicharts'
 
-	// series: (SerieData & { unidad_medida: string, altura: string })[] = []
-	// stroke: string;
-	// responseData: ResponseSeries[];
-	// data: ResponseSeries[] = []
-	// variablesSelected: { variable: string, altura: string }[] = []
+	series: (SerieData & { unidad_medida: string, altura: string })[] = []
+	stroke: string;
+	responseData: ResponseSeries;
+	data: ResponseSeries
+	variablesSelected: { variable: string, altura: string }[] = []
+
+	range = new FormGroup({
+		start: new FormControl(undefined, [Validators.required]),
+		end: new FormControl(undefined, [Validators.required]),
+	});
+	nombreEstaciones: string[] = [];
 
 	constructor(
 		private store: Store<AppState>,
@@ -33,17 +45,21 @@ export class MultiEstacionComponent{
 	) { }
 
 	ngOnInit(): void {
-		// this.suscripcion$ = this.store.select(el => el.graficaUnica).subscribe(({ error, loaded, loading, data, nombreEstacion, variablesSelected }) => {
-		// 	this.nombreEstacion = nombreEstacion
-		// 	this.cargando = loading
-		// 	this.error = error
-		// 	this.variablesSelected = variablesSelected
-		// 	this.data = data
-		// 	if (loading == false && loaded == true) {
-		// 		this.responseData = data
-		// 		this.generarSeries(data)
-		// 	}
-		// })
+		this.suscripcion$ = this.store.select(el => el.graficaMultiple).subscribe(({ error, loaded, loading, data, estaciones, parametros }) => {
+			this.nombreEstaciones = estaciones
+			this.cargando = loading
+			this.error = error
+			this.data = data
+			if (loading == false && loaded == true) {
+				this.responseData = data
+				this.range.controls["start"].setValue(parametros.fecha_inicio)
+				this.range.controls["end"].setValue(parametros.fecha_final)
+				this.generarSeries(data)
+			}
+			// if(loading == false && loaded == false && parametros == undefined){
+			// 	this.router.navigate(["historicidad"])
+			// }
+		})
 	}
 
 	getDate(fecha: string, group: string) {
@@ -52,54 +68,47 @@ export class MultiEstacionComponent{
 	}
 
 
-	generarSeries(varialbles: ResponseSeries[]) {
-		// let series: (SerieData & { unidad_medida: string, altura: string })[] = []
-		// for (let variable of varialbles) {
-		// 	let datos: {}[] = []
-		// 	for (let tupla of variable.estaciones[0].data) {
-		// 		datos.push({ x: this.getDate(tupla.fecha, ""), y: tupla.promedio.toFixed(2) })
-		// 	}
+	generarSeries(estaciones: ResponseSeries) {
+		let series: (SerieData & { unidad_medida: string, altura: string })[] = []
+		for (let estacion of estaciones.estaciones) {
+			let datos: {}[] = []
+			for (let tupla of estacion.data) {
+				const y = (tupla.promedio==null)?null:tupla.promedio.toFixed(2)
+				datos.push({ x: this.getDate(tupla.fecha, ""), y })
+			}
 
-		// 	series.push({
-		// 		unidad_medida: variable.unidad_medida,
-		// 		altura: variable.altura,
-		// 		name: variable.variable,
-		// 		data: datos,
-		// 		type: "bar"
-		// 	})
-		// }
-		// this.series = series
+			series.push({
+				unidad_medida: estaciones.unidad_medida,
+				altura: estaciones.altura,
+				name: estaciones.variable,
+				data: datos,
+				type: "line"
+			})
+		}
+		this.series = series
 	}
 
-	async addVariable() {
-		// const variables = await this.store.select(el => el.historicidad.variablesDisponibles).pipe(take(1)).toPromise()
+	async changeVariable() {
+		const variables = await this.store.select(el => el.historicidad.variablesDisponibles).pipe(take(1)).toPromise()
 
-		// let varAux: { variable: string, altura: string }[] = []
-		// for (let v of variables) {
-		// 	for (let a of v.alturas) varAux.push({ variable: v.variable, altura: a })
-		// }
+		let varAux: { variable: string, altura: string }[] = []
+		for (let v of variables) {
+			for (let a of v.alturas) varAux.push({ variable: v.variable, altura: a })
+		}
 
-		// varAux = varAux.filter(el1 => this.variablesSelected.find(el2 => el1.altura == el2.altura && el1.variable == el2.variable) == undefined)
+		const dialogRef = this.dialog.open(SelectVariableComponent, { data: varAux });
 
-		// const dialogRef = this.dialog.open(SelectVariableComponent, { data: varAux });
-
-		// dialogRef.afterClosed().subscribe((result: { variable: string, altura: string }) => {
-		// 	if (result) {
-		// 		const { variable, altura } = result
-		// 		this.store.dispatch(ActionsGraficaUnica.loadingVariable({ variable, altura }))
-		// 	}
-		// });
+		dialogRef.afterClosed().subscribe((result: { variable: string, altura: string }) => {
+			if (result) {
+				const { variable, altura } = result
+				this.store.dispatch(ActionsGraficaMultiple.changeVariable({ variable, altura }))
+			}
+		});
 	}
 
-	eliminarVariable(variable: string, altura: string) {
-		// this.store.dispatch(ActionsGraficaUnica.deleteVariable({ variable, altura }))
-		//dialog
+	actualizarDate(){
+
 	}
-
-
-	suavizarCurva(evento: any) {  }
-
-	cambioGrafico(evento: any) { const tipoGrafico: string = evento.value }
 
 	ngOnDestroy(): void { this.suscripcion$.unsubscribe() }
 

@@ -1,16 +1,14 @@
 import { createAction, props } from '@ngrx/store';
 import { ResponseSeries } from 'src/app/models/api.interface';
 
-export const loadingData = createAction(
-    '[Uni Variable] Inicializando Uni Estacion',
-    props<{ name: string, parametros:any }>()
+export const setParametros = createAction(
+    '[Uni Variable] Inicializando Uni Estacion y realizar primera consulta',
+    props<{ parametros: any, estacion: string }>()
 );
 
-/////////////////////////////////////////////////////////////////////////////////////
-
-export const loadingVariable = createAction(
+export const loadingNewVariable = createAction(
     '[Uni Variable] Cargando variable',
-    props<{ variable: string, altura: string }>()
+    props<{ variable: string, altura: string, tipo_operacion: string }>()
 );
 
 export const loadingVariableSuccess = createAction(
@@ -25,5 +23,16 @@ export const loadVariableError = createAction(
 
 export const deleteVariable = createAction(
     '[Uni Variable] Delete Variable ',
-    props<{ variable: string; altura: string; }>()
+    props<{ variable: string, altura: string }>()
 );
+
+export const setNewRange = createAction(
+    '[Uni Variable] Establecer un nuevo rango de fechas',
+    props<{ start: string, end: string }>()
+)
+
+export const setNewData = createAction(
+    '[Uni Variable] Establecer data con los nuevos rangos',
+    props<{ data: ResponseSeries[] }>()
+)
+

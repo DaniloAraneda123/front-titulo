@@ -45,17 +45,25 @@ export class MultigraficoComponent {
 
 	constructor() { }
 
+	@Input() set subSerie(subSerie: string) {
+		this.subSerie = subSerie
+		this.createSeries()
+	}
+
 	@Input() set data(series: (SerieData & { unidad_medida: string, altura: string })[]) {
 		this.dataSource = series
+		this.createSeries()
+	}
+
+	createSeries() {
 		let multiCharts: (Partial<ChartOptions> & { unidad_medida: string, altura: string, variable: string })[] = []
 		let i = 0
-		for (let serie of series) {
-			console.log("Cambiar el a graefico de barra si solo esta el 'instantaneo'")
+		for (let serie of this.dataSource) {
 			multiCharts.push({
-				series: [{ ...serie, tipo: "step", type: "bar", name:`${serie.name} unico` }],
-				chart: { id: serie.name + serie.altura, group: "social", type: "line", height: 180 },
+				series: [{ ...serie, tipo: "step", type: "bar", name: `${serie.name} unico` }],
+				chart: { id: serie.name + serie.altura, group: "social", type: "bar", height: 180 },
 				colors: [this.coloresMain[i]],
-				yaxis: [{ tickAmount: 1, labels: { minWidth: 30 }, title: { text: serie.unidad_medida }, seriesName: `${serie.name} unico`}],
+				yaxis: [{ tickAmount: 1, labels: { minWidth: 30 }, title: { text: serie.unidad_medida }, seriesName: `${serie.name} unico` }],
 				altura: serie.altura,
 				unidad_medida: serie.unidad_medida,
 				variable: serie.name
@@ -73,17 +81,19 @@ export class MultigraficoComponent {
 
 			let acumulator = 0
 			const aux = []
-			for (let i = 0; i < serie.data.length; i++) { 
+			for (let i = 0; i < serie.data.length; i++) {
 				acumulator += Number(serie.data[i].y)
-				aux.push({ x: serie.data[i].x, y: acumulator.toFixed(2) }) 
+				aux.push({ x: serie.data[i].x, y: acumulator.toFixed(2) })
 			}
 
 			serie.data = aux
+			this.multiCharts[i].chart.type = "line"
 			this.multiCharts[i].series = [...this.multiCharts[i].series, serie]
 			this.multiCharts[i].yaxis = [
 				...this.multiCharts[i].yaxis,
 				{ tickAmount: 1, labels: { minWidth: 30 }, title: { text: this.dataSource[i].unidad_medida }, opposite: true, seriesName: serie.name }]
 		} else {
+			this.multiCharts[i].chart.type = "bar"
 			this.multiCharts[i].series = this.multiCharts[i].series.filter(el => el.tipo != "acumulado")
 			this.multiCharts[i].yaxis = this.multiCharts[i].yaxis.filter(el => !el.seriesName.includes(`${this.dataSource[i].name} acumulado`))
 		}
@@ -95,10 +105,12 @@ export class MultigraficoComponent {
 			serie.data = serie.data.map(el => el)
 			serie.name = `${serie.name} unico`
 			this.multiCharts[i].series = [serie, ...this.multiCharts[i].series]
+			this.multiCharts[i].chart.type = "bar"
 			this.multiCharts[i].yaxis = [
 				{ tickAmount: 1, labels: { minWidth: 30 }, title: { text: this.dataSource[i].unidad_medida }, seriesName: `${serie.name} unico` },
 				...this.multiCharts[i].yaxis,]
 		} else {
+			this.multiCharts[i].chart.type = "line"
 			this.multiCharts[i].series = this.multiCharts[i].series.filter(el => el.tipo != "step")
 			this.multiCharts[i].yaxis = this.multiCharts[i].yaxis.filter(el => !el.seriesName.includes("unico"))
 		}

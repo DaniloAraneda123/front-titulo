@@ -15,7 +15,6 @@ export class SelectVariableComponent {
 	) { }
 
 	selectVariable(variable: MatSelect, operacion: MatSelect) {
-		console.log(variable.value, operacion.value)
-		this.dialogRef.close(this.data[variable.value])
+		this.dialogRef.close({ ...this.data[variable.value], tipo_operacion: operacion.value })
 	}
 }
