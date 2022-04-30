@@ -43,7 +43,7 @@
                         <div *ngIf="comparacionIntervalo" class="d-flex align-items-center">
                             <mat-form-field class="mt-1 mt-sm-0" style="margin-bottom: -15px;" appearance="fill">
                                 <mat-label>Intervalo de Fechas</mat-label>
-                                <mat-date-range-input [rangePicker]="picker">
+                                <mat-date-range-input [rangePicker]="picker" [max]="maxDate">
                                     <input matStartDate placeholder="Inicio"  formControlName="start2">
                                     <input matEndDate placeholder="Termino"  formControlName="end2">
                                 </mat-date-range-input>
@@ -56,9 +56,6 @@
                         </div>
 
                         <div>
-                     
-
-
                         
                         <mat-form-field *ngIf="!groupCustom" class="mt-1 mt-sm-0 ms-0 ms-sm-2"
                             style="margin-bottom: -15px; display: none;" appearance="fill">
@@ -108,7 +105,7 @@
 
     <!---->
 
-    <div class="d-none d-lg-inline col-6 col-lg-3 mn-c">
+    <!-- <div class="d-none d-lg-inline col-6 col-lg-3 mn-c">
         <mat-card class="dato card">
             <mat-card-title>Total</mat-card-title>
             <mat-card-subtitle>Vicuña</mat-card-subtitle>
@@ -146,7 +143,7 @@
                 <p>Ev</p>
             </h1>
         </mat-card>
-    </div>
+    </div> -->
 
     <!-- /////////////////////////////////////////////////////////////////////////////// -->
 
@@ -267,7 +264,7 @@
 
     <!-- /////////////////////////////////////////////////////////////////////////////// -->
 
-    <div class="d-inline d-lg-none col-6 col-lg-3 mn-c">
+    <!-- <div class="d-inline d-lg-none col-6 col-lg-3 mn-c">
         <mat-card class="dato card">
             <mat-card-title>Total</mat-card-title>
             <mat-card-subtitle>Vicuña</mat-card-subtitle>
@@ -305,7 +302,7 @@
                 <p>Ev</p>
             </h1>
         </mat-card>
-    </div>
+    </div> -->
 
     <!-- /////////////////////////////////////////////////////////////////////////////// -->
 

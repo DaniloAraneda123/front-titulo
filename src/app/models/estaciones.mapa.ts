@@ -3,9 +3,9 @@ export const iconos:{
     iconRojo:any,
     iconGris:any
 } = {
-	iconAzul: { url: 'assets/A.png', scaledSize: { width: 25, height: 25 } },
-	iconRojo: { url: 'assets/R.png', scaledSize: { width: 25, height: 25 } },
-	iconGris: { url: 'assets/G.png', scaledSize: { width: 25, height: 25 } }
+	iconAzul: { url: 'static/assets/A.png', scaledSize: { width: 25, height: 25 } },
+	iconRojo: { url: 'static/assets/R.png', scaledSize: { width: 25, height: 25 } },
+	iconGris: { url: 'static/assets/G.png', scaledSize: { width: 25, height: 25 } }
 }
 
 export const ubicacioneEstaciones: { pos: google.maps.LatLngLiteral, opt: google.maps.MarkerOptions }[] = [

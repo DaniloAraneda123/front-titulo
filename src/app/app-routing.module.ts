@@ -5,7 +5,6 @@ import { RouterModule, Routes } from '@angular/router';
 //General
 import { HomeComponent } from './home/home.component';
 
-
 //Casos uso
 import { CasosUsoComponent } from './casos_uso/casos-uso.component';
 import { HorasFrioComponent } from './casos_uso/horas-frio/horas-frio.component';
@@ -17,21 +16,17 @@ import { MultiEstacionComponent } from './historicidad/pages/multi-estacion/mult
 
 const routes: Routes = [
 	{
-		path: 'acerca_de',
-		component: HomeComponent
-	},
-	{
 		path: '',
 		component: MainHistoricidadComponent
-	}, 
+	},
 	{
 		path: 'historicidad/grafica_unica',
 		component: SingleEstacionComponent,
-	}, 
+	},
 	{
 		path: 'historicidad/grafica_multiple',
 		component: MultiEstacionComponent,
-	}, 
+	},
 	{
 		path: 'casos_uso',
 		component: CasosUsoComponent
@@ -47,17 +42,23 @@ const routes: Routes = [
 	{
 		path: 'casos_uso/grados_dia',
 		component: GradosDiaComponent
-	}
-	,
+	},
 	{
 		path: 'casos_uso/evapotranspiracion',
 		component: EvapotranspiracionComponent
-	}
-
+	},
+	{
+		path: 'acerca_de',
+		component: HomeComponent
+	},
+	{
+		path: '**', 
+		redirectTo: '/' 
+	},
 ];
 
 @NgModule({
-	imports: [RouterModule.forRoot(routes, {useHash:true})],
+	imports: [RouterModule.forRoot(routes)],
 	exports: [RouterModule]
 })
 

@@ -404,7 +404,7 @@ export class EvapotranspiracionComponent implements OnInit {
 		let datos: {}[] = []
 		// console.log("DATOS", estacion)
 		if(comparacion){
-			for (let tupla of estacion) datos.push({ x: tupla.fecha, y: tupla.promedio })
+			for (let tupla of estacion) datos.push({ x: (new Date(tupla.fecha)).getTime(), y: tupla.promedio })
 			// console.log("comparacionTOTAL,", datos)
 			return ({
 				name: comparacion,
@@ -413,7 +413,7 @@ export class EvapotranspiracionComponent implements OnInit {
 			})
 		}
 		else{
-			for (let tupla of estacion.data) datos.push({ x: tupla.fecha, y: tupla.promedio })
+			for (let tupla of estacion.data) datos.push({ x: (new Date(tupla.fecha)).getTime(), y: tupla.promedio })
 
 		return ({
 			name: `${estacion.nombre_estacion}`,
@@ -433,7 +433,7 @@ export class EvapotranspiracionComponent implements OnInit {
 		if(comparacion){
 			for (let tupla of estacion) {
 				acumulado += tupla.promedio
-				datos.push({ x: tupla.fecha, y: acumulado })
+				datos.push({ x: (new Date(tupla.fecha)).getTime(), y: acumulado })
 			}
 			return ({
 				name: comparacion,

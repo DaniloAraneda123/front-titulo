@@ -10,14 +10,14 @@ import { filter } from 'rxjs/operators';
 
 export class NavbarComponent {
 	@ViewChild('seccion', { static: false }) botones: ElementRef<HTMLDivElement>;
-	public menu: boolean[] = [false, false]
+	public menu: boolean[] = [true, false, false]
 	variable: boolean = true
 	backgroundColour = '#ff0000';
 
 	constructor(private renderer: Renderer2) { }
 
 	public cambiar(numero: number) {
-		this.menu = [false, false]
+		this.menu = [false, false, false]
 		this.menu[numero] = true
 	}
 

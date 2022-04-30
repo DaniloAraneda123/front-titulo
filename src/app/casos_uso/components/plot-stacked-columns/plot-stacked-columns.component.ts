@@ -69,7 +69,7 @@ export class PlotStackedColumnsComponent implements OnInit {
           }
         },
         xaxis: {
-          type: "category",
+          type: "datetime",
         },
         
 
@@ -82,7 +82,6 @@ export class PlotStackedColumnsComponent implements OnInit {
 	@Input() set series(values: SerieData[]) {
 		const aux = [...values]
 		this.chartOptions.series = [...aux]
-    console.log("SEris",this.chartOptions.series)
 	}
 
 }
