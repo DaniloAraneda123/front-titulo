@@ -15,6 +15,7 @@ import { DataEstacion, ResponseSeries, ResponseSeriesComparacion } from 'src/app
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TablaComparacion } from 'src/app/models/tabla.interface';
 import { SerieData } from 'src/app/models/serie.interface';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -64,6 +65,7 @@ export class EvapotranspiracionComponent implements OnInit {
 
 
 	//TEMPORAL
+	maxDate = environment.maxDate
 	formTemporal: FormGroup;
 	/*
 	formTemporal = new FormGroup({
@@ -101,7 +103,7 @@ export class EvapotranspiracionComponent implements OnInit {
 	constructor(private store: Store<AppState>, private _snackBar: MatSnackBar, private fctrl: FormBuilder){
 
 
-			console.log("Ingresa a modal")
+			// console.log("Ingresa a modal")
 			this.formTemporal = fctrl.group({
 			start:['',Validators.required],
 			start2:[''],
@@ -121,7 +123,7 @@ export class EvapotranspiracionComponent implements OnInit {
 			this.data = state.dataEvapotranspiracion
 			this.dataComparacion = state.dataEvapotranspiracionLista
 			this.dataEstaciones = state.dataEstaciones
-			console.log("arregoTabla", state)
+			// console.log("arregoTabla", state)
 
 			if(this.formTemporal.controls.tipoConsulta.value == '/serie_comparacion'){
 				if (this.dataComparacion != null && this.error == null)  this.mostrarDataComparacion()
@@ -138,12 +140,12 @@ export class EvapotranspiracionComponent implements OnInit {
 	
 			(value.tipoConsulta == '/serie_custom' || value.tipoConsulta == '/serie_comparacion') ? this.groupCustom = true : this.groupCustom = false
 			this.invalidDates = true
-			console.log("formTemporalvalid", this.formTemporal)
-			console.log("value", value)
+			// // console.log("formTemporalvalid", this.formTemporal)
+			// // console.log("value", value)
 			if (this.formTemporal.valid && value.start < value.end && value.tipoConsulta !== '/serie_comparacion') {
 				this.invalidDates = false
 				this.ajustarFechas()
-				console.log("temporada", value)
+				// // console.log("temporada", value)
 				this.store.dispatch(evActions.inputTemporal({
 					fechaInicio: value.start.toJSON(),
 					fechaTermino: value.end.toJSON(),
@@ -155,9 +157,9 @@ export class EvapotranspiracionComponent implements OnInit {
 			}
 			if (this.formTemporal.valid && value.start2 && value.end2 && value.start < value.end && value.tipoConsulta === '/serie_comparacion') {
 				this.invalidDates = false
-				console.log("Antes de ajustar fechas", value)
+				// console.log("Antes de ajustar fechas", value)
 				//this.ajustarFechas()
-				console.log("Despues de ajustar fechas", value)
+				// console.log("Despues de ajustar fechas", value)
 				this.store.dispatch(evActions.inputTemporalComparacion({
 					fechaInicio1: value.start.toJSON(),
 					fechaTermino1: value.end.toJSON(),
@@ -172,7 +174,7 @@ export class EvapotranspiracionComponent implements OnInit {
 		})
 
 		this.consultarDatos$ = this.consultarDatos.subscribe(() => {
-			console.log("Evento consultar Datos")
+			// console.log("Evento consultar Datos")
 			if (this.formTemporal.valid && this.estaciones.length > 0) {
 				this.limpiarVisualizacion()
 				this.complete = true
@@ -235,7 +237,7 @@ export class EvapotranspiracionComponent implements OnInit {
 	}
 
 	clickTabla(estacion: string, check: any) {
-		console.log(estacion, check)
+		// console.log(estacion, check)
 		// check.toggle()
 	}
 
@@ -259,7 +261,7 @@ export class EvapotranspiracionComponent implements OnInit {
 		let acumulado1, acumulado2, promedio1, promedio2, maxima1, maxima2;
 		for (let estacion of this.dataComparacion.estaciones) {
 			estacionAccepted = estacion.nombre_estacion
-			console.log("Data de la estacion", estacion)
+			// console.log("Data de la estacion", estacion)
 			cont = 0
 			aux = 0
 			for(let periodo of estacion.total_data){
@@ -290,7 +292,7 @@ export class EvapotranspiracionComponent implements OnInit {
 							seriesAccumulated2.push(this._getAccumulatedSerie(periodo, estacionAccepted))	
 							this.series_activate_grafico_2++
 						}
-						console.log(acumulado2)
+						// console.log(acumulado2)
 
 					}
 				}
@@ -368,7 +370,7 @@ export class EvapotranspiracionComponent implements OnInit {
 					opciones: (this.series_activate < 3)
 				})
 				if (this.series_activate < 3) {
-					console.log("ESTACION",estacion)
+					// console.log("ESTACION",estacion)
 					seriesNormal.push(this._getNormalSerie(estacion, false))
 					seriesAccumulated.push(this._getAccumulatedSerie(estacion, false))
 					this.series_activate++
@@ -400,10 +402,10 @@ export class EvapotranspiracionComponent implements OnInit {
 
 	private _getNormalSerie(estacion: any, comparacion:any): SerieData {
 		let datos: {}[] = []
-		console.log("DATOS", estacion)
+		// console.log("DATOS", estacion)
 		if(comparacion){
 			for (let tupla of estacion) datos.push({ x: tupla.fecha, y: tupla.promedio })
-			console.log("comparacionTOTAL,", datos)
+			// console.log("comparacionTOTAL,", datos)
 			return ({
 				name: comparacion,
 				type: "line",

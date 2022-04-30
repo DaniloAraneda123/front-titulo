@@ -14,6 +14,8 @@ import * as ActionsGraficaMultiple from 'src/app/store/actions/graficaMultiple.a
 
 
 import { Router } from '@angular/router';
+import { ajustarFechas } from 'src/app/utils/ajustar-fecha';
+import { environment } from 'src/environments/environment';
 
 export interface OptionsSideBar {
 	nameOption: string
@@ -41,7 +43,7 @@ export class SideBarOptionsComponent implements OnInit {
 	})
 
 	dataVariables: Variable[]
-	loadingVariables: boolean
+	loadingVariables: boolean = false
 
 	variables: { value: string, label: string }[] = []
 	alturas: { value: string, label: string }[] = []
@@ -51,6 +53,8 @@ export class SideBarOptionsComponent implements OnInit {
 	@Output() checked: EventEmitter<boolean> = new EventEmitter(false)
 	loading: boolean;
 	stationsEmpty: boolean;
+
+	maxDate = environment.maxDate
 
 	constructor(
 		private _store: Store<AppState>,
@@ -97,7 +101,10 @@ export class SideBarOptionsComponent implements OnInit {
 		})
 
 		this.formOptions.valueChanges.pipe(filter(el => this.formOptions.valid)).subscribe(el => {
-			const form = { ...this.formOptions.value }
+			let form = { ...this.formOptions.value }
+			const { start, end } = ajustarFechas(form.fecha_inicio, form.fecha_final, form.agrupacion)
+			form.fecha_inicio = start
+			form.fecha_final = end
 			this._store.dispatch(ActionsHistoricidad.setForm({ form: this.formOptions.value }))
 		})
 	}
@@ -106,6 +113,7 @@ export class SideBarOptionsComponent implements OnInit {
 
 	async loadingData() {
 		const { parametros, estaciones } = await this._store.select(el => el.historicidad).pipe(take(1)).toPromise()
+		
 		if (this.estaciones.length == 1) {
 			this._store.dispatch(ActionsGraficaUnica.setParametros({ estacion: estaciones[0], parametros }))
 			this._router.navigate(["historicidad", "grafica_unica"])

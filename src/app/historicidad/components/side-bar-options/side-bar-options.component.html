@@ -1,6 +1,11 @@
 <form [formGroup]="formOptions" class=" mt-2 d-grid  px-2" id="formulario">
 
 
+	<div *ngIf="loadingVariables" class="d-flex justify-content-between">
+		<b class="text-right" style="color: brown;">Cargando Variable...</b >
+		<mat-spinner [diameter]="25"></mat-spinner>
+	</div>
+
 	<div *ngIf="stationsEmpty">
 		<b class="text-right" style="color: brown;">Seleccione una estacion</b >
 	</div>
@@ -105,7 +110,7 @@
 		</div>
 		<mat-form-field class="w-100" appearance="fill">
 			<mat-label>Ingrese Rango de Fechas</mat-label>
-			<mat-date-range-input [rangePicker]="picker">
+			<mat-date-range-input [rangePicker]="picker" [max]="maxDate">
 				<input matStartDate placeholder="Inicio" formControlName="fecha_inicio">
 				<input matEndDate placeholder="Termino" formControlName="fecha_final">
 			</mat-date-range-input>

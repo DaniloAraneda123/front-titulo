@@ -12,6 +12,7 @@ import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
 import { DataEstacion, ResponseSeries } from 'src/app/models/api.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SerieData } from 'src/app/models/serie.interface';
+import { environment } from 'src/environments/environment';
 
 @Component({
 	selector: 'app-horas-frio',
@@ -60,6 +61,7 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 		tipoConsulta: new FormControl("/serie_custom"),
 	});
 	formTemporal$: Subscription;
+	maxDate = environment.maxDate
 
 	// LOGIC HTML AND DATA
 	complete: boolean = false
@@ -216,7 +218,7 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 	private _getNormalSerie(estacion: DataEstacion): SerieData {
 
 		let datos: {}[] = []
-		for (let tupla of estacion.data) datos.push({ x: tupla.fecha, y: tupla.promedio })
+		for (let tupla of estacion.data) datos.push({ x: new Date(tupla.fecha).getTime(), y: tupla.promedio })
 
 		return ({
 			name: `${estacion.nombre_estacion}`,
@@ -230,7 +232,7 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 		let acumulado: number = 0
 		for (let tupla of estacion.data) {
 			acumulado += tupla.promedio
-			datos.push({ x: tupla.fecha, y: acumulado })
+			datos.push({ x: new Date(tupla.fecha).getTime(), y: acumulado })
 		}
 
 		return ({
@@ -252,98 +254,3 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 		})
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		// 	let datosAcumlados = this._getSerieAcumulada(valores, fechas)
-		// 	maximoAcumulado = datosAcumlados[datosAcumlados.length - 1].y > maximoAcumulado ?
-		// 		datosAcumlados[datosAcumlados.length - 1].y : maximoAcumulado
-		// 	series.push({
-		// 		name: `${estacion} Acumulado`,
-		// 		type: "line",
-		// 		data: datosAcumlados,
-		// 		// color: this.colors[this.i_colors]
-		// 	})
-
-		// 	this.series_activate++
-		// }
-
-		// //generar axis
-		// yaxis.push({
-		// 	max: maximoNormal + 1,
-		// 	axisTicks: { show: true },
-		// 	title: { text: "Horas Frio Diaria [Hf]" },
-		// 	tooltip: { enabled: true },
-		// })
-
-		// yaxis.push({
-		// 	max: maximoAcumulado + 5,
-		// 	axisTicks: { show: true },
-		// 	opposite: true,
-		// 	title: { text: "Horas Frio Acumulada [Hf]" },
-		// 	tooltip: { enabled: true },
-		// })
-
-		// for (let i = 2; i < 4; i = i + 2) {
-		// 	yaxis.push({ max: maximoNormal + 1, show: false })
-		// 	yaxis.push({ max: maximoAcumulado + 5, show: false })
-		// }
-
-		// yaxis.push({ max: maximoNormal, show: false })
-		// yaxis.push({ max: maximoAcumulado, show: false })
-		// yaxis.push({ max: maximoNormal, show: false })
-		// yaxis.push({ max: maximoAcumulado, show: false })
-
-		// this.chartOptionsLine.yaxis = yaxis.slice(0, 8)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// public _getColor(): string {
-// 	// const colores: string[] = ["#00E396", "#008FFB", "#546E7A", "#FF4560"]
-// 	// const coloresDisponibles = colores.filter((color) => {
-// 	// 	for (let i in this.multiCharts) {
-// 	// 		if (this.multiCharts[i].colors[0] === color) {
-// 	// 			return false
-// 	// 		}
-// 	// 	}
-// 	// 	return true
-// 	// })
-// 	// return "coloresDisponibles[0]"
-// 	return "sadasd"
-// }

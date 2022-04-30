@@ -28,7 +28,7 @@
 }
 
 .alert-input{
-  color: rgb(187, 0, 0);
+  color: rgb(150, 0, 0);
 }
 
 .mn{
@@ -74,3 +74,13 @@ mat-card-title {
   font-size: 19px;
 }
 
+.error-items{
+  font-size: 20px;
+  b{
+    color: rgb(200, 0, 0); 
+  }
+}
+
+.estaciones-no-data{
+  font-size: 20px;
+}

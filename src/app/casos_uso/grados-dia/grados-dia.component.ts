@@ -2,6 +2,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { environment } from 'src/environments/environment';
 
 //STORE
 import { Store } from '@ngrx/store';
@@ -61,6 +62,7 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 		tipoConsulta: new FormControl("/serie_custom"),
 	});
 	formTemporal$: Subscription;
+	maxDate = environment.maxDate
 
 	// LOGIC HTML AND DATA
 	complete: boolean = false
@@ -254,87 +256,6 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		// 	let datosAcumlados = this._getSerieAcumulada(valores, fechas)
-		// 	maximoAcumulado = datosAcumlados[datosAcumlados.length - 1].y > maximoAcumulado ?
-		// 		datosAcumlados[datosAcumlados.length - 1].y : maximoAcumulado
-		// 	series.push({
-		// 		name: `${estacion} Acumulado`,
-		// 		type: "line",
-		// 		data: datosAcumlados,
-		// 		// color: this.colors[this.i_colors]
-		// 	})
-
-		// 	this.series_activate++
-		// }
-
-		// //generar axis
-		// yaxis.push({
-		// 	max: maximoNormal + 1,
-		// 	axisTicks: { show: true },
-		// 	title: { text: "Horas Frio Diaria [Hf]" },
-		// 	tooltip: { enabled: true },
-		// })
-
-		// yaxis.push({
-		// 	max: maximoAcumulado + 5,
-		// 	axisTicks: { show: true },
-		// 	opposite: true,
-		// 	title: { text: "Horas Frio Acumulada [Hf]" },
-		// 	tooltip: { enabled: true },
-		// })
-
-		// for (let i = 2; i < 4; i = i + 2) {
-		// 	yaxis.push({ max: maximoNormal + 1, show: false })
-		// 	yaxis.push({ max: maximoAcumulado + 5, show: false })
-		// }
-
-		// yaxis.push({ max: maximoNormal, show: false })
-		// yaxis.push({ max: maximoAcumulado, show: false })
-		// yaxis.push({ max: maximoNormal, show: false })
-		// yaxis.push({ max: maximoAcumulado, show: false })
-
-		// this.chartOptionsLine.yaxis = yaxis.slice(0, 8)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // public _getColor(): string {
 // 	// const colores: string[] = ["#00E396", "#008FFB", "#546E7A", "#FF4560"]
 // 	// const coloresDisponibles = colores.filter((color) => {
@@ -348,4 +269,3 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 // 	// return "coloresDisponibles[0]"
 // 	return "sadasd"
 // }
-

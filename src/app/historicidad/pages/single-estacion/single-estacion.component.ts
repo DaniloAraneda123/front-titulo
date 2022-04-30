@@ -99,18 +99,13 @@ export class SingleEstacionComponent implements OnInit {
 		})
 	}
 
-	getDate(fecha: string, group: string) {
-		let seg = fecha.split('-')
-		return (new Date(Number(seg[0]), Number(seg[1]), Number(seg[2]))).getTime()
-	}
-
-
 	generarSeries() {
 		let series: (SerieData & { unidad_medida: string, altura: string })[] = []
+		console.log(this.responseData)
 		for (let variable of this.responseData) {
 			let datos: {}[] = []
 			for (let tupla of variable.estaciones[0].data) {
-				datos.push({ x: this.getDate(tupla.fecha, ""), y: tupla[this.subSerie] })
+				datos.push({ x: new Date(tupla.fecha), y: tupla[this.subSerie] })
 			}
 
 			series.push({
