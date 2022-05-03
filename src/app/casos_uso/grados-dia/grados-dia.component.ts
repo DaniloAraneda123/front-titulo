@@ -121,6 +121,7 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy(): void {
+		this.store.dispatch(gdActions.resetData())
 		this.store$.unsubscribe()
 		this.formTemporal$.unsubscribe()
 		this.consultarDatos$.unsubscribe()
@@ -142,6 +143,8 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 			while (start.getDay() != 1) { start.setDate(start.getDate() - 1) }
 			while (end.getDay() != 0) { end.setDate(end.getDate() + 1) }
 		}
+
+		// this.formTemporal.controls[""].setValue()
 	}
 
 	checkTabla(evento: MatCheckboxChange, estacion: string, check: MatCheckbox) {
@@ -164,6 +167,7 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 
 	addStations(stations: string[]) {
 		this.store.dispatch(gdActions.agregarEstaciones({ estaciones: stations }))
+		this.stationsNoData = []
 		this.consultarDatos.next({})
 	}
 

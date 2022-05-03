@@ -16,14 +16,14 @@ export interface GradosDiaState {
 
 const initialState: GradosDiaState = {
     estaciones: [],
-    temporalInput: null,
-    tipoConsulta: null,
-    punto: null,
-    dataGradosDia: null,
-    dataEstaciones: null,
+    temporalInput: undefined,
+    tipoConsulta: undefined,
+    punto: undefined,
+    dataGradosDia: undefined,
+    dataEstaciones: undefined,
     loading: false,
     loaded: false,
-    error: null,
+    error: undefined,
 }
 
 const _gradosDiaReducer = createReducer(
@@ -33,7 +33,7 @@ const _gradosDiaReducer = createReducer(
     on(GdActions.agregarEstaciones, (state, { estaciones }) => ({
         ...state,
         estaciones: [...estaciones],
-        dataGradosDia: null,
+        dataGradosDia: undefined,
     })),
 
     on(GdActions.quitarEstacion, (state, { estacion }) => {
@@ -61,8 +61,8 @@ const _gradosDiaReducer = createReducer(
 
     on(GdActions.loadingData, (state) => ({
         ...state,
-        error:null,
-        dataGradosDia: null,
+        error:undefined,
+        dataGradosDia: undefined,
         loading: true
     })),
 
@@ -77,11 +77,11 @@ const _gradosDiaReducer = createReducer(
         ...state,
         loading: false,
         loaded: true,
-        dataGradosDia: null,
+        dataGradosDia: undefined,
         error: payload
     })),
 
-    // on(historicidadActions.resetear, (state) => (initialState)),
+    on(GdActions.resetData, (state) => (initialState)),
 );
 
 export function gradosDiaReducer(state: GradosDiaState | undefined, action: Action) {

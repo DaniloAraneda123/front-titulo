@@ -117,8 +117,8 @@
                 </mat-spinner>
             </div>
             <hr class="m-0">
-            <div *ngIf="estaciones.length > 0 && !invalidDates" style="overflow-y: auto; max-height: 58vh;">
-                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100">
+            <div  style="overflow-y: auto; max-height: 58vh;">
+                <table *ngIf="estaciones.length > 0 && !invalidDates" mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100">
 
                     <ng-container matColumnDef="estacion">
                         <th mat-header-cell *matHeaderCellDef>Estacion </th>
@@ -155,26 +155,27 @@
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
-            </div>
-            <div *ngIf="estaciones.length == 0 || invalidDates" class="error-items mt-2">
-                <p>Seleccione los inputs requeridos para comenzar.</p>
-                <ul >
-                    <li class="mb-1" *ngIf="estaciones.length == 0"> <b>Error:</b> Seleccione al menos una estación.</li>
-                    <li class="mb-1" *ngIf="invalidDates"><b>Error:</b> Selecciones un rango de fecha.</li>
-                </ul>
-            </div>
-            <hr>
-            <div class="estaciones-no-data" *ngIf="stationsNoData.length>0">
-                <p class="mt-2">Las siguientes estaciones no tiene datos en el rango de fechas seleccionado.</p>
-                <ul >
-                    <li class="mb-1" *ngFor="let s of stationsNoData"> <b>{{s}}</b></li>
-                </ul>
+                <div *ngIf="estaciones.length == 0 || invalidDates" class="error-items mt-2">
+                    <p>Seleccione los inputs requeridos para comenzar.</p>
+                    <ul >
+                        <li class="mb-1" *ngIf="estaciones.length == 0"> <b>Error:</b> Seleccione al menos una estación.</li>
+                        <li class="mb-1" *ngIf="invalidDates"><b>Error:</b> Selecciones un rango de fecha.</li>
+                    </ul>
+                </div>
+                <hr>
+                <div class="estaciones-no-data" *ngIf="stationsNoData.length>0">
+                    <p class="mt-2">Las siguientes estaciones no tiene datos en el rango de fechas seleccionado.</p>
+                    <ul >
+                        <li class="mb-1" *ngFor="let s of stationsNoData"> <b>{{s}}</b></li>
+                    </ul>
+                </div>
             </div>
         </mat-card>
     </div>
 
     <!-- /////////////////////////////////////////////////////////////////////////////// -->
 
+    <!-- 
     <div class="d-inline d-lg-none col-6 col-lg-3 mn-c">
         <mat-card class="dato card">
             <mat-card-title>Total</mat-card-title>
@@ -185,7 +186,7 @@
         </mat-card>
     </div>
 
-    <!-- <div class="d-inline d-lg-none col-6 col-lg-3 mn-c">
+    <div class="d-inline d-lg-none col-6 col-lg-3 mn-c">
         <mat-card class="dato card">
             <mat-card-title>Promedio</mat-card-title>
             <mat-card-subtitle>(9/6/20 - 20/6/20)</mat-card-subtitle>
@@ -220,14 +221,13 @@
     <div *ngIf="estaciones.length > 0 && !invalidDates">
         <div class="col-12">
             <mat-card class="card p-1 px-2">
-                <app-plot [titlePlot]="'Grafica Evolucion'" [series]="normalSeries" [loadingData]="loadingData"></app-plot>
+                <app-plot [titlePlot]="'Grafica Evolucion'" [series]="normalSeries" [loadingData]="loadingData" [typeChar]="'bar'"></app-plot>
             </mat-card>
         </div>
     
         <div *ngIf="groupCustom" class="col-12">
             <mat-card class="card p-1 px-2">
-                <app-plot [titlePlot]="'Grafica Evolucion Acumulada'" [series]="accumulatedSeries"
-                    [loadingData]="loadingData"></app-plot>
+                <app-plot [titlePlot]="'Grafica Evolucion Acumulada'" [series]="accumulatedSeries" [loadingData]="loadingData" [typeChar]="'line'"></app-plot>
             </mat-card>
         </div>
     </div>

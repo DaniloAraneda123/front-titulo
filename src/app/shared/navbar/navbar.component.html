@@ -10,19 +10,19 @@
 	<div #seccion class="botones-seccion me-2">
 		
 		<div class="botones-lista">
-			<button class="boton-nav" color="primary" [class.selected]="menu[0]" (click)="cambiar(0)" mat-flat-button
+			<button [ngClass]="{'selected':menu[0]}" class="boton-nav" color="primary" (click)="cambiar(0)" mat-flat-button
 				routerLink="">
 				<mat-icon>timeline</mat-icon>
 				Historicidad
 			</button>
 
-			<button class="boton-nav" color="primary" [class.selected]="menu[1]" (click)="cambiar(1)" mat-flat-button
+			<button [ngClass]="{'selected':menu[1]}" class="boton-nav" color="primary" (click)="cambiar(1)" mat-flat-button
 				routerLink="/casos_uso">
 				<mat-icon>layers</mat-icon>
 				Casos de Uso
 			</button>
 
-			<button class="boton-nav" color="primary" [class.selected]="menu[2]" (click)="cambiar(2)" mat-flat-button
+			<button [ngClass]="{'selected':menu[2]}" class="boton-nav" color="primary" (click)="cambiar(2)" mat-flat-button
 				routerLink="/acerca_de">
 				<mat-icon>info</mat-icon>
 				Acerca de 

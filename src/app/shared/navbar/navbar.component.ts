@@ -1,6 +1,7 @@
-import { NavigationStart, Router } from '@angular/router';
-import { Component, ElementRef, Renderer2, ViewChild, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { Component, ElementRef, Renderer2, ViewChild, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { filter } from 'rxjs/operators';
+import { I } from '@angular/cdk/keycodes';
 
 @Component({
 	selector: 'app-navbar',
@@ -9,8 +10,9 @@ import { filter } from 'rxjs/operators';
 })
 
 export class NavbarComponent {
-	@ViewChild('seccion', { static: false }) botones: ElementRef<HTMLDivElement>;
-	public menu: boolean[] = [true, false, false]
+	@ViewChild('seccion', { static: false }) botonera: ElementRef<HTMLDivElement>;
+
+	public menu: boolean[] = [false, false, false]
 	variable: boolean = true
 	backgroundColour = '#ff0000';
 
@@ -23,10 +25,10 @@ export class NavbarComponent {
 
 	toggleMenu() {
 		// this.botones.nativeElement.classList.toggle('active')
-		if (this.botones.nativeElement.classList.contains('active')) {
-			this.renderer.removeClass(this.botones.nativeElement, 'active')
+		if (this.botonera.nativeElement.classList.contains('active')) {
+			this.renderer.removeClass(this.botonera.nativeElement, 'active')
 		} else {
-			this.renderer.addClass(this.botones.nativeElement, 'active')
+			this.renderer.addClass(this.botonera.nativeElement, 'active')
 		}
 	}
 }

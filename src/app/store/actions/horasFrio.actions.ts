@@ -38,3 +38,7 @@ export const setDataError = createAction(
     '[Horas Frio - loading Data] Data loading ERROR',
     props<{ payload: any }>()
 );
+
+export const resetData = createAction(
+    '[Horas Frio - Reset Store] Resetenado el store',
+)

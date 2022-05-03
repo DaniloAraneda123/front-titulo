@@ -67,6 +67,10 @@ export class MapComponent implements OnInit {
 	) { }
 
 	ngOnInit(): void {
+		for (let i in this.mapMarkers) {
+			this.mapMarkers[i].opt = { ...this.mapMarkers[i].opt, icon: iconos.iconAzul }
+		}
+
 		this.cambioCirculo$ = this.cambioCirculo.pipe(debounceTime(400)).subscribe((evento: any) => {
 			if (this.circulo) {
 				const bordes = this.circulo.getBounds()

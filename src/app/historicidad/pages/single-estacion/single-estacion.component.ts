@@ -28,6 +28,7 @@ export class SingleEstacionComponent implements OnInit {
 	nombreEstacion: string = ""
 	suscripcion$: Subscription
 	plotSelected: string = 'multicharts'
+	tipoAgrupacion!:string
 
 	series: (SerieData & { unidad_medida: string, altura: string })[] = []
 	stroke: string;
@@ -93,6 +94,7 @@ export class SingleEstacionComponent implements OnInit {
 				if (data.length > 0) {
 					this.range.controls["start"].setValue(parametros.fecha_inicio)
 					this.range.controls["end"].setValue(parametros.fecha_final)
+					this.tipoAgrupacion = parametros.agrupacion
 					this.generarSeries()
 				}
 			}

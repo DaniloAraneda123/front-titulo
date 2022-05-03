@@ -12,6 +12,7 @@ export class PlotComponent implements OnInit {
 	chartOptionsLine: Partial<ChartOptions>;
 	@Input() titlePlot!: string
 	@Input() loadingData:boolean = false
+	@Input() typeChar:any = "line"
 
 	constructor() {
 		this.chartOptionsLine = {
@@ -37,8 +38,8 @@ export class PlotComponent implements OnInit {
 
 
 	@Input() set series(values: SerieData[]) {
-		const aux = [...values]
-		this.chartOptionsLine.series = [...aux]
+		this.chartOptionsLine.chart = {...this.chartOptionsLine.chart, type:this.typeChar}
+		this.chartOptionsLine.series =  [...values]
 	}
 
 

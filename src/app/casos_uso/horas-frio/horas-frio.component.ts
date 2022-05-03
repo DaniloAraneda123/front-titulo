@@ -13,6 +13,8 @@ import { DataEstacion, ResponseSeries } from 'src/app/models/api.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SerieData } from 'src/app/models/serie.interface';
 import { environment } from 'src/environments/environment';
+import { ajustarFechas } from 'src/app/utils/ajustar-fecha';
+import { filter } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-horas-frio',
@@ -75,6 +77,7 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 
 	colors_used: number[] = []
 	series_activate = 0
+	allowForm: boolean = true;
 
 	constructor(
 		private store: Store<AppState>,
@@ -91,20 +94,24 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 		});
 
 
-		this.formTemporal$ = this.formTemporal.valueChanges.subscribe((value: any) => {
+		this.formTemporal$ = this.formTemporal.valueChanges.pipe(filter(el=>this.allowForm)).subscribe((value: any) => {
 			value.tipoConsulta == '/serie_custom' ? this.groupCustom = true : this.groupCustom = false
 			this.invalidDates = true
 			if (this.formTemporal.valid && value.start < value.end) {
 				this.invalidDates = false
-				this.ajustarFechas()
+				const { start, end } = ajustarFechas(value.start, value.end, value.agrupacionCustom)
 				this.store.dispatch(hfActions.inputTemporal({
-					fechaInicio: value.start.toJSON(),
-					fechaTermino: value.end.toJSON(),
+					fechaInicio: start.toISOString(),
+					fechaTermino: end.toISOString(),
 					agrupacionCustom: value.agrupacionCustom,
 					agrupacionTemporadas: value.agrupacionTemporadas,
 					tipoConsulta: value.tipoConsulta
 				}))
+				this.allowForm = false
+				this.formTemporal.controls["start"].setValue(start)
+				this.formTemporal.controls["end"].setValue(end)
 				this.consultarDatos.next({})
+				this.allowForm = true
 			}
 		})
 
@@ -119,30 +126,15 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 		})
 	}
 
+
+
 	ngOnDestroy(): void {
+		this.store.dispatch(hfActions.resetData())
 		this.store$.unsubscribe()
 		this.formTemporal$.unsubscribe()
 		this.consultarDatos$.unsubscribe()
 	}
-
-	ajustarFechas() {
-		const start: Date = this.formTemporal.get('start').value
-		const end: Date = this.formTemporal.get('end').value
-		let aux: string
-		this.formTemporal.get('tipoConsulta').value == "/serie_custom" ? aux = "agrupacionCustom" : aux = "agrupacionTemporadas"
-
-		if (this.formTemporal.get(aux).value == 'mensual') {
-			const endMonth = new Date(end.getFullYear(), end.getMonth() + 1, 0);
-			start.setDate(1)
-			end.setDate(endMonth.getDate())
-		}
-
-		if (this.formTemporal.get(aux).value == 'semanal') {
-			while (start.getDay() != 1) { start.setDate(start.getDate() - 1) }
-			while (end.getDay() != 0) { end.setDate(end.getDate() + 1) }
-		}
-	}
-
+	
 	checkTabla(evento: MatCheckboxChange, estacion: string, check: MatCheckbox) {
 		let estacion_data: DataEstacion = this.data.estaciones.find(el => el.nombre_estacion == estacion)
 
@@ -163,6 +155,7 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 
 	addStations(stations: string[]) {
 		this.store.dispatch(hfActions.agregarEstaciones({ estaciones: stations }))
+		this.stationsNoData = []
 		this.consultarDatos.next({})
 	}
 
@@ -182,7 +175,7 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 		for (let estacion of this.data.estaciones) {
 			if (estacion.data.length != 0) {
 				todo_vacio = false
-				const valores = estacion.data.map(el=>el.promedio)
+				const valores = estacion.data.map(el => el.promedio)
 				const sum = valores.reduce((s, a) => s + a, 0)
 				const avg = ((sum / valores.length) || 0).toFixed(2)
 				const max = Math.max(...valores)

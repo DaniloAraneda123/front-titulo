@@ -1,6 +1,8 @@
 <div style="height: 100vh;">
     <mat-drawer-container class="example-container" autosize>
         <mat-drawer #drawer class="p-2" mode="side">
+            <h2 class="text-center">Opciones de Visualización</h2>
+
             <h3 class="mb-1"><b>Visualizacion (Grafico)</b></h3>
             <mat-button-toggle-group class="w-100" (valueChange)="plotSelected=$event" value="multicharts">
                 <mat-button-toggle class="w-50 text-center" value="multicharts">Multi Grafico</mat-button-toggle>
@@ -17,6 +19,8 @@
             </mat-button-toggle-group>
 
             <hr>
+
+            <h2 class="text-center">Opciones de datos</h2>
 
             <div class="d-flex justify-content-between align-items-center mb-1">
                 <h3 class="mb-0"><b>Variables Seleccionadas</b></h3>

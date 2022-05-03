@@ -17,6 +17,25 @@
   max-width: 100%;
 }
 
+@media (max-width: 1200px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+}
+
+@media (max-width: 750px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .conteiner{
+    height: auto;
+  }
+}
+
+
+
 .skill-card {
   padding: 20px 20px 18px 20px;
   background-color: #FFF;

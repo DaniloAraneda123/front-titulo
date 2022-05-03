@@ -16,14 +16,14 @@ export interface HorasFrioState {
 
 const initialState: HorasFrioState = {
     estaciones: [],
-    temporalInput: null,
-    tipoConsulta: null,
-    punto: null,
-    dataHorasFrio: null,
-    dataEstaciones: null,
+    temporalInput: undefined,
+    tipoConsulta: undefined,
+    punto: undefined,
+    dataHorasFrio: undefined,
+    dataEstaciones: undefined,
     loading: false,
     loaded: false,
-    error: null,
+    error: undefined,
 }
 
 const _horasFrioReducer = createReducer(
@@ -33,7 +33,7 @@ const _horasFrioReducer = createReducer(
     on(HfActions.agregarEstaciones, (state, { estaciones }) => ({
         ...state,
         estaciones: [...estaciones],
-        dataHorasFrio: null,
+        dataHorasFrio: undefined,
     })),
 
     on(HfActions.quitarEstacion, (state, { estacion }) => {
@@ -61,7 +61,7 @@ const _horasFrioReducer = createReducer(
 
     on(HfActions.loadingData, (state) => ({
         ...state,
-        error:null,
+        error:undefined,
         dataHorasFrio: null,
         loading: true
     })),
@@ -77,11 +77,11 @@ const _horasFrioReducer = createReducer(
         ...state,
         loading: false,
         loaded: true,
-        dataHorasFrio: null,
+        dataHorasFrio: undefined,
         error: payload
     })),
 
-    // on(historicidadActions.resetear, (state) => (initialState)),
+    on(HfActions.resetData, (state) => (initialState)),
 );
 
 export function horasFrioReducer(state: HorasFrioState | undefined, action: Action) {

@@ -38,3 +38,7 @@ export const setDataError = createAction(
     '[Grados Día - loading Data] Data loading ERROR',
     props<{ payload: any }>()
 );
+
+export const resetData = createAction(
+    '[Grados Día - Reset Store] resetenado store',
+);
