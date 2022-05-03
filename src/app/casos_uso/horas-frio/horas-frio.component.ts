@@ -98,6 +98,7 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 			value.tipoConsulta == '/serie_custom' ? this.groupCustom = true : this.groupCustom = false
 			this.invalidDates = true
 			if (this.formTemporal.valid && value.start < value.end) {
+				this.allowForm = false
 				this.invalidDates = false
 				const { start, end } = ajustarFechas(value.start, value.end, value.agrupacionCustom)
 				this.store.dispatch(hfActions.inputTemporal({
@@ -107,7 +108,6 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 					agrupacionTemporadas: value.agrupacionTemporadas,
 					tipoConsulta: value.tipoConsulta
 				}))
-				this.allowForm = false
 				this.formTemporal.controls["start"].setValue(start)
 				this.formTemporal.controls["end"].setValue(end)
 				this.consultarDatos.next({})

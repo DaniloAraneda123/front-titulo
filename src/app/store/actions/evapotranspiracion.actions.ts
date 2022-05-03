@@ -48,3 +48,7 @@ export const setDataError = createAction(
     '[Evapotranspiracion - loading Data] Data loading ERROR',
     props<{ payload: any }>()
 );
+
+export const resetStore = createAction(
+    '[Evapotranspiracion - Reset Store] Limpiamos el store de evapotranpiracion',
+) 

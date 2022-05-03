@@ -13,6 +13,8 @@ import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
 import { DataEstacion, ResponseSeries } from 'src/app/models/api.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SerieData } from 'src/app/models/serie.interface';
+import { ajustarFechas } from 'src/app/utils/ajustar-fecha';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-grados-dia',
@@ -76,6 +78,7 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 
 	colors_used: number[] = []
 	series_activate = 0
+	allowForm: boolean;
 
 	constructor(
 		private store: Store<AppState>,
@@ -92,12 +95,13 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 		});
 
 
-		this.formTemporal$ = this.formTemporal.valueChanges.subscribe((value: any) => {
+		this.formTemporal$ = this.formTemporal.valueChanges.pipe(filter(el=>this.allowForm)).subscribe((value: any) => {
 			value.tipoConsulta == '/serie_custom' ? this.groupCustom = true : this.groupCustom = false
 			this.invalidDates = true
 			if (this.formTemporal.valid && value.start < value.end) {
+				this.allowForm = false
 				this.invalidDates = false
-				this.ajustarFechas()
+				const { start, end } = ajustarFechas(value.start, value.end, value.agrupacionCustom)
 				this.store.dispatch(gdActions.inputTemporal({
 					fechaInicio: value.start.toJSON(),
 					fechaTermino: value.end.toJSON(),
@@ -105,7 +109,10 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 					agrupacionTemporadas: value.agrupacionTemporadas,
 					tipoConsulta: value.tipoConsulta
 				}))
+				this.formTemporal.controls["start"].setValue(start)
+				this.formTemporal.controls["end"].setValue(end)
 				this.consultarDatos.next({})
+				this.allowForm = true
 			}
 		})
 
@@ -125,26 +132,6 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 		this.store$.unsubscribe()
 		this.formTemporal$.unsubscribe()
 		this.consultarDatos$.unsubscribe()
-	}
-
-	ajustarFechas() {
-		const start: Date = this.formTemporal.get('start').value
-		const end: Date = this.formTemporal.get('end').value
-		let aux: string
-		this.formTemporal.get('tipoConsulta').value == "/serie_custom" ? aux = "agrupacionCustom" : aux = "agrupacionTemporadas"
-
-		if (this.formTemporal.get(aux).value == 'mensual') {
-			const endMonth = new Date(end.getFullYear(), end.getMonth() + 1, 0);
-			start.setDate(1)
-			end.setDate(endMonth.getDate())
-		}
-
-		if (this.formTemporal.get(aux).value == 'semanal') {
-			while (start.getDay() != 1) { start.setDate(start.getDate() - 1) }
-			while (end.getDay() != 0) { end.setDate(end.getDate() + 1) }
-		}
-
-		// this.formTemporal.controls[""].setValue()
 	}
 
 	checkTabla(evento: MatCheckboxChange, estacion: string, check: MatCheckbox) {

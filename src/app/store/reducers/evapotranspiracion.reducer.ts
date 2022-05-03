@@ -98,7 +98,7 @@ const _evapotranspiracionReducer = createReducer(
         error: payload
     })),
 
-    // on(historicidadActions.resetear, (state) => (initialState)),
+    on(EvActions.resetStore, (state) => (initialState)),
 );
 
 export function evapotranspiracionReducer(state: EvapotranspiracionState | undefined, action: Action) {
