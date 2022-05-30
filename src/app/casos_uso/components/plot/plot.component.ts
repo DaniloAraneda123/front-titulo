@@ -33,7 +33,7 @@ export class PlotComponent implements OnInit {
 			//yaxis: [],
 			yaxis: {
 				title:{
-					text:"HF"
+					text:"ETo"
 				},
 				labels: {
 				  formatter: function (value) {

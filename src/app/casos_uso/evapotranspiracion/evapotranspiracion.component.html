@@ -1,5 +1,6 @@
-<!--
+
 <div class="row m-1 gx-2 gy-2 " style="justify-content: center; align-items: center;">
+    <!--
     <div class="col-3" style="justify-content: center;">
         <mat-card class="dato card">
             <mat-card-title style="display: flexbox; flex-direction: column;"> Evapotranspiracion</mat-card-title>
@@ -71,7 +72,8 @@
 
     </div>
     -->
-    <div class="col-12 col-xl-12">
+    <h1 class="col-12 col-xl-3 text-center" style="margin: auto; font-size: 30px;">Evapotranspiración</h1>
+    <div class="col-12 col-xl-9">
         <mat-card class="input card p-1 px-2 ">
             <div class="d-flex justify-content-between">
                 <h2 class="m-0">Input Temporales</h2>
@@ -238,24 +240,24 @@
                     </ng-container>
 
                     <ng-container matColumnDef="acumulado">
-                        <th mat-header-cell *matHeaderCellDef>Evapotranspiracion Acumulada</th>
+                        <th mat-header-cell *matHeaderCellDef>ETo Acumulada</th>
                         <td mat-cell *matCellDef="let element"> {{element.acumulado}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="promedio">
-                        <th mat-header-cell *matHeaderCellDef>Evapotranspiracion Promedio</th>
+                        <th mat-header-cell *matHeaderCellDef>ETo Promedio</th>
                         <td mat-cell *matCellDef="let element"> {{element.promedio}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="maximo">
-                        <th mat-header-cell *matHeaderCellDef>Evapotranspiracion diario Max</th>
+                        <th mat-header-cell *matHeaderCellDef>ETo diario Max</th>
                       <!-- <th mat-header-cell *ngIf="groupCustom">Evapotranspiracion Anual Max</th>--> 
                         <td mat-cell *matCellDef="let element"> {{element.maxima}} </td>
                     </ng-container>
                     
 
                     <ng-container matColumnDef="opciones">
-                        <th mat-header-cell *matHeaderCellDef style="text-align: right;">Ver estacion</th>
+                        <th mat-header-cell *matHeaderCellDef style="text-align: right;">Ver estación</th>
                         <td mat-cell *matCellDef="let element" style="text-align: right;">
                             <div class="d-flex flex-row-reverse align-items-center">
                                 <mat-checkbox #check (change)="checkTabla($event,element.estacion,check)"
@@ -273,38 +275,38 @@
                 <table *ngIf="comparacionIntervalo" mat-table [dataSource]="dataSource2" class="mat-elevation-z8 w-100">
 
                     <ng-container matColumnDef="estacion">
-                        <th mat-header-cell *matHeaderCellDef>Estacion </th>
+                        <th mat-header-cell *matHeaderCellDef>Estación </th>
                         <td mat-cell *matCellDef="let element"> {{element.estacion}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="acumulado_1">
-                        <th mat-header-cell *matHeaderCellDef>Evapotranspiracion Acumulada 1</th>
+                        <th mat-header-cell *matHeaderCellDef>ETo</th>
                         <td mat-cell *matCellDef="let element"> {{element.acumulado1}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="promedio_1">
-                        <th mat-header-cell *matHeaderCellDef>Evapotranspiracion Promedio 1</th>
+                        <th mat-header-cell *matHeaderCellDef>ETo Promedio 1</th>
                         <td mat-cell *matCellDef="let element"> {{element.promedio1}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="maximo_1">
-                        <th mat-header-cell *matHeaderCellDef>Evapotranspiracion diario Max 1</th>
+                        <th mat-header-cell *matHeaderCellDef>ETo diario Max 1</th>
                       <!-- <th mat-header-cell *ngIf="groupCustom">Evapotranspiracion Anual Max</th>--> 
                         <td mat-cell *matCellDef="let element"> {{element.maxima1}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="acumulado_2">
-                        <th mat-header-cell *matHeaderCellDef>Evapotranspiracion Acumulada 2</th>
+                        <th mat-header-cell *matHeaderCellDef>ETo Acumulada 2</th>
                         <td mat-cell *matCellDef="let element"> {{element.acumulado2}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="promedio_2">
-                        <th mat-header-cell *matHeaderCellDef>Evapotranspiracion Promedio 2</th>
+                        <th mat-header-cell *matHeaderCellDef>ETo Promedio 2</th>
                         <td mat-cell *matCellDef="let element"> {{element.promedio2}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="maximo_2">
-                        <th mat-header-cell *matHeaderCellDef>Evapotranspiracion diario Max 2</th>
+                        <th mat-header-cell *matHeaderCellDef>ETo 2</th>
                       <!-- <th mat-header-cell *ngIf="groupCustom">Evapotranspiracion Anual Max</th>--> 
                         <td mat-cell *matCellDef="let element"> {{element.maxima2}} </td>
                     </ng-container>
@@ -378,18 +380,18 @@
 
     <div *ngIf="comparacionIntervalo"  class="col-6">
         <mat-card class="card p-1 px-2">
-            <app-plot *ngIf="groupCustom" [titlePlot]="'Grafica Evolucion'" [series]="normalSeries" [loadingData]="loadingData" ></app-plot>
+            <app-plot *ngIf="groupCustom" [titlePlot]="'Gráfica Evapotranspiración'" [series]="normalSeries" [loadingData]="loadingData" ></app-plot>
         </mat-card>
     </div>
     <div *ngIf="comparacionIntervalo"  class="col-6">
         <mat-card class="card p-1 px-2">
-            <app-plot *ngIf="groupCustom" [titlePlot]="'Grafica Evolucion'" [series]="normalSeries2" [loadingData]="loadingData"></app-plot>
+            <app-plot *ngIf="groupCustom" [titlePlot]="'Gráfica Evapotranspiración'" [series]="normalSeries2" [loadingData]="loadingData"></app-plot>
         </mat-card>
     </div>
 
     <div *ngIf="!comparacionIntervalo"  class="col-12">
         <mat-card class="card p-1 px-2">
-            <app-plot *ngIf="groupCustom" [titlePlot]="'Grafica Evolucion'" [series]="normalSeries" [loadingData]="loadingData"></app-plot>
+            <app-plot *ngIf="groupCustom" [titlePlot]="'Gráfica Evolución ETo'" [series]="normalSeries" [loadingData]="loadingData"></app-plot>
             <app-plot-stacked-columns [titlePlot]="'Gráfica Evapotranspiración Acumulada por años'" [series]="normalSeries" [loadingData]="loadingData" *ngIf="!groupCustom" ></app-plot-stacked-columns>
             
             </mat-card>

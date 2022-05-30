@@ -58,7 +58,7 @@ export class MapComponent implements OnInit {
 	pointSelectionItems: { value: string, label: string }[] = [
 		{ value: "nearest", label: "Estacion mas Cercana" },
 		{ value: "coastline", label: "Linea de Costa Similar" },
-		{ value: "height", label: "Altura Similar" }
+		{ value: "height", label: "Altitud Similar" }
 	]
 
 

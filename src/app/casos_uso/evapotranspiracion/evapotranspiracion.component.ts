@@ -64,7 +64,7 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 	agrupacionTemporadas: { value: string, label: string }[] = [
 		{ value: "semanal", label: "Semanal" },
 		{ value: "mensual", label: "Mensual" },
-		{ value: "temporada", label: "Temporada" },
+		{ value: "temporada", label: "Periodo" },
 	]
 
 
