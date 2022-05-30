@@ -45,6 +45,10 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 	consultarDatos: BehaviorSubject<any> = new BehaviorSubject({})
 	consultarDatos$: Subscription
 
+	estaciones_real: String[] = [
+		"Vicuña", "Rivadavia", "Pisco Elqui"
+	]
+
 	//ITEMS HTML
 	agrupacionCustom: { value: string, label: string }[] = [
 		{ value: "diaria", label: "Diaria" },
@@ -67,6 +71,7 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 	//TEMPORAL
 	maxDate = environment.maxDate
 	formTemporal: FormGroup;
+	estacionReal: String = "Rivadavia";
 	/*
 	formTemporal = new FormGroup({
 		start: new FormControl(),

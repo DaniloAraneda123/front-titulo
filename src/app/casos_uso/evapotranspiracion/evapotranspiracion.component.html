@@ -1,8 +1,77 @@
-<div class="row m-1 gx-2 gy-2 ">
+<!--
+<div class="row m-1 gx-2 gy-2 " style="justify-content: center; align-items: center;">
+    <div class="col-3" style="justify-content: center;">
+        <mat-card class="dato card">
+            <mat-card-title style="display: flexbox; flex-direction: column;"> Evapotranspiracion</mat-card-title>
+            <div style="display: flex;">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Estación</mat-label>
+                        <mat-select formControlName="estacion">
+                            <mat-option value="rivadavia">Rivadavia</mat-option>
+                            <mat-option value="vicuña">Vicuña</mat-option>
+                            <mat-option value="pisco elqui">Pisco Elquí</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <input [matDatepicker]="basicDatepicker" >
+                    <mat-datepicker-toggle [for]="basicDatepicker"></mat-datepicker-toggle>
+                    <mat-datepicker #basicDatepicker></mat-datepicker>
+            </div>
+        </mat-card>
+    </div>
+    <div class="col-9" style="display: flex;">
+        <div class="d-inline col-3">
+        <mat-card class="dato card">
+            <mat-card-title>Actual</mat-card-title>
+            <mat-card-subtitle>{{estacionReal}}</mat-card-subtitle>
+            <h1 style="color: #3f8cb5;"><b>110 </b>
+                <p>Ev</p>
+            </h1>
+        </mat-card>
+    </div>
+    
 
-    <h1 class="col-12 col-xl-3 text-center" style="margin: auto; font-size: 30px;">Evapotranspiración</h1>
+    <div class="d-inline col-3">
+        <mat-card class="dato card">
+            <mat-card-title>Promedio Día</mat-card-title>
+            <mat-card-subtitle style="display: flex;">
+                <p>(12/6/20</p>
+                <p style="color: #683fb5; animation: blinker 1s linear infinite;"> - En Vivo)<p>
+             </mat-card-subtitle>
+            <h1 style="color: #3f8cb5;"><b>13 </b>
+                <p>Ev</p>
+            </h1>
+        </mat-card>
+    </div>
 
-    <div class="col-12 col-xl-9">
+    <div class="d-inline col-3">
+        <mat-card class="dato card">
+            <mat-card-title>Promedio Acumulado</mat-card-title>
+            <mat-card-subtitle style="display: flex;">
+                <p>(12/6/20</p>
+                <p style="color: #683fb5"> - En Vivo)<p>
+             </mat-card-subtitle>
+            <h1 style="color: #683fb5;"><b>11 </b>
+                <p>Ev</p>
+            </h1>
+        </mat-card>
+    </div>
+
+    <div class="d-inline col-3">
+        <mat-card class="dato card">
+            <mat-card-title>Total Acumulado</mat-card-title>
+            <mat-card-subtitle style="display: flex;">
+                <p>(12/6/20</p>
+                <p style="color: #683fb5"> - En Vivo)<p>
+             </mat-card-subtitle>
+            <h1 style="color: #683fb5;"><b>80 </b>
+                <p>Ev</p>
+            </h1>
+        </mat-card>
+    </div> 
+
+    </div>
+    -->
+    <div class="col-12 col-xl-12">
         <mat-card class="input card p-1 px-2 ">
             <div class="d-flex justify-content-between">
                 <h2 class="m-0">Input Temporales</h2>
@@ -83,7 +152,7 @@
                 </form>
                 </div>
             </mat-card>
-            </div>
+    </div>
 
                 <!--
                 <form formGroup]="formTemporal2"
@@ -309,7 +378,7 @@
 
     <div *ngIf="comparacionIntervalo"  class="col-6">
         <mat-card class="card p-1 px-2">
-            <app-plot *ngIf="groupCustom" [titlePlot]="'Grafica Evolucion'" [series]="normalSeries" [loadingData]="loadingData"></app-plot>
+            <app-plot *ngIf="groupCustom" [titlePlot]="'Grafica Evolucion'" [series]="normalSeries" [loadingData]="loadingData" ></app-plot>
         </mat-card>
     </div>
     <div *ngIf="comparacionIntervalo"  class="col-6">
@@ -333,4 +402,3 @@
         </mat-card>
     </div>
 
-</div>
