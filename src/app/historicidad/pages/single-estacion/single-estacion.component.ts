@@ -12,6 +12,7 @@ import { take } from 'rxjs/operators';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HistoricidadService } from 'src/app/services/historicidad.service';
+import { HelpSingleComponent } from '../../components/help-single/help-single.component';
 
 
 @Component({
@@ -35,7 +36,7 @@ export class SingleEstacionComponent implements OnInit {
 	responseData: ResponseSeries[];
 	data: ResponseSeries[] = []
 	variablesSelected: { variable: string, altura: string, tipo_operacion: string }[] = []
-	subSerie: string = "promedio"
+	subSerie: string = "p"
 
 	range = new FormGroup({
 		start: new FormControl(undefined, [Validators.required]),
@@ -45,7 +46,7 @@ export class SingleEstacionComponent implements OnInit {
 	constructor(
 		private _store: Store<AppState>,
 		private router: Router,
-		public dialog: MatDialog,
+		private _dialog: MatDialog,
 		private _snack: MatSnackBar,
 		private _router: Router,
 		private apiService: HistoricidadService
@@ -102,20 +103,26 @@ export class SingleEstacionComponent implements OnInit {
 	}
 
 	generarSeries() {
-		let series: (SerieData & { unidad_medida: string, altura: string })[] = []
-		console.log(this.responseData)
+		let series: (SerieData & { unidad_medida: string, altura: string, group:string })[] = []
 		for (let variable of this.responseData) {
-			let datos: {}[] = []
+			let datos: any[] = []
 			for (let tupla of variable.estaciones[0].data) {
-				datos.push({ x: new Date(tupla.fecha), y: tupla[this.subSerie] })
+				datos.push({ 
+					x: new Date(tupla.f), 
+					y: tupla[this.subSerie],
+					s: tupla.s,
+					c: tupla.c
+				})
 			}
 
 			series.push({
 				unidad_medida: variable.unidad_medida,
 				altura: variable.altura,
 				name: variable.variable,
+				group: variable.tipo_agrupacion,
+				
 				data: datos,
-				type: "bar"
+				type: "bar",
 			})
 		}
 		this.series = series
@@ -131,7 +138,7 @@ export class SingleEstacionComponent implements OnInit {
 
 		varAux = varAux.filter(el1 => this.variablesSelected.find(el2 => el1.altura == el2.altura && el1.variable == el2.variable) == undefined)
 
-		const dialogRef = this.dialog.open(SelectVariableComponent, { data: varAux });
+		const dialogRef = this._dialog.open(SelectVariableComponent, { data: varAux });
 
 		dialogRef.afterClosed().subscribe((result: { variable: string, altura: string, tipo_operacion: string }) => {
 			if (result) {
@@ -143,6 +150,10 @@ export class SingleEstacionComponent implements OnInit {
 
 	eliminarVariable(variable: string, altura: string) {
 		this._store.dispatch(ActionsGraficaUnica.deleteVariable({ variable, altura }))
+	}
+
+	dialogHelp(){
+		this._dialog.open(HelpSingleComponent)
 	}
 
 	suavizarCurva(evento: any) { (evento.checked) ? this.stroke = "smooth" : this.stroke = "straight" }

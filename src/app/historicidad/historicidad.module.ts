@@ -11,23 +11,27 @@ import { SingleEstacionComponent } from './pages/single-estacion/single-estacion
 import { MultigraficoComponent } from './components/multigrafico/multigrafico.component';
 import { MultivariablesComponent } from './components/multivariables/multivariables.component';
 import { SelectVariableComponent } from './components/select-variable/select-variable.component';
-
+import { HelpSingleComponent } from './components/help-single/help-single.component';
+import { HelpMultipleComponent } from './components/help-multiple/help-multiple.component';
+import { HelpMainComponent } from './components/help-main/help-main.component';
+import { InfoTsComponent } from './components/info-ts/info-ts.component';
 
 @NgModule({
-	declarations: [
-		MapComponent,
-		SideBarOptionsComponent,
-		MainHistoricidadComponent,
-		SingleEstacionComponent,
-		MultiEstacionComponent,
-		MultigraficoComponent,
-		MultivariablesComponent,
-		SelectVariableComponent,
-	],
-	imports: [
-		CommonModule,
-		SharedModule
-	]
+  declarations: [
+    MapComponent,
+    SideBarOptionsComponent,
+    MainHistoricidadComponent,
+    SingleEstacionComponent,
+    MultiEstacionComponent,
+    MultigraficoComponent,
+    MultivariablesComponent,
+    SelectVariableComponent,
+    HelpSingleComponent,
+    HelpMultipleComponent,
+    HelpMainComponent,
+    InfoTsComponent,
+  ],
+  imports: [CommonModule, SharedModule
+],
 })
-
-export class HistoricidadModule { }
+export class HistoricidadModule {}

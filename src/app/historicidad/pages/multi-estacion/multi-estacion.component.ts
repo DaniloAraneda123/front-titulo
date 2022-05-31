@@ -73,8 +73,8 @@ export class MultiEstacionComponent{
 		for (let estacion of estaciones.estaciones) {
 			let datos: {}[] = []
 			for (let tupla of estacion.data) {
-				const y = (tupla.promedio==null)?null:tupla.promedio.toFixed(2)
-				datos.push({ x: this.getDate(tupla.fecha, ""), y })
+				const y = (tupla.p==null)?null:tupla.p.toFixed(2)
+				datos.push({ x: this.getDate(tupla.f, ""), y })
 			}
 
 			series.push({

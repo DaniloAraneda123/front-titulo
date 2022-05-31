@@ -174,7 +174,7 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 		for (let estacion of this.data.estaciones) {
 			if (estacion.data.length != 0) {
 				todo_vacio = false
-				const valores = estacion.data.map(el=>el.promedio)
+				const valores = estacion.data.map(el=>el.p)
 				const sum = valores.reduce((s, a) => s + a, 0)
 				const avg = ((sum / valores.length) || 0).toFixed(2)
 				const max = Math.max(...valores)
@@ -210,7 +210,7 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 	private _getNormalSerie(estacion: DataEstacion): SerieData {
 
 		let datos: {}[] = []
-		for (let tupla of estacion.data) datos.push({ x: tupla.fecha, y: tupla.promedio })
+		for (let tupla of estacion.data) datos.push({ x: tupla.f, y: tupla.p })
 
 		return ({
 			name: `${estacion.nombre_estacion}`,
@@ -223,8 +223,8 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 		let datos: {}[] = []
 		let acumulado: number = 0
 		for (let tupla of estacion.data) {
-			acumulado += tupla.promedio
-			datos.push({ x: tupla.fecha, y: acumulado })
+			acumulado += tupla.p
+			datos.push({ x: tupla.f, y: acumulado })
 		}
 
 		return ({

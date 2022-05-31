@@ -1,9 +1,10 @@
 export interface StepSerie {
-    fecha: string
-    promedio: number
-    maximo: number
-    minimo: number
-    contador: number
+    f: string
+    c: number
+    ma: number
+    mi: number
+    p: number,
+    s: any
 }
 
 export interface DataEstacion {
@@ -20,6 +21,7 @@ export interface ResponseSeries {
     altura: string
     unidad_medida: string
     tipo_variable: string
+    tipo_agrupacion:string
     estaciones: DataEstacion[]
 }
 
