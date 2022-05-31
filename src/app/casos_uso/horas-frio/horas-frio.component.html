@@ -221,13 +221,13 @@
     <div *ngIf="estaciones.length > 0 && !invalidDates">
         <div class="col-12">
             <mat-card class="card p-1 px-2">
-                <app-plot [titlePlot]="'Grafica Evolucion'" [series]="normalSeries" [loadingData]="loadingData" [typeChar]="'bar'"></app-plot>
+                <app-plot [titlePlot]="'Gráfica Horas-Frío :Resolución'" [series]="normalSeries" [loadingData]="loadingData" [typeChar]="'bar'"></app-plot>
             </mat-card>
         </div>
     
         <div *ngIf="groupCustom" class="col-12">
             <mat-card class="card p-1 px-2">
-                <app-plot [titlePlot]="'Grafica Evolucion Acumulada'" [series]="accumulatedSeries" [loadingData]="loadingData" [typeChar]="'line'"></app-plot>
+                <app-plot [titlePlot]="'Grafica Horas-Frío Acumulada' " [series]="accumulatedSeries" [loadingData]="loadingData" [typeChar]="'line'"></app-plot>
             </mat-card>
         </div>
     </div>

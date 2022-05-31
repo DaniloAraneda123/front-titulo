@@ -14,6 +14,7 @@ export class PlotComponent implements OnInit {
 	@Input() loadingData:boolean = false
 	@Input() typeChar:any = "line"
 
+
 	constructor() {
 		this.chartOptionsLine = {
 			series: [],
@@ -28,8 +29,28 @@ export class PlotComponent implements OnInit {
 			dataLabels: { enabled: false },
 			stroke: { width: [1, 2.5] },
 			// title: { text: "Horas Frio (9/6/20 - 20/6/20) Vicuña", align: "left", offsetX: 10 },
-			xaxis: { type: "datetime" },
-			yaxis: [],
+			//xaxis: { type: "datetime" },
+			//yaxis: [],
+			yaxis: {
+				title:{
+					text:"ETo"
+				},
+				labels: {
+				  formatter: function (value) {
+					return value + "mm";
+				  }
+				},
+			  },
+			  xaxis: {
+				  
+				labels: {
+					format:"dd/MM/yyyy"
+				},
+				type:"datetime",
+				title:{
+					text:"Fecha"
+				}
+			  },
 			legend: { position: "bottom", horizontalAlign: "center" }
 		};
 	}
