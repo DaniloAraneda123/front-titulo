@@ -16,9 +16,9 @@ export class CasosUsoComponent {
 			name: "Evapotranspiración",
 			subtitle: "COMPLETO",
 			img: "https://ichi.pro/assets/images/max/724/1*VWO_xMK8-w29HY00Wzty9w.jpeg",
-			description: `Se estudia la evapotranspiración en periodos diarios, semanales y por periodos, además permite
-			analizar evapotranspiración acumulada para los años donde existe registro y sección de comparación de intervalos. Los
-			datos de evapotranspiración son presentados en mm los cuales corresponden a los registros de las estaciones de monitoreo de la red de Ceazamet
+			description: `Se estudia la evapotranspiración en periodos diarios, semanales, mensuales y anuales, además permite
+			analizar evapotranspiración acumulada para los años donde existe registro y tambien tiene una sección de comparación de intervalos. Los
+			datos de evapotranspiración son presentados en mm.  Los registros provienen de las estaciones de monitoreo de la red de Ceazamet
 			a 0.1 m de altura.`,
 			url: "evapotranspiracion"
 		},
@@ -26,7 +26,7 @@ export class CasosUsoComponent {
 			name: "Horas Frío",
 			subtitle: "COMPLETO",
 			img: "https://storage.googleapis.com/portalfruticola/2016/12/plum-tree-1353819_640.jpg",
-			description:  `Se estudia número de horas frío en periodos diarios, semanales y por temporadas, a partir
+			description:  `Se estudia número de horas frío para periodos diarios, semanales, mensuales y anuales, a partir
 			de la cantidad de horas registradas con temperatura menor a 7C`,
 			url: "horas_frio"
 		},
@@ -34,8 +34,8 @@ export class CasosUsoComponent {
 			name: "Grados Día",
 			subtitle:"COMPLETO",
 			img: "https://www.journaljaeri.com/public/journals/37/homepageImage_en_US.jpg",
-			description: `Se estudia grados día medido en gd para periodos diarios, semanales y por temporadas, a partir
-			del registro obtenidos en las estaciones de Ceazamet a una altura de 2m`,
+			description: `Se estudia grados día en base 10 para periodos diarios, semanales, mensuales y anuales, a partir
+			de los registros obtenidos en las estaciones de Ceazamet a una altura de 2m`,
 			url: "grados_dia"
 		},
 		{
