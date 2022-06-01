@@ -265,11 +265,6 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 		this.consultarDatos.next({})
 	}
 
-	clickTabla(estacion: string, check: any) {
-		// console.log(estacion, check)
-		// check.toggle()
-	}
-
 	mostrarDataComparacion() {
 		let arregloTabla = []
 		let arregloTabla2 = []
@@ -374,6 +369,8 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 		this.accumulatedSeries2 = seriesAccumulated2
 		this.normalSeries2 = seriesNormal2
 
+		console.log(this.normalSeries,this.normalSeries2)
+
 	}
 	mostrarData() {
 		let arregloTabla = []
@@ -467,7 +464,7 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 					y = acumulado.toFixed(2)
 				}
 				else { y = null }
-				datos.push({ x: (new Date(tupla.f)).getTime(), y: acumulado })
+				datos.push({ x: (new Date(tupla.f)).getTime(), y: y })
 			}
 			return ({
 				name: comparacion,
@@ -483,7 +480,7 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 					y = acumulado.toFixed(2)
 				}
 				else { y = null }
-				datos.push({ x: tupla.f, y: acumulado })
+				datos.push({ x: tupla.f, y: y })
 			}
 			return ({
 				name: `${estacion.nombre_estacion}`,

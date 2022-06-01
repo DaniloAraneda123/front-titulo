@@ -147,19 +147,19 @@
                     </ng-container>
 
                     <ng-container matColumnDef="acumulado">
-                        <th mat-header-cell *matHeaderCellDef>ETo Acumulada</th>
-                        <td mat-cell *matCellDef="let element"> {{element.acumulado}} </td>
+                        <th class="text-center" mat-header-cell *matHeaderCellDef>ETo Acumulada</th>
+                        <td class="text-center" mat-cell *matCellDef="let element"> {{element.acumulado}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="promedio">
-                        <th mat-header-cell *matHeaderCellDef>ETo Promedio</th>
-                        <td mat-cell *matCellDef="let element"> {{element.promedio}} </td>
+                        <th class="text-center" mat-header-cell *matHeaderCellDef>ETo Promedio</th>
+                        <td class="text-center" mat-cell *matCellDef="let element"> {{element.promedio}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="maximo">
-                        <th mat-header-cell *matHeaderCellDef>ETo diario Max</th>
+                        <th class="text-center" mat-header-cell *matHeaderCellDef>ETo diario Max</th>
                         <!-- <th mat-header-cell *ngIf="groupCustom">Evapotranspiracion Anual Max</th>-->
-                        <td mat-cell *matCellDef="let element"> {{element.maxima}} </td>
+                        <td class="text-center" mat-cell *matCellDef="let element"> {{element.maxima}} </td>
                     </ng-container>
 
 
@@ -170,8 +170,6 @@
                                 <mat-checkbox #check (change)="checkTabla($event,element.estacion,check)"
                                     [checked]="element.opciones">
                                 </mat-checkbox>
-                                <mat-icon class="me-2" (click)="clickTabla(element.position,check)"> search
-                                </mat-icon>
                             </div>
                         </td>
                     </ng-container>
