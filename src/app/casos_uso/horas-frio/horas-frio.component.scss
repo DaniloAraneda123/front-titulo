@@ -1,3 +1,19 @@
+.grid-row{
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr; 
+  gap: 6px;
+
+  div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    background-image: url("https://storage.googleapis.com/portalfruticola/2016/12/plum-tree-1353819_640.jpg");
+    border: 1px solid black;
+  }
+}
+
+
 .titulo {
   background-color: #ffffff;
   text-align: center;

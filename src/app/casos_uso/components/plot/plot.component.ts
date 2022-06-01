@@ -12,7 +12,16 @@ export class PlotComponent implements OnInit {
 	chartOptionsLine: Partial<ChartOptions>;
 	@Input() titlePlot!: string
 	@Input() loadingData:boolean = false
-	@Input() typeChar:any = "line"
+	charType: ('line'|'bar') = 'line';
+
+
+	@Input() set typeChar(value: ('line'|'bar')) {
+		this.charType = value
+		this.chartOptionsLine.chart = {...this.chartOptionsLine.chart, type: value}
+	}
+
+
+
 	@Input() ytext:string
 	@Input() unit: string
 
@@ -61,7 +70,7 @@ export class PlotComponent implements OnInit {
 
 
 	@Input() set series(values: SerieData[]) {
-		this.chartOptionsLine.chart = {...this.chartOptionsLine.chart, type:this.typeChar}
+		this.chartOptionsLine.chart = {...this.chartOptionsLine.chart, type:this.charType}
 		this.chartOptionsLine.yaxis = {... this.chartOptionsLine, title:{text: this.ytext}}
 		this.chartOptionsLine.series =  [...values]
 	}

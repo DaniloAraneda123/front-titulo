@@ -75,9 +75,9 @@ export class MultigraficoComponent {
 
                 const instante = interval.y;
                 const contado = interval.c;
-                let acumulado:any = 0
+                let acumulado: any = 0
 
-                for (let i=0; i<= dataPointIndex; i++) acumulado+=w.config.series[0].data[i].y
+                for (let i = 0; i <= dataPointIndex; i++) acumulado += w.config.series[0].data[i].y
                 acumulado = acumulado.toFixed(2)
 
                 return `
@@ -116,7 +116,7 @@ export class MultigraficoComponent {
             },
         },
         grid: { clipMarkers: true },
-        xaxis: { type: 'datetime' },
+        xaxis: { type: 'datetime', labels: { format: "dd/MM/yyyy" } },
     };
 
     groupTitle: string = ""
@@ -132,9 +132,7 @@ export class MultigraficoComponent {
         this.createSeries();
     }
 
-    @Input() set data(
-        series: (SerieData & { unidad_medida: string, altura: string, group: string, variableName: string })[]
-    ) {
+    @Input() set data(series: (SerieData & { unidad_medida: string, altura: string, group: string, variableName: string })[]) {
         if (series.length > 0) this.groupTitle = series[0].group.charAt(0).toUpperCase() + series[0].group.slice(1);
         this.dataSource = series;
         this.createSeries();
@@ -175,7 +173,7 @@ export class MultigraficoComponent {
                     {
                         tickAmount: 1,
                         labels: { minWidth: 30 },
-                        title: { text: serie.unidad_medida },
+                        title: { text: serie.unidad_medida, style: { fontSize: "18px",fontWeight:3 }, rotate: 0 },
                         seriesName: `${serie.name} unico`,
                     },
                 ],
@@ -209,7 +207,7 @@ export class MultigraficoComponent {
                 {
                     tickAmount: 1,
                     labels: { minWidth: 30 },
-                    title: { text: this.dataSource[i].unidad_medida },
+                    title: { text: this.dataSource[i].unidad_medida,style: { fontSize: "18px",fontWeight:3 }, rotate: 0 },
                     opposite: true,
                     seriesName: serie.name,
                 },
@@ -236,7 +234,7 @@ export class MultigraficoComponent {
                 {
                     tickAmount: 1,
                     labels: { minWidth: 30 },
-                    title: { text: this.dataSource[i].unidad_medida },
+                    title: { text: this.dataSource[i].unidad_medida,style: { fontSize: "18px",fontWeight:3 }, rotate: 0 },
                     seriesName: `${serie.name} unico`,
                 },
                 ...this.multiCharts[i].yaxis,

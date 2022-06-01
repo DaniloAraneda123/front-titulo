@@ -1,3 +1,20 @@
+.grid-row{
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr; 
+  gap: 6px;
+
+  div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    background-image: url("https://www.journaljaeri.com/public/journals/37/homepageImage_en_US.jpg") ;
+    background-size:  100%;
+    border: 1px solid black;
+  }
+}
+
+
 .titulo {
     background-color: #ffffff;
     text-align: center;

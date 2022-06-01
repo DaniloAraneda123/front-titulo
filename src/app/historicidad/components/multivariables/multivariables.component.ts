@@ -16,7 +16,7 @@ export class MultivariablesComponent {
 	chartOptionsVariables: Partial<ChartOptions> = {
 		series: [],
 		chart: {
-			type: "bar", height: "100vh",
+			type: "bar", height: 700,
 			toolbar: { autoSelected: "selection", show: true },
 			animations: {
 				enabled: true, easing: 'easeinout', speed: 400,
@@ -33,11 +33,11 @@ export class MultivariablesComponent {
 			}
 		},
 
-		dataLabels: {enabled: false,},
+		dataLabels: { enabled: false, },
 		stroke: { curve: "straight", width: 3 },
 		fill: { opacity: 1 },
 		markers: { size: 0 },
-		xaxis: { type: "datetime", title: { text: "Fecha" } },
+		xaxis: { type: "datetime", title: { text: "Fecha" }, labels: { format: "dd/MM/yyyy" } },
 		yaxis: { title: { text: "" } },
 		legend: { position: "top", horizontalAlign: "center" }
 	};
@@ -46,28 +46,28 @@ export class MultivariablesComponent {
 
 	constructor() { }
 
-	@Input() set subSerie(nombre:string) {
+	@Input() set subSerie(nombre: string) {
 		this.subSerie = nombre
 		this.createSeries()
 	}
-	
+
 	@Input() set data(data: (SerieData & { unidad_medida: string, altura: string })[]) {
 		this.dataSource = data
 		this.createSeries()
 	}
 
-	createSeries(){
+	createSeries() {
 		let series: ApexAxisChartSeries = []
 		this.title = ""
 		for (let serie of this.dataSource) {
-			this.title += `${serie.name} vs `
+			this.title += `${serie.name} [${serie.altura}]   V/S   `
 			series.push({
-				name: `${serie.name} [${serie.unidad_medida}]`,
+				name: `${serie.name} [${serie.altura}] [${serie.unidad_medida}]`,
 				type: 'bar',
 				data: serie.data
 			})
 		}
-		this.title = this.title.slice(0, this.title.length - 4)
+		this.title = this.title.slice(0, this.title.length - 6)
 		this.chartOptionsVariables.series = series
 	}
 }

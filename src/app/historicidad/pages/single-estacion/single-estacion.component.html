@@ -55,7 +55,7 @@
             <h3 class="mb-1"><b>Rango de Fechas</b></h3>
             <mat-form-field class="w-100" appearance="fill" [formGroup]="range">
                 <mat-label>Ingrese un Nuevo Rango</mat-label>
-                <mat-date-range-input [rangePicker]="picker">
+                <mat-date-range-input [rangePicker]="picker" [max]="maxDate">
                     <input matStartDate placeholder="Start date" formControlName="start">
                     <input matEndDate placeholder="End date" formControlName="end">
                 </mat-date-range-input>

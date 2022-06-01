@@ -72,9 +72,9 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 	maxDate = environment.maxDate
 	formTemporal: FormGroup;
 	estacionReal: String = "Rivadavia";
-	today:any = new Date();
+	today: any = new Date();
 	dd = String(this.today.getDate()).padStart(2, '0');
-	mm = String(this.today.getMonth() + 1).padStart(2, '0'); 
+	mm = String(this.today.getMonth() + 1).padStart(2, '0');
 	yyyy = this.today.getFullYear();
 	fechaActual = this.mm + '/' + this.dd + '/' + this.yyyy;
 	/*
@@ -98,7 +98,7 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 	loadingData: boolean = false
 	error: any = null
 	data: ResponseSeries = null
-	dataComparacion: ResponseSeriesComparacion = null 
+	dataComparacion: ResponseSeriesComparacion = null
 	dataEstaciones: any = null
 	invalidDates = true
 	stationsNoData: string[] = []
@@ -110,19 +110,19 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 	series_activate_grafico_1 = 0
 	series_activate_grafico_2 = 0
 
-	constructor(private store: Store<AppState>, private _snackBar: MatSnackBar, private fctrl: FormBuilder){
+	constructor(private store: Store<AppState>, private _snackBar: MatSnackBar, private fctrl: FormBuilder) {
 
 
-			// console.log("Ingresa a modal")
-			this.formTemporal = fctrl.group({
-			start:['',Validators.required],
-			start2:[''],
-			end:['',Validators.required],
-			end2:[''],
-			agrupacionCustom:['diaria',Validators.required],
-			agrupacionTemporadas:['temporada',Validators.required],
-			tipoConsulta:['/serie_custom',Validators.required],
-		  })
+		// console.log("Ingresa a modal")
+		this.formTemporal = fctrl.group({
+			start: ['', Validators.required],
+			start2: [''],
+			end: ['', Validators.required],
+			end2: [''],
+			agrupacionCustom: ['diaria', Validators.required],
+			agrupacionTemporadas: ['temporada', Validators.required],
+			tipoConsulta: ['/serie_custom', Validators.required],
+		})
 	}
 
 
@@ -130,8 +130,8 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 	ngOnInit(): void {
 
 		setInterval(() => {
-				this.mostrarEstacion()
-			}, 4000);
+			this.mostrarEstacion()
+		}, 4000);
 
 
 		this.store$ = this.store.select("evapotranspiracion").subscribe((state) => {
@@ -143,19 +143,19 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 			this.dataEstaciones = state.dataEstaciones
 			// console.log("arregoTabla", state)
 
-			if(this.formTemporal.controls.tipoConsulta.value == '/serie_comparacion'){
-				if (this.dataComparacion != null && this.error == null)  this.mostrarDataComparacion()
+			if (this.formTemporal.controls.tipoConsulta.value == '/serie_comparacion') {
+				if (this.dataComparacion != null && this.error == null) this.mostrarDataComparacion()
 			}
-			else{
-				if (this.data != null && this.error == null)  this.mostrarData()
+			else {
+				if (this.data != null && this.error == null) this.mostrarData()
 			}
-			
+
 		});
 
 
 		this.formTemporal$ = this.formTemporal.valueChanges.subscribe((value: any) => {
 			value.tipoConsulta == '/serie_comparacion' ? this.comparacionIntervalo = true : this.comparacionIntervalo = false;
-	
+
 			(value.tipoConsulta == '/serie_custom' || value.tipoConsulta == '/serie_comparacion') ? this.groupCustom = true : this.groupCustom = false
 			this.invalidDates = true
 			// // console.log("formTemporalvalid", this.formTemporal)
@@ -210,12 +210,12 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 		this.consultarDatos$.unsubscribe()
 	}
 
-	mostrarEstacion(){
-		var myArray = ["Algarrobal", "Coquimbo [El Panul]", "El Jote", "El Tapado","Estero Derecho", "Gabriela Mistral",
-				"La Laguna [Elqui]","La Serena [CEAZA]", "La Serena [Cerro Grande]", "La Serena [El Romeral]", "Las Cardas",
+	mostrarEstacion() {
+		var myArray = ["Algarrobal", "Coquimbo [El Panul]", "El Jote", "El Tapado", "Estero Derecho", "Gabriela Mistral",
+			"La Laguna [Elqui]", "La Serena [CEAZA]", "La Serena [Cerro Grande]", "La Serena [El Romeral]", "Las Cardas",
 			"Llano de Las Liebres", "Llanos de Huanta", "Los Corrales", "Pan de Azucar", "Paso Agua Negra", "Pisco Elqui",
-			 "Punta Colorada", "Punta de Choros", "Rivadavia", "UCN Guayacan", "Vicuna"];
-		var rand = Math.floor(Math.random()*myArray.length);
+			"Punta Colorada", "Punta de Choros", "Rivadavia", "UCN Guayacan", "Vicuna"];
+		var rand = Math.floor(Math.random() * myArray.length);
 		var rValue = myArray[rand];
 		this.estacionReal = rValue
 	}
@@ -226,7 +226,7 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 		let aux: string
 		this.formTemporal.get('tipoConsulta').value == "/serie_custom" ? aux = "agrupacionCustom" : aux = "agrupacionTemporadas"
 
-		if(aux === "agrupacionCustom"){
+		if (aux === "agrupacionCustom") {
 			if (this.formTemporal.get(aux).value == 'mensual') {
 				const endMonth = new Date(end.getFullYear(), end.getMonth() + 1, 0);
 				start.setDate(1)
@@ -293,52 +293,59 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 			// console.log("Data de la estacion", estacion)
 			cont = 0
 			aux = 0
-			for(let periodo of estacion.total_data){
+			for (let periodo of estacion.total_data) {
 				if (periodo.length != 0) {
-						todo_vacio = false				
-						var valores_aux = periodo.map(el=>el.promedio)
-						var valores = valores_aux.filter(el => el !== undefined)
-						var sum = valores.reduce((s, a) => s + a, 0).toFixed(2)
-						var avg = ((sum / valores.length) || 0).toFixed(2)
-						var max = Math.max(...valores)
-					if(cont == 0){
-						acumulado1= sum
+					todo_vacio = false
+
+				
+
+
+					const valores = periodo.map(el => el.p).filter(el => el != undefined)
+					// const conteos = estacion.data.map(el => el.c).filter(el => el != undefined)
+					let sum: any = valores.reduce((s, a) => (s + a), 0)
+					// let cont: any = conteos.reduce((s, a) => {
+					// 	if (a == undefined) a = 0
+					// 	return (s + a)
+					// }, 0)
+					const avg = ((sum / valores.length) || 0).toFixed(2)
+					const max = Math.max(...valores)
+					sum = sum.toFixed(2)
+
+
+					if (cont == 0) {
+						acumulado1 = sum
 						promedio1 = Number(avg)
 						maxima1 = max
-						if(this.series_activate_grafico_1 < 3){
+						if (this.series_activate_grafico_1 < 3) {
 							seriesNormal.push(this._getNormalSerie(periodo, estacionAccepted))
-							seriesAccumulated.push(this._getAccumulatedSerie(periodo, estacionAccepted))	
+							seriesAccumulated.push(this._getAccumulatedSerie(periodo, estacionAccepted))
 							this.series_activate_grafico_1++
 						}
 					}
-					else{	
-							
+					else {
+
 						acumulado2 = sum
-						promedio2= Number(avg)
+						promedio2 = Number(avg)
 						maxima2 = max
-						if(this.series_activate_grafico_2 < 3){
+						if (this.series_activate_grafico_2 < 3) {
 							seriesNormal2.push(this._getNormalSerie(periodo, estacionAccepted))
-							seriesAccumulated2.push(this._getAccumulatedSerie(periodo, estacionAccepted))	
+							seriesAccumulated2.push(this._getAccumulatedSerie(periodo, estacionAccepted))
 							this.series_activate_grafico_2++
 						}
 						// console.log(acumulado2)
 
 					}
 				}
-				else{
-					
-					if(aux > 0){
-					 stationsNoData2.push(estacion.nombre_estacion)
-					}
-					
+				else {
+					if (aux > 0) stationsNoData2.push(estacion.nombre_estacion)
 					aux++
 				}
 				cont++;
-				
-				}
-			
-			if(estacion.total_data[0].length > 0 || estacion.total_data[1].length > 0){
-				
+
+			}
+
+			if (estacion.total_data[0].length > 0 || estacion.total_data[1].length > 0) {
+
 				row_estacion.push({
 					estacion: estacionAccepted,
 					acumulado1: acumulado1,
@@ -355,10 +362,10 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 				promedio2 = null
 				maxima2 = null
 
-			
+
 			}
 		}
-		
+
 		this.dataSource = arregloTabla
 		this.dataSource2 = row_estacion
 		this.stationsNoData = stationsNoData2
@@ -366,7 +373,7 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 		this.normalSeries = seriesNormal
 		this.accumulatedSeries2 = seriesAccumulated2
 		this.normalSeries2 = seriesNormal2
-	
+
 	}
 	mostrarData() {
 		let arregloTabla = []
@@ -384,8 +391,8 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 		for (let estacion of this.data.estaciones) {
 			if (estacion.data.length != 0) {
 				todo_vacio = false
-				
-				var valores_aux = estacion.data.map(el=>el.p)
+
+				var valores_aux = estacion.data.map(el => el.p)
 				var valores = valores_aux.filter(el => el !== undefined)
 				var sum = Number(valores.reduce((s, a) => s + a, 0).toFixed(2))
 				var avg = ((sum / valores.length) || 0).toFixed(2)
@@ -399,7 +406,6 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 					opciones: (this.series_activate < 3)
 				})
 				if (this.series_activate < 3) {
-					// console.log("ESTACION",estacion)
 					seriesNormal.push(this._getNormalSerie(estacion, false))
 					seriesAccumulated.push(this._getAccumulatedSerie(estacion, false))
 					this.series_activate++
@@ -409,12 +415,12 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 				stationsNoData.push(estacion.nombre_estacion)
 			}
 		}
-		
+
 		this.dataSource = arregloTabla
 		this.stationsNoData = stationsNoData
 		this.accumulatedSeries = seriesAccumulated
 		this.normalSeries = seriesNormal
-		
+
 	}
 
 	limpiarVisualizacion() {
@@ -429,39 +435,38 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 		this.normalSeries2 = []
 	}
 
-	private _getNormalSerie(estacion: any, comparacion:any): SerieData {
+	private _getNormalSerie(estacion: any, comparacion: any): SerieData {
 		let datos: {}[] = []
-		// console.log("DATOS", estacion)
-		if(comparacion){
-			for (let tupla of estacion) datos.push({ x: (new Date(tupla.f)).getTime(), y: tupla.p })
-			// console.log("comparacionTOTAL,", datos)
+		if (comparacion) {
+			for (let tupla of estacion) datos.push({ x: tupla.f, y: (tupla.p == undefined) ? null : tupla.p })
 			return ({
 				name: comparacion,
 				type: "line",
 				data: datos
 			})
 		}
-		else{
-			for (let tupla of estacion.data) datos.push({ x: (new Date(tupla.f)).getTime(), y: tupla.p })
-
-		return ({
-			name: `${estacion.nombre_estacion}`,
-			type: "column",
-			data: datos
-		})
+		else {
+			for (let tupla of estacion.data) datos.push({ x: tupla.f, y: (tupla.p == undefined) ? null : tupla.p })
+			return ({
+				name: `${estacion.nombre_estacion}`,
+				type: "column",
+				data: datos
+			})
 		}
-		
-
-
 	}
 
-	private _getAccumulatedSerie(estacion: any, comparacion:any): SerieData {
+	private _getAccumulatedSerie(estacion: any, comparacion: any): SerieData {
 		let datos: {}[] = []
 		let acumulado: number = 0
 
-		if(comparacion){
+		if (comparacion) {
 			for (let tupla of estacion) {
-				acumulado += tupla.p
+				let y: any = 0
+				if (tupla.p != undefined) {
+					acumulado += tupla.p
+					y = acumulado.toFixed(2)
+				}
+				else { y = null }
 				datos.push({ x: (new Date(tupla.f)).getTime(), y: acumulado })
 			}
 			return ({
@@ -470,9 +475,14 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 				data: datos
 			})
 		}
-		else{
+		else {
 			for (let tupla of estacion.data) {
-				acumulado += tupla.p
+				let y: any = 0
+				if (tupla.p != undefined) {
+					acumulado += tupla.p
+					y = acumulado.toFixed(2)
+				}
+				else { y = null }
 				datos.push({ x: tupla.f, y: acumulado })
 			}
 			return ({

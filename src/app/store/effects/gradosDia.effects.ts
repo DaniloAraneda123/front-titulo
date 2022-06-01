@@ -17,7 +17,6 @@ export class GradosDiaEffects {
             concatLatestFrom(() => this.store.select(state => state.gradosDia)),
             switchMap(([, parametros]) => {
                 if (parametros.tipoConsulta == '/serie_custom') {
-                    console.log("parametros",parametros)
                     return this.gradosDiaService.consultarSerieCustom(
                         {
                             estaciones: parametros.estaciones,
@@ -31,7 +30,6 @@ export class GradosDiaEffects {
                             catchError((error) => of(gdActions.setDataError({ payload: error })))
                         )
                 } else {
-                    console.log("parametros",parametros)
                     return this.gradosDiaService.consultarSerieTemporadas(
                         {
                             estaciones: parametros.estaciones,

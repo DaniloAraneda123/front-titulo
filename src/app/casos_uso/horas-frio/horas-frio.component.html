@@ -1,27 +1,30 @@
 <div class="row m-1 gx-2 gy-2 " style="justify-content: center; align-items: center;">
 
-    <div class="col-3 ">
 
-        <h1 class="col-text-align" style="margin: auto; font-size: 30px;">Horas Frío</h1>
-                
-    </div>
-        <mat-card class="col-2 m-1 dato card">
-            <mat-card-title style="display: flexbox;">Hoy   <span style="color: #b5473f; font-size:  4">{{(fechaActual)}}</span></mat-card-title>
+    <section class="grid-row">
+        <div>
+            <h1 style="margin: auto; font-size: 30px; color: brown;">Horas Frío</h1>
+        </div>
+
+        <mat-card class="dato card">
+            <mat-card-title style="display: flexbox;">Hoy <span
+                    style="color: #b5473f; font-size:  4">{{(fechaActual)}}</span>
+            </mat-card-title>
             <mat-card-subtitle>{{estacionReal}}</mat-card-subtitle>
             <h1 style="color: #b5473f;"><b>N/A</b>
                 <p> HF </p>
             </h1>
         </mat-card>
 
-        <mat-card class="col-2 m-1 dato card">
+        <mat-card class="dato card">
             <mat-card-title>Ayer</mat-card-title>
             <mat-card-subtitle>{{estacionReal}}</mat-card-subtitle>
             <h1 style="color: #b5473f;"><b>N/A</b>
                 <p> HF</p>
             </h1>
         </mat-card>
- 
-        <mat-card class="col-2 m-1 dato card">
+
+        <mat-card class="dato card">
             <mat-card-title>Este Mes</mat-card-title>
             <mat-card-subtitle>{{estacionReal}}</mat-card-subtitle>
             <h1 style="color: #b5473f;"><b>N/A</b>
@@ -29,16 +32,16 @@
             </h1>
         </mat-card>
 
-
-        <mat-card class="col-2 m-1 dato card">
+        <mat-card class="dato card">
             <mat-card-title>Este año</mat-card-title>
             <mat-card-subtitle>{{estacionReal}}</mat-card-subtitle>
             <h1 style="color: #b5473f;"><b>N/A</b>
                 <p> HF</p>
             </h1>
         </mat-card>
+    </section>
 
-    <div class="col-12" >
+    <div class="col-12">
         <mat-card class="input card p-1 px-2 ">
             <div class="d-flex justify-content-between">
                 <h2 class="m-0">Input Temporales</h2>
@@ -49,7 +52,8 @@
             </div>
 
             <div class=" d-flex justify-content-between">
-                <form [formGroup]="formTemporal" class="flex-grow-1 d-flex flex-column flex-sm-row justify-content-between">
+                <form [formGroup]="formTemporal"
+                    class="flex-grow-1 d-flex flex-column flex-sm-row justify-content-between">
                     <div>
                         <mat-form-field class="mt-1 mt-sm-0" style="margin-bottom: -15px;" appearance="fill">
                             <mat-label>Intervalo de Fechas</mat-label>
@@ -60,7 +64,7 @@
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-date-range-picker #picker></mat-date-range-picker>
                         </mat-form-field>
-    
+
                         <mat-form-field *ngIf="groupCustom" class="mt-1 mt-sm-0 ms-0 ms-sm-2"
                             style="margin-bottom: -15px;" appearance="fill">
                             <mat-label>Resolucion</mat-label>
@@ -74,15 +78,16 @@
                             style="margin-bottom: -15px;" appearance="fill">
                             <mat-label>Resolucion</mat-label>
                             <mat-select formControlName="agrupacionTemporadas">
-                                <mat-option *ngFor="let item of agrupacionTemporadas" [value]="item.value">{{item.label}}
+                                <mat-option *ngFor="let item of agrupacionTemporadas" [value]="item.value">
+                                    {{item.label}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
 
                     <div>
-                        <mat-form-field class="mt-1 mt-sm-0 ms-0 ms-sm-2"
-                            style="margin-bottom: -15px;" appearance="fill">
+                        <mat-form-field class="mt-1 mt-sm-0 ms-0 ms-sm-2" style="margin-bottom: -15px;"
+                            appearance="fill">
                             <mat-label>Tipo Consulta</mat-label>
                             <mat-select formControlName="tipoConsulta">
                                 <mat-option value="/serie_custom">Examinar Intervalo</mat-option>
@@ -94,48 +99,6 @@
             </div>
         </mat-card>
     </div>
-
-    <!-- /////////////////////////////////////////////////////////////////////////////// -->
-
-    <!-- <div class="d-none d-lg-inline col-6 col-lg-3 mn-c">
-        <mat-card class="dato card">
-            <mat-card-title>Total</mat-card-title>
-            <mat-card-subtitle>Vicuña</mat-card-subtitle>
-            <h1 style="color: #3f8cb5;"><b>110 </b>
-                <p>Hf</p>
-            </h1>
-        </mat-card>
-    </div>
-
-    <div class="d-none d-lg-inline col-6 col-lg-3 mn-c">
-        <mat-card class="dato card">
-            <mat-card-title>Promedio</mat-card-title>
-            <mat-card-subtitle>(9/6/20 - 20/6/20)</mat-card-subtitle>
-            <h1 style="color: #3f8cb5;"><b>13 </b>
-                <p>Hf</p>
-            </h1>
-        </mat-card>
-    </div>
-
-    <div class="d-none d-lg-inline col-6 col-lg-3 mn-c">
-        <mat-card class="dato card">
-            <mat-card-title>Promedio Seleccionado</mat-card-title>
-            <mat-card-subtitle>(12/6/20 - 19/6/20)</mat-card-subtitle>
-            <h1 style="color: #683fb5;"><b>11 </b>
-                <p>Hf</p>
-            </h1>
-        </mat-card>
-    </div>
-
-    <div class="d-none d-lg-inline col-6 col-lg-3 mn-c">
-        <mat-card class="dato card">
-            <mat-card-title>Total Seleccionado</mat-card-title>
-            <mat-card-subtitle>(12/6/20 - 19/6/20)</mat-card-subtitle>
-            <h1 style="color: #683fb5;"><b>80 </b>
-                <p>Hf</p>
-            </h1>
-        </mat-card>
-    </div> -->
 
     <!-- /////////////////////////////////////////////////////////////////////////////// -->
 
@@ -153,8 +116,9 @@
                 </mat-spinner>
             </div>
             <hr class="m-0">
-            <div  style="overflow-y: auto; max-height: 58vh;">
-                <table *ngIf="estaciones.length > 0 && !invalidDates" mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100">
+            <div style="overflow-y: auto; max-height: 58vh;">
+                <table *ngIf="estaciones.length > 0 && !invalidDates" mat-table [dataSource]="dataSource"
+                    class="mat-elevation-z8 w-100">
 
                     <ng-container matColumnDef="estacion">
                         <th mat-header-cell *matHeaderCellDef>Estacion </th>
@@ -162,18 +126,23 @@
                     </ng-container>
 
                     <ng-container matColumnDef="acumulado">
-                        <th mat-header-cell *matHeaderCellDef>Horas Frio Acumulado</th>
-                        <td mat-cell *matCellDef="let element"> {{element.acumulado}} </td>
+                        <th mat-header-cell class="text-center" *matHeaderCellDef>Horas Frio Acumulado</th>
+                        <td mat-cell class="text-center" *matCellDef="let element"> {{element.acumulado}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="promedio">
-                        <th mat-header-cell *matHeaderCellDef>Horas Frio Promedio</th>
-                        <td mat-cell *matCellDef="let element"> {{element.promedio}} </td>
+                        <th mat-header-cell class="text-center" *matHeaderCellDef>Horas Frio Promedio</th>
+                        <td mat-cell class="text-center" *matCellDef="let element"> {{element.promedio}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="maximo">
-                        <th mat-header-cell *matHeaderCellDef>Horas Frio diario Max</th>
-                        <td mat-cell *matCellDef="let element"> {{element.maxima}} </td>
+                        <th mat-header-cell class="text-center" *matHeaderCellDef>Horas Frio diario Max</th>
+                        <td mat-cell class="text-center" *matCellDef="let element"> {{element.maxima}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="contador">
+                        <th mat-header-cell class="text-center" *matHeaderCellDef>Contador</th>
+                        <td mat-cell class="text-center" *matCellDef="let element"> {{element.contador}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="opciones">
@@ -181,9 +150,8 @@
                         <td mat-cell *matCellDef="let element" style="text-align: right;">
                             <div class="d-flex flex-row-reverse align-items-center">
                                 <mat-checkbox #check (change)="checkTabla($event,element.estacion,check)"
-                                    [checked]="element.opciones"></mat-checkbox>
-                                <mat-icon class="me-2" (click)="clickTabla(element.position,check)"> search
-                                </mat-icon>
+                                    [checked]="element.opciones">
+                                </mat-checkbox>
                             </div>
                         </td>
                     </ng-container>
@@ -193,15 +161,16 @@
                 </table>
                 <div *ngIf="estaciones.length == 0 || invalidDates" class="error-items mt-2">
                     <p>Seleccione los inputs requeridos para comenzar.</p>
-                    <ul >
-                        <li class="mb-1" *ngIf="estaciones.length == 0"> <b>Error:</b> Seleccione al menos una estación.</li>
+                    <ul>
+                        <li class="mb-1" *ngIf="estaciones.length == 0"> <b>Error:</b> Seleccione al menos una estación.
+                        </li>
                         <li class="mb-1" *ngIf="invalidDates"><b>Error:</b> Selecciones un rango de fecha.</li>
                     </ul>
                 </div>
                 <hr>
                 <div class="estaciones-no-data" *ngIf="stationsNoData.length>0">
                     <p class="mt-2">Las siguientes estaciones no tiene datos en el rango de fechas seleccionado.</p>
-                    <ul >
+                    <ul>
                         <li class="mb-1" *ngFor="let s of stationsNoData"> <b>{{s}}</b></li>
                     </ul>
                 </div>
@@ -211,59 +180,18 @@
 
     <!-- /////////////////////////////////////////////////////////////////////////////// -->
 
-    <!-- 
-    <div class="d-inline d-lg-none col-6 col-lg-3 mn-c">
-        <mat-card class="dato card">
-            <mat-card-title>Total</mat-card-title>
-            <mat-card-subtitle>Vicuña</mat-card-subtitle>
-            <h1 style="color: #3f8cb5;"><b>110 </b>
-                <p>Hf</p>
-            </h1>
-        </mat-card>
-    </div>
-
-    <div class="d-inline d-lg-none col-6 col-lg-3 mn-c">
-        <mat-card class="dato card">
-            <mat-card-title>Promedio</mat-card-title>
-            <mat-card-subtitle>(9/6/20 - 20/6/20)</mat-card-subtitle>
-            <h1 style="color: #3f8cb5;"><b>13 </b>
-                <p>Hf</p>
-            </h1>
-        </mat-card>
-    </div>
-
-    <div class="d-inline d-lg-none col-6 col-lg-3 mn-c">
-        <mat-card class="dato card">
-            <mat-card-title>Promedio Seleccionado</mat-card-title>
-            <mat-card-subtitle>(12/6/20 - 19/6/20)</mat-card-subtitle>
-            <h1 style="color: #683fb5;"><b>11 </b>
-                <p>Hf</p>
-            </h1>
-        </mat-card>
-    </div>
-
-    <div class="d-inline d-lg-none col-6 col-lg-3 mn-c">
-        <mat-card class="dato card">
-            <mat-card-title>Total Seleccionado</mat-card-title>
-            <mat-card-subtitle>(12/6/20 - 19/6/20)</mat-card-subtitle>
-            <h1 style="color: #683fb5;"><b>80 </b>
-                <p>Hf</p>
-            </h1>
-        </mat-card>
-    </div> -->
-
-    <!-- /////////////////////////////////////////////////////////////////////////////// -->
-
     <div *ngIf="estaciones.length > 0 && !invalidDates">
         <div class="col-12">
             <mat-card class="card p-1 px-2">
-                <app-plot [titlePlot]="'Gráfica Horas-Frío :Resolución'" [series]="normalSeries" [loadingData]="loadingData" [typeChar]="'bar'" [ytext]="'Horas Frío (hf)'"></app-plot>
+                <app-plot [titlePlot]="'Gráfica Horas-Frío'" [series]="normalSeries"
+                    [loadingData]="loadingData" [typeChar]="typeChar" [ytext]="'Horas Frío (hf)'"></app-plot>
             </mat-card>
         </div>
-    
+
         <div *ngIf="groupCustom" class="col-12">
             <mat-card class="card p-1 px-2">
-                <app-plot [titlePlot]="'Grafica Horas-Frío Acumulada' " [series]="accumulatedSeries" [loadingData]="loadingData" [typeChar]="'line'" [ytext]="'Horas Frío (hf)'"></app-plot>
+                <app-plot [titlePlot]="'Grafica Horas-Frío Acumulada' " [series]="accumulatedSeries"
+                    [loadingData]="loadingData" [typeChar]="'line'" [ytext]="'Horas Frío (hf)'"></app-plot>
             </mat-card>
         </div>
     </div>

@@ -1,42 +1,43 @@
 <div class="row m-1 gx-2 gy-2 " style="justify-content: center; align-items: center;">
 
-    <div class="col-3 ">
+    <div class="grid-row">
+        <div >
+            <h1 style="margin: auto; font-size: 30px;">Grados Día</h1>      
+        </div>
 
-        <h1 class="col-text-align" style="margin: auto; font-size: 30px;">Grados Día</h1>
-                
-    </div>
-        <mat-card class="col-2 m-1 dato card">
+        <mat-card class="dato card">
             <mat-card-title style="display: flexbox;">Hoy   <span style="color: #b5473f; font-size:  4">{{(fechaActual)}}</span></mat-card-title>
             <mat-card-subtitle>{{estacionReal}}</mat-card-subtitle>
             <h1 style="color: #b5473f;"><b>N/A</b>
                 <p> gd</p>
             </h1>
         </mat-card>
-
-        <mat-card class="col-2 m-1 dato card">
+    
+        <mat-card class="dato card">
             <mat-card-title>Ayer</mat-card-title>
             <mat-card-subtitle>{{estacionReal}}</mat-card-subtitle>
             <h1 style="color: #b5473f;"><b>N/A</b>
                 <p> gd</p>
             </h1>
         </mat-card>
- 
-        <mat-card class="col-2 m-1 dato card">
+    
+        <mat-card class="dato card">
             <mat-card-title>Este Mes</mat-card-title>
             <mat-card-subtitle>{{estacionReal}}</mat-card-subtitle>
             <h1 style="color: #b5473f;"><b>N/A</b>
                 <p> gd</p>
             </h1>
         </mat-card>
-
-
-        <mat-card class="col-2 m-1 dato card">
+    
+    
+        <mat-card class="dato card">
             <mat-card-title>Este año</mat-card-title>
             <mat-card-subtitle>{{estacionReal}}</mat-card-subtitle>
             <h1 style="color: #b5473f;"><b>N/A</b>
                 <p> gd</p>
             </h1>
         </mat-card>
+    </div>
 
     <div class="col-12">
         <mat-card class="input card p-1 px-2 ">
@@ -97,48 +98,6 @@
 
     <!-- /////////////////////////////////////////////////////////////////////////////// -->
 
-    <!-- <div class="d-none d-lg-inline col-6 col-lg-3 mn-c">
-        <mat-card class="dato card">
-            <mat-card-title>Total</mat-card-title>
-            <mat-card-subtitle>Vicuña</mat-card-subtitle>
-            <h1 style="color: #3f8cb5;"><b>110 </b>
-                <p>Hf</p>
-            </h1>
-        </mat-card>
-    </div>
-
-    <div class="d-none d-lg-inline col-6 col-lg-3 mn-c">
-        <mat-card class="dato card">
-            <mat-card-title>Promedio</mat-card-title>
-            <mat-card-subtitle>(9/6/20 - 20/6/20)</mat-card-subtitle>
-            <h1 style="color: #3f8cb5;"><b>13 </b>
-                <p>Hf</p>
-            </h1>
-        </mat-card>
-    </div>
-
-    <div class="d-none d-lg-inline col-6 col-lg-3 mn-c">
-        <mat-card class="dato card">
-            <mat-card-title>Promedio Seleccionado</mat-card-title>
-            <mat-card-subtitle>(12/6/20 - 19/6/20)</mat-card-subtitle>
-            <h1 style="color: #683fb5;"><b>11 </b>
-                <p>Hf</p>
-            </h1>
-        </mat-card>
-    </div>
-
-    <div class="d-none d-lg-inline col-6 col-lg-3 mn-c">
-        <mat-card class="dato card">
-            <mat-card-title>Total Seleccionado</mat-card-title>
-            <mat-card-subtitle>(12/6/20 - 19/6/20)</mat-card-subtitle>
-            <h1 style="color: #683fb5;"><b>80 </b>
-                <p>Hf</p>
-            </h1>
-        </mat-card>
-    </div> -->
-
-    <!-- /////////////////////////////////////////////////////////////////////////////// -->
-
     <div class="col-12 col-lg-6">
         <mat-card class="card map p-1 px-2">
             <app-map [stationsNoData]="stationsNoData" (selectedStations)="addStations($event)"></app-map>
@@ -161,28 +120,31 @@
                     </ng-container>
 
                     <ng-container matColumnDef="acumulado">
-                        <th mat-header-cell *matHeaderCellDef>Grados Día Acumulado</th>
-                        <td mat-cell *matCellDef="let element"> {{element.acumulado}} </td>
+                        <th class="text-center" mat-header-cell *matHeaderCellDef>Grados Día Acumulado</th>
+                        <td class="text-center" mat-cell *matCellDef="let element"> {{element.acumulado}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="promedio">
-                        <th mat-header-cell *matHeaderCellDef>Grados Día Promedio</th>
-                        <td mat-cell *matCellDef="let element"> {{element.promedio}} </td>
+                        <th class="text-center" mat-header-cell *matHeaderCellDef>Grados Día Promedio</th>
+                        <td class="text-center" mat-cell *matCellDef="let element"> {{element.promedio}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="maximo">
-                        <th mat-header-cell *matHeaderCellDef>Grados Día diario Max</th>
-                        <td mat-cell *matCellDef="let element"> {{element.maxima}} </td>
+                        <th class="text-center" mat-header-cell *matHeaderCellDef>Grados Día diario Max</th>
+                        <td class="text-center" mat-cell *matCellDef="let element"> {{element.maxima}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="contador">
+                        <th class="text-center" mat-header-cell *matHeaderCellDef>Contador</th>
+                        <td class="text-center" mat-cell *matCellDef="let element"> {{element.contador}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="opciones">
-                        <th mat-header-cell *matHeaderCellDef style="text-align: right;">Ver estacion</th>
-                        <td mat-cell *matCellDef="let element" style="text-align: right;">
+                        <th  mat-header-cell *matHeaderCellDef style="text-align: right;">Ver estacion</th>
+                        <td  mat-cell *matCellDef="let element" style="text-align: right;">
                             <div class="d-flex flex-row-reverse align-items-center">
                                 <mat-checkbox #check (change)="checkTabla($event,element.estacion,check)"
                                     [checked]="element.opciones"></mat-checkbox>
-                                <mat-icon class="me-2" (click)="clickTabla(element.position,check)"> search
-                                </mat-icon>
                             </div>
                         </td>
                     </ng-container>
@@ -209,55 +171,12 @@
         </mat-card>
     </div>
 
-    <!-- /////////////////////////////////////////////////////////////////////////////// -->
-
-    <!-- <div class="d-inline d-lg-none col-6 col-lg-3 mn-c">
-        <mat-card class="dato card">
-            <mat-card-title>Total</mat-card-title>
-            <mat-card-subtitle>Vicuña</mat-card-subtitle>
-            <h1 style="color: #3f8cb5;"><b>110 </b>
-                <p>Hf</p>
-            </h1>
-        </mat-card>
-    </div>
-
-    <div class="d-inline d-lg-none col-6 col-lg-3 mn-c">
-        <mat-card class="dato card">
-            <mat-card-title>Promedio</mat-card-title>
-            <mat-card-subtitle>(9/6/20 - 20/6/20)</mat-card-subtitle>
-            <h1 style="color: #3f8cb5;"><b>13 </b>
-                <p>Hf</p>
-            </h1>
-        </mat-card>
-    </div>
-
-    <div class="d-inline d-lg-none col-6 col-lg-3 mn-c">
-        <mat-card class="dato card">
-            <mat-card-title>Promedio Seleccionado</mat-card-title>
-            <mat-card-subtitle>(12/6/20 - 19/6/20)</mat-card-subtitle>
-            <h1 style="color: #683fb5;"><b>11 </b>
-                <p>Hf</p>
-            </h1>
-        </mat-card>
-    </div>
-
-    <div class="d-inline d-lg-none col-6 col-lg-3 mn-c">
-        <mat-card class="dato card">
-            <mat-card-title>Total Seleccionado</mat-card-title>
-            <mat-card-subtitle>(12/6/20 - 19/6/20)</mat-card-subtitle>
-            <h1 style="color: #683fb5;"><b>80 </b>
-                <p>Hf</p>
-            </h1>
-        </mat-card>
-    </div> -->
-
-    <!-- /////////////////////////////////////////////////////////////////////////////// -->
-
 
     <div *ngIf="estaciones.length > 0 && !invalidDates">
         <div class="col-12">
             <mat-card class="card p-1 px-2">
-                <app-plot [titlePlot]="'Grafica Evolución'" [series]="normalSeries" [loadingData]="loadingData" [ytext]="'Grados Día (gd)'"></app-plot>
+                <app-plot [titlePlot]="'Grafica Evolución'" [series]="normalSeries" 
+                [loadingData]="loadingData" [typeChar]="typeChar" [ytext]="'Grados Día (gd)'"></app-plot>
             </mat-card>
         </div>
 

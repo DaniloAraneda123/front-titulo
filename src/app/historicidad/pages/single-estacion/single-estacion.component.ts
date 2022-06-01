@@ -13,6 +13,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HistoricidadService } from 'src/app/services/historicidad.service';
 import { HelpSingleComponent } from '../../components/help-single/help-single.component';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -42,6 +43,9 @@ export class SingleEstacionComponent implements OnInit {
 		start: new FormControl(undefined, [Validators.required]),
 		end: new FormControl(undefined, [Validators.required]),
 	});
+
+
+	maxDate = environment.maxDate
 
 	constructor(
 		private _store: Store<AppState>,
@@ -153,7 +157,7 @@ export class SingleEstacionComponent implements OnInit {
 		this._store.dispatch(ActionsGraficaUnica.deleteVariable({ variable, altura }))
 	}
 
-	dialogHelp() { this._dialog.open(HelpSingleComponent, { height: "50vh", width: "50vw" }) }
+	dialogHelp() { this._dialog.open(HelpSingleComponent, { height: "70vh", width: "70vw" }) }
 
 	suavizarCurva(evento: any) { (evento.checked) ? this.stroke = "smooth" : this.stroke = "straight" }
 
