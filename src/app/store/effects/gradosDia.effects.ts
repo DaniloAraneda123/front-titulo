@@ -31,6 +31,7 @@ export class GradosDiaEffects {
                             catchError((error) => of(gdActions.setDataError({ payload: error })))
                         )
                 } else {
+                    console.log("parametros",parametros)
                     return this.gradosDiaService.consultarSerieTemporadas(
                         {
                             estaciones: parametros.estaciones,

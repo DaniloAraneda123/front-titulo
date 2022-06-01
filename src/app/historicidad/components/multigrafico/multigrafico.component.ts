@@ -17,7 +17,7 @@ import { SerieData } from 'src/app/models/serie.interface';
 import { InfoTsComponent } from '../info-ts/info-ts.component';
 
 export type ChartOptions = {
-    series: (SerieData & { tipo: string })[];
+    series: (SerieData & { tipo: string; variableName: string })[];
     chart: any;
     dataLabels: ApexDataLabels;
     markers: ApexMarkers;
@@ -127,7 +127,7 @@ export class MultigraficoComponent {
     coloresMain: string[] = ['#00E396', '#008FFB', '#546E7A', '#FF4560'];
     coloresSec: string[] = ['#00E396', '#008FFB', '#546E7A', '#FF4560'];
 
-    dataSource: (SerieData & { unidad_medida: string; altura: string })[];
+    dataSource: (SerieData & { unidad_medida: string; altura: string, variableName: string })[];
 
     constructor(private _dialog: MatDialog) { }
 
@@ -137,7 +137,7 @@ export class MultigraficoComponent {
     }
 
     @Input() set data(
-        series: (SerieData & { unidad_medida: string; altura: string })[]
+        series: (SerieData & { unidad_medida: string; altura: string, variableName: string })[]
     ) {
         this.dataSource = series;
         this.createSeries();
@@ -151,11 +151,8 @@ export class MultigraficoComponent {
         })[] = [];
         let i = 0;
         for (let serie of this.dataSource) {
-            const nameSerie = `${serie.name} ${serie.type}`;
             multiCharts.push({
-                series: [
-                    { ...serie, tipo: 'step', type: 'bar', name: `${serie.name} unico` },
-                ],
+                series: [{ ...serie, tipo: 'step', type: 'bar', name: `${serie.name} unico`, variableName: serie.name }],
                 chart: {
                     id: serie.name + serie.altura,
                     group: 'social',
@@ -164,7 +161,15 @@ export class MultigraficoComponent {
                     events: {
                         click: (e, chart, options) => {
                             const i = options.dataPointIndex;
-                            this._dialog.open(InfoTsComponent,{data:options.config.series[0].data[i].s});
+                            if (0 <= i) {
+                                this._dialog.open(InfoTsComponent, {
+                                    data: {
+                                        subintervalos: options.config.series[0].data[i].s,
+                                        variable: options.config.series[0].variableName,
+                                        altura: options.config.series[0].altura
+                                    }
+                                });
+                            }
                         }
                     }
                 },

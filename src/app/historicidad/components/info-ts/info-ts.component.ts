@@ -7,12 +7,19 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./info-ts.component.scss'],
 })
 export class InfoTsComponent implements OnInit {
+  variable: string;
+  altura: string;
   constructor(
     public dialogRef: MatDialogRef<InfoTsComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any[]
+    @Inject(MAT_DIALOG_DATA) public data: {
+      subintervalos:any[],
+      variable:string,
+      altura:string
+    }
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data);
+    this.variable = this.data.variable
+    this.altura = this.data.altura
   }
 }

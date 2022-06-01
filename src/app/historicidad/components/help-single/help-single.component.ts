@@ -12,7 +12,5 @@ export class HelpSingleComponent implements OnInit {
     public dialogRef: MatDialogRef<HelpSingleComponent>
   ) { }
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void { }
 }

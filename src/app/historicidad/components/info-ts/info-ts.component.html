@@ -1,1 +1,21 @@
-<p>{{data|json}}</p>
+<h1>Subintervalos {{variable}} [{{altura}}]</h1>
+<table class="table table-dark table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Fecha</th>
+        <th scope="col">Contador</th>
+        <th scope="col">Minimo</th>
+        <th scope="col">Maximo</th>
+        <th scope="col">Promedio</th>
+      </tr>
+    </thead>
+    <tbody class="text-center">
+      <tr *ngFor="let ts of data.subintervalos">
+        <td>{{ts.f}}</td>
+        <td>{{ts.c}}</td>
+        <td>{{ts.mi}}</td>
+        <td>{{ts.ma}}</td>
+        <td>{{ts.p}}</td>
+      </tr>
+    </tbody>
+  </table>

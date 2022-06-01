@@ -29,9 +29,9 @@ export class SingleEstacionComponent implements OnInit {
 	nombreEstacion: string = ""
 	suscripcion$: Subscription
 	plotSelected: string = 'multicharts'
-	tipoAgrupacion!:string
+	tipoAgrupacion!: string
 
-	series: (SerieData & { unidad_medida: string, altura: string })[] = []
+	series: (SerieData & { unidad_medida: string, altura: string, variableName:string })[] = []
 	stroke: string;
 	responseData: ResponseSeries[];
 	data: ResponseSeries[] = []
@@ -103,12 +103,12 @@ export class SingleEstacionComponent implements OnInit {
 	}
 
 	generarSeries() {
-		let series: (SerieData & { unidad_medida: string, altura: string, group:string })[] = []
+		let series: (SerieData & { unidad_medida: string, altura: string, group: string, variableName: string })[] = []
 		for (let variable of this.responseData) {
 			let datos: any[] = []
 			for (let tupla of variable.estaciones[0].data) {
-				datos.push({ 
-					x: new Date(tupla.f), 
+				datos.push({
+					x: new Date(tupla.f),
 					y: tupla[this.subSerie],
 					s: tupla.s,
 					c: tupla.c
@@ -120,9 +120,10 @@ export class SingleEstacionComponent implements OnInit {
 				altura: variable.altura,
 				name: variable.variable,
 				group: variable.tipo_agrupacion,
-				
+
 				data: datos,
 				type: "bar",
+				variableName: variable.variable
 			})
 		}
 		this.series = series
@@ -152,9 +153,7 @@ export class SingleEstacionComponent implements OnInit {
 		this._store.dispatch(ActionsGraficaUnica.deleteVariable({ variable, altura }))
 	}
 
-	dialogHelp(){
-		this._dialog.open(HelpSingleComponent)
-	}
+	dialogHelp() { this._dialog.open(HelpSingleComponent, { height: "50vh", width: "50vw" }) }
 
 	suavizarCurva(evento: any) { (evento.checked) ? this.stroke = "smooth" : this.stroke = "straight" }
 

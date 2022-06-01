@@ -78,7 +78,7 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 
 	colors_used: number[] = []
 	series_activate = 0
-	allowForm: boolean;
+	allowForm: boolean = true;
 
 	constructor(
 		private store: Store<AppState>,
@@ -86,7 +86,7 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 
 	ngOnInit(): void {
 		this.store$ = this.store.select('gradosDia').subscribe((state) => {
-			console.log(state)
+			// console.log(state)
 			this.estaciones = state.estaciones
 			this.loadingData = state.loading
 			this.error = state.error
@@ -95,7 +95,6 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 			if (this.data != null && this.error == null) this.mostrarData()
 		});
 
-		console.log(this.formTemporal)
 		this.formTemporal$ = this.formTemporal.valueChanges.pipe(filter(el=>this.allowForm)).subscribe((value: any) => {
 			
 			value.tipoConsulta == '/serie_custom' ? this.groupCustom = true : this.groupCustom = false
@@ -104,7 +103,6 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 				this.allowForm = false
 				this.invalidDates = false
 				const { start, end } = ajustarFechas(value.start, value.end, value.agrupacionCustom)
-				console.log(value.start.toJSON())
 				this.store.dispatch(gdActions.inputTemporal({
 					fechaInicio: start.toISOString(),
 					fechaTermino: end.toISOString(),
@@ -123,7 +121,6 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 			if (this.formTemporal.valid && this.estaciones.length > 0) {
 				this.limpiarVisualizacion()
 				this.complete = true
-				console.log("Datos")
 				this.store.dispatch(gdActions.loadingData())
 			} else {
 				this.complete = false
@@ -163,7 +160,7 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 	}
 
 	clickTabla(estacion: string, check: any) {
-		console.log(estacion, check)
+		// console.log(estacion, check)
 		// check.toggle()
 	}
 
