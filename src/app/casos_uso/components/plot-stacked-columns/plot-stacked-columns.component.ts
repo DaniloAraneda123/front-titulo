@@ -41,6 +41,7 @@ export class PlotStackedColumnsComponent implements OnInit {
       this.chartOptions = {
         series: [],
         chart: {
+          
           type: "bar",
           height: 350,
           stacked: true,
@@ -49,7 +50,8 @@ export class PlotStackedColumnsComponent implements OnInit {
           },
           zoom: {
             enabled: true
-          }
+          },
+
         },
         responsive: [
           {
@@ -59,7 +61,7 @@ export class PlotStackedColumnsComponent implements OnInit {
                 position: "bottom",
                 offsetX: -10,
                 offsetY: 0
-              }
+              },
             }
           }
         ],
@@ -68,13 +70,14 @@ export class PlotStackedColumnsComponent implements OnInit {
             horizontal: false
           }
         },
+
         xaxis: {
+          title:{
+            text:"Fecha"
+          },
           type: "datetime",
-        },
-        
-
-
-  }
+          },
+    }
 }
   ngOnInit(): void {}
 

@@ -51,7 +51,7 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 	agrupacionTemporadas: { value: string, label: string }[] = [
 		{ value: "semanal", label: "Semanal" },
 		{ value: "mensual", label: "Mensual" },
-		{ value: "temporada", label: "Temporada" },
+		{ value: "temporada", label: "Periodo" },
 	]
 
 
@@ -86,6 +86,7 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 
 	ngOnInit(): void {
 		this.store$ = this.store.select('gradosDia').subscribe((state) => {
+			console.log(state)
 			this.estaciones = state.estaciones
 			this.loadingData = state.loading
 			this.error = state.error
@@ -94,17 +95,19 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 			if (this.data != null && this.error == null) this.mostrarData()
 		});
 
-
+		console.log(this.formTemporal)
 		this.formTemporal$ = this.formTemporal.valueChanges.pipe(filter(el=>this.allowForm)).subscribe((value: any) => {
+			
 			value.tipoConsulta == '/serie_custom' ? this.groupCustom = true : this.groupCustom = false
 			this.invalidDates = true
 			if (this.formTemporal.valid && value.start < value.end) {
 				this.allowForm = false
 				this.invalidDates = false
 				const { start, end } = ajustarFechas(value.start, value.end, value.agrupacionCustom)
+				console.log(value.start.toJSON())
 				this.store.dispatch(gdActions.inputTemporal({
-					fechaInicio: value.start.toJSON(),
-					fechaTermino: value.end.toJSON(),
+					fechaInicio: start.toISOString(),
+					fechaTermino: end.toISOString(),
 					agrupacionCustom: value.agrupacionCustom,
 					agrupacionTemporadas: value.agrupacionTemporadas,
 					tipoConsulta: value.tipoConsulta
@@ -120,6 +123,7 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 			if (this.formTemporal.valid && this.estaciones.length > 0) {
 				this.limpiarVisualizacion()
 				this.complete = true
+				console.log("Datos")
 				this.store.dispatch(gdActions.loadingData())
 			} else {
 				this.complete = false

@@ -17,6 +17,7 @@ export class GradosDiaEffects {
             concatLatestFrom(() => this.store.select(state => state.gradosDia)),
             switchMap(([, parametros]) => {
                 if (parametros.tipoConsulta == '/serie_custom') {
+                    console.log("parametros",parametros)
                     return this.gradosDiaService.consultarSerieCustom(
                         {
                             estaciones: parametros.estaciones,

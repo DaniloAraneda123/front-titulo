@@ -1,9 +1,9 @@
 
 <div class="map">
     <div *ngIf="estaciones.length == 0 && point==null" class="d-flex justify-content-between">
-        <h2 class="m-0">Mapa - Seleccion Estaciones</h2>
+        <h2 class="m-0">Mapa - Selección Estaciones</h2>
         <span class="alert-input d-flex align-items-center">
-            <b>Seleccione una Estacion</b>
+            <b>Seleccione una Estación</b>
             <mat-icon class="ms-1">info</mat-icon>
         </span>
     </div>
@@ -19,7 +19,7 @@
             </mat-form-field>
     
             <mat-form-field *ngIf="mapSelectionType=='point'" class="mt-1 mt-sm-0 ms-0 ms-sm-2 mn" appearance="fill">
-                <mat-label>Filtro Estacion</mat-label>
+                <mat-label>Filtro Estación</mat-label>
                 <mat-select (selectionChange)="requestStationsFilter($event.value)" [value]="'nearest'">
                     <mat-option *ngFor="let item of pointSelectionItems;" [value]="item.value">{{item.label}}
                     </mat-option>

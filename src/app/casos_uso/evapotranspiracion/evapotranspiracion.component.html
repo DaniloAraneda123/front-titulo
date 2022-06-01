@@ -380,19 +380,19 @@
 
     <div *ngIf="comparacionIntervalo"  class="col-6">
         <mat-card class="card p-1 px-2">
-            <app-plot *ngIf="groupCustom" [titlePlot]="'Gráfica Evapotranspiración'" [series]="normalSeries" [loadingData]="loadingData" ></app-plot>
+            <app-plot *ngIf="groupCustom" [titlePlot]="'Gráfica Evapotranspiración'" [series]="normalSeries" [loadingData]="loadingData" [ytext]="'ETo (mm)'"></app-plot>
         </mat-card>
     </div>
     <div *ngIf="comparacionIntervalo"  class="col-6">
         <mat-card class="card p-1 px-2">
-            <app-plot *ngIf="groupCustom" [titlePlot]="'Gráfica Evapotranspiración'" [series]="normalSeries2" [loadingData]="loadingData"></app-plot>
+            <app-plot *ngIf="groupCustom" [titlePlot]="'Gráfica Evapotranspiración'" [series]="normalSeries2" [loadingData]="loadingData" [ytext]="'ETo (mm)'"></app-plot>
         </mat-card>
     </div>
 
     <div *ngIf="!comparacionIntervalo"  class="col-12">
         <mat-card class="card p-1 px-2">
-            <app-plot *ngIf="groupCustom" [titlePlot]="'Gráfica Evolución ETo'" [series]="normalSeries" [loadingData]="loadingData"></app-plot>
-            <app-plot-stacked-columns [titlePlot]="'Gráfica Evapotranspiración Acumulada por años'" [series]="normalSeries" [loadingData]="loadingData" *ngIf="!groupCustom" ></app-plot-stacked-columns>
+            <app-plot *ngIf="groupCustom" [titlePlot]="'Gráfica Evolución ETo'" [series]="normalSeries" [loadingData]="loadingData" [ytext]="'ETo (mm)'"></app-plot>
+            <app-plot-stacked-columns [titlePlot]="'Gráfica Evapotranspiración Acumulada por años'" [series]="normalSeries" [loadingData]="loadingData"  *ngIf="!groupCustom" ></app-plot-stacked-columns>
             
             </mat-card>
     </div>
@@ -400,7 +400,7 @@
     <div *ngIf="groupCustom && !comparacionIntervalo" class="col-12">
         <mat-card class="card p-1 px-2">
             <app-plot [titlePlot]="'Gráfica Evolución Acumulada'" [series]="accumulatedSeries"
-                [loadingData]="loadingData"></app-plot>
+                [loadingData]="loadingData" [ytext]="'ETo (mm)'"></app-plot>
         </mat-card>
     </div>
 

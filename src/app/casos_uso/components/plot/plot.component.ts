@@ -13,6 +13,8 @@ export class PlotComponent implements OnInit {
 	@Input() titlePlot!: string
 	@Input() loadingData:boolean = false
 	@Input() typeChar:any = "line"
+	@Input() ytext:string
+	@Input() unit: string
 
 
 	constructor() {
@@ -33,11 +35,11 @@ export class PlotComponent implements OnInit {
 			//yaxis: [],
 			yaxis: {
 				title:{
-					text:"ETo"
+					text:"ETo (mm)"
 				},
 				labels: {
 				  formatter: function (value) {
-					return value + "mm";
+					return value + '';
 				  }
 				},
 			  },
@@ -60,6 +62,7 @@ export class PlotComponent implements OnInit {
 
 	@Input() set series(values: SerieData[]) {
 		this.chartOptionsLine.chart = {...this.chartOptionsLine.chart, type:this.typeChar}
+		this.chartOptionsLine.yaxis = {... this.chartOptionsLine, title:{text: this.ytext}}
 		this.chartOptionsLine.series =  [...values]
 	}
 
