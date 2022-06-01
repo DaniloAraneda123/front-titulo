@@ -53,9 +53,8 @@ export class MultigraficoComponent {
             theme: 'dark',
             // marker:{show:true},
             custom: ({ series, seriesIndex, dataPointIndex, w }) => {
-                // console.log(w.config.series[seriesIndex]);
-                const interval = w.config.series[seriesIndex].data[dataPointIndex];
-                const group = w.config.series[seriesIndex].group;
+                const interval = w.config.series[0].data[dataPointIndex];
+                const group = w.config.series[0].group;
                 let endDate = '',
                     startDate = '';
 
@@ -66,9 +65,7 @@ export class MultigraficoComponent {
 
                 if (group == 'semanal') {
                     endDate = interval.x.toLocaleDateString();
-                    startDate = new Date(
-                        interval.x.getTime() - 1000 * 60 * 60 * 24 * 6
-                    ).toLocaleDateString();
+                    startDate = new Date(interval.x.getTime() - 1000 * 60 * 60 * 24 * 6).toLocaleDateString();
                 }
 
                 if (group == 'diaria') {
@@ -78,6 +75,11 @@ export class MultigraficoComponent {
 
                 const instante = interval.y;
                 const contado = interval.c;
+                let acumulado:any = 0
+
+                for (let i=0; i<= dataPointIndex; i++) acumulado+=w.config.series[0].data[i].y
+                acumulado = acumulado.toFixed(2)
+
                 return `
 					<div class="px-2 py-2">
 						<h3 class="mb-1 text-center">Informacion del Intervalo</h3>
@@ -98,36 +100,30 @@ export class MultigraficoComponent {
 								<tr>
 								<th scope="col">Instante</th>
 								<th scope="col">Contador</th>
+                                <th scope="col">Acumulado</th>
 								</tr>
 							</thead>
 							<tbody class="text-center">
 								<tr>
 								<td>${instante}</td>
 								<td>${contado}</td>
+                                <td>${acumulado}</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 				`;
             },
-            // followCursor: false, theme: "dark", x: { show: false }, marker: { show: false }, y: { title: { formatter: function () { return ""; } } }
-        },
-        chart: {
-            // events: {
-            //     click: (e, chart, options) => {
-            //         console.log(e, chart, options);
-            //         // this._dialog.open();
-            //     },
-            // },
         },
         grid: { clipMarkers: true },
         xaxis: { type: 'datetime' },
     };
 
+    groupTitle: string = ""
     coloresMain: string[] = ['#00E396', '#008FFB', '#546E7A', '#FF4560'];
     coloresSec: string[] = ['#00E396', '#008FFB', '#546E7A', '#FF4560'];
 
-    dataSource: (SerieData & { unidad_medida: string; altura: string, variableName: string })[];
+    dataSource: (SerieData & { unidad_medida: string, altura: string, group: string, variableName: string })[];
 
     constructor(private _dialog: MatDialog) { }
 
@@ -137,8 +133,9 @@ export class MultigraficoComponent {
     }
 
     @Input() set data(
-        series: (SerieData & { unidad_medida: string; altura: string, variableName: string })[]
+        series: (SerieData & { unidad_medida: string, altura: string, group: string, variableName: string })[]
     ) {
+        if (series.length > 0) this.groupTitle = series[0].group.charAt(0).toUpperCase() + series[0].group.slice(1);
         this.dataSource = series;
         this.createSeries();
     }

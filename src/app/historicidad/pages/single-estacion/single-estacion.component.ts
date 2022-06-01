@@ -31,9 +31,9 @@ export class SingleEstacionComponent implements OnInit {
 	plotSelected: string = 'multicharts'
 	tipoAgrupacion!: string
 
-	series: (SerieData & { unidad_medida: string, altura: string, variableName:string })[] = []
+	series: (SerieData & { unidad_medida: string, altura: string, group: string, variableName: string })[] = []
 	stroke: string;
-	responseData: ResponseSeries[];
+	responseData: ResponseSeries[] = [];
 	data: ResponseSeries[] = []
 	variablesSelected: { variable: string, altura: string, tipo_operacion: string }[] = []
 	subSerie: string = "p"
@@ -67,7 +67,7 @@ export class SingleEstacionComponent implements OnInit {
 			if (typeof (end) != "string") end = end.toISOString()
 			this._store.dispatch(ActionsGraficaUnica.setNewRange({ start, end }))
 
-			console.log("Eliminar mas adelante y remplazarlo por un efecto al corregir el endpoint")
+			//console.log("Eliminar mas adelante y remplazarlo por un efecto al corregir el endpoint")
 			const { parametros, estacion } = await this._store.select(el => el.graficaUnica).pipe(take(1)).toPromise()
 			for (let variable of this.variablesSelected) {
 				data.push(await this.apiService.consultarSerie({ ...parametros, estaciones: [estacion], ...variable }).toPromise())

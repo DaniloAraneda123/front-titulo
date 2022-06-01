@@ -3,7 +3,7 @@
         <div class="d-flex justify-content-between">
             <h3 class="mb-0 mx-2 me-2"> <b>{{chart.variable}} [{{chart.altura}}]</b></h3>
             <div>
-                <mat-checkbox [checked]="true" (change)="setSerieNormal($event,i)"> Instantaneo</mat-checkbox>
+                <!-- <mat-checkbox [checked]="true" (change)="setSerieNormal($event,i)"> Instantaneo</mat-checkbox> -->
                 <mat-checkbox (change)="setSerieAcumulado($event,i)" class="mx-3">Acumulado</mat-checkbox>
             </div>
         </div>
@@ -12,5 +12,8 @@
             [stroke]="commonOptions.stroke" [grid]="commonOptions.grid" [xaxis]="commonOptions.xaxis"
             [tooltip]="commonOptions.tooltip">
         </apx-chart>
+        <div class="d-flex flex-row-reverse">
+            <h3 class="mb-0 mx-2 me-4"> <b>{{groupTitle}}</b></h3>
+        </div>
     </div>
 </div>

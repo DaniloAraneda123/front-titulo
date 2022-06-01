@@ -72,13 +72,13 @@
         </mat-drawer>
 
         <div class="main-frame">
-            <div class="d-flex flex-column-reverse flex-md-row justify-content-between align-items-stretch">
+            <div class="d-flex flex-column-reverse flex-md-row justify-content-between align-items-center">
                 <button class="mx-2 mt-2" mat-button style="background-color: rgb(187, 187, 187);"
                     (click)="drawer.toggle()">
                     <mat-icon>reorder</mat-icon>
                 </button>
 
-                <!-- {{estacion}} -->
+                <h1 class="mb-0"><b>Estacion: </b>{{nombreEstacion}}</h1>
 
                 <button class="opciones mx-2 mt-2" mat-stroked-button color="primary" (click)="volverMap()">
                     <mat-icon>map</mat-icon>

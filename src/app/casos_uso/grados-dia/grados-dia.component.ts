@@ -192,7 +192,9 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 		const seriesNormal: SerieData[] = []
 		const seriesAccumulated: SerieData[] = []
 
+		// console.log(esta)
 		for (let estacion of this.data.estaciones) {
+
 			if (estacion.data.length != 0) {
 				todo_vacio = false
 				const valores = estacion.data.map(el=>el.p)
