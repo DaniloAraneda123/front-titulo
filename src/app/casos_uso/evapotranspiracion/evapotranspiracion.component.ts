@@ -362,7 +362,7 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 			if (estacion.data.length != 0) {
 				todo_vacio = false
 				
-				var valores_aux = estacion.data.map(el=>el.promedio)
+				var valores_aux = estacion.data.map(el=>el.p)
 				var valores = valores_aux.filter(el => el !== undefined)
 				var sum = Number(valores.reduce((s, a) => s + a, 0).toFixed(2))
 				var avg = ((sum / valores.length) || 0).toFixed(2)

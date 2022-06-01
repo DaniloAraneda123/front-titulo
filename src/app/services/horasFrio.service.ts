@@ -15,7 +15,7 @@ export class HorasFrioService {
 	private url: string = environment.urlAPI
 
 	consultarSerieCustom(body: any): Observable<any> {
-		return this.http.post<ResponseSeries>(`${this.url}/serie_custom`,body )
+		return this.http.post<ResponseSeries>(`${this.url}/serie_continua_t`,body )
 	}
 
 	consultarSerieTemporadas(body: any): Observable<any> {

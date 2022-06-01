@@ -10,3 +10,21 @@ a{
 .material-li{
   color: rgb(160, 0, 0);
 }
+
+#help-buttom{
+  position: absolute;
+  right: 3%;
+  top:84%; 
+  height: 85px;
+  width: 85px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+  mat-icon{
+    height: 70px;
+    width: 70px;
+    font-size: 70px;
+  }
+}

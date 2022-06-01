@@ -13,9 +13,9 @@
 
             <h3 class="mb-1"><b>Visualizacion</b></h3>
             <mat-button-toggle-group class="d-flex w-100" (valueChange)="setSubSerie($event)" value="promedio">
-                <mat-button-toggle class="flex-grow-1 text-center" value="minimo">Minimo</mat-button-toggle>
-                <mat-button-toggle class="flex-grow-1 text-center" value="promedio">Promedio</mat-button-toggle>
-                <mat-button-toggle class="flex-grow-1 text-center" value="maximo">Maximo</mat-button-toggle>
+                <mat-button-toggle class="flex-grow-1 text-center" value="mi">Minimo</mat-button-toggle>
+                <mat-button-toggle class="flex-grow-1 text-center" value="p">Promedio</mat-button-toggle>
+                <mat-button-toggle class="flex-grow-1 text-center" value="ma">Maximo</mat-button-toggle>
             </mat-button-toggle-group>
 
             <hr>
@@ -102,6 +102,10 @@
                 <h1 class="text-center">Error: {{error|json}}</h1>
             </div>
         </div>
+
+        <button (click)="dialogHelp()" id="help-buttom" mat-fab color="primary">
+            <mat-icon>help</mat-icon>
+        </button>
 
 
 

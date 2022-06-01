@@ -160,8 +160,6 @@ export class MapComponent implements OnInit {
 		this.clearMarks()
 		this.estaciones = []
 		this.stationsFilter = filter
-		console.log("datos ")
-		console.log(this.point)
 		if (filter == "nearest") this._stationsService.requestStationsNearest(this.point).pipe(take(1))
 			.subscribe((stations) => {
 				for (let i = 0; i < 5; i++) {
@@ -182,7 +180,7 @@ export class MapComponent implements OnInit {
 				this.selectedStations.emit(this.estaciones)
 			})
 
-		//TODO: Remplazar por el bueno -----------------------------------------------------------------------------------
+			
 		if (filter == "height") this._stationsService.requestStationsHeight(this.point).pipe(take(1))
 			.subscribe((stations) => {
 				for (let i = 0; i < 5; i++) {

@@ -14,7 +14,7 @@ export class HistoricidadService {
 	private rootUrl: string = environment.urlAPI
 
 	public consultarSerie(body: RequestSerie): Observable<ResponseSeries> {
-		return this.http.post<ResponseSeries>(`${this.rootUrl}/serie_custom`, body)
+		return this.http.post<ResponseSeries>(`${this.rootUrl}/serie_continua_t`, body)
 	}
 
 	public consultarVariables(body: { estaciones: string[] }): Observable<Variable[]> {
