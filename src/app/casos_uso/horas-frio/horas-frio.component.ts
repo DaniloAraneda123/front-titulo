@@ -64,6 +64,12 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 	});
 	formTemporal$: Subscription;
 	maxDate = environment.maxDate
+	estacionReal: String = "Rivadavia";
+	today:any = new Date();
+	dd = String(this.today.getDate()).padStart(2, '0');
+	mm = String(this.today.getMonth() + 1).padStart(2, '0'); 
+	yyyy = this.today.getFullYear();
+	fechaActual = this.mm + '/' + this.dd + '/' + this.yyyy;
 
 	// LOGIC HTML AND DATA
 	complete: boolean = false
@@ -84,6 +90,11 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 		private _snackBar: MatSnackBar) { }
 
 	ngOnInit(): void {
+
+		setInterval(() => {
+			this.mostrarEstacion()
+		}, 4000);
+
 		this.store$ = this.store.select('horasFrio').subscribe((state) => {
 			this.estaciones = state.estaciones
 			this.loadingData = state.loading
@@ -162,6 +173,16 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 	clickTabla(estacion: string, check: any) {
 		console.log(estacion, check)
 		// check.toggle()
+	}
+
+	mostrarEstacion(){
+		var myArray = ["Algarrobal", "Coquimbo [El Panul]", "El Jote", "El Tapado","Estero Derecho", "Gabriela Mistral",
+				"La Laguna [Elqui]","La Serena [CEAZA]", "La Serena [Cerro Grande]", "La Serena [El Romeral]", "Las Cardas",
+			"Llano de Las Liebres", "Llanos de Huanta", "Los Corrales", "Pan de Azucar", "Paso Agua Negra", "Pisco Elqui",
+			 "Punta Colorada", "Punta de Choros", "Rivadavia", "UCN Guayacan", "Vicuna"];
+		var rand = Math.floor(Math.random()*myArray.length);
+		var rValue = myArray[rand];
+		this.estacionReal = rValue
 	}
 
 	mostrarData() {
