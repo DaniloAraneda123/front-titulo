@@ -16,7 +16,7 @@ export class MultivariablesComponent {
 	chartOptionsVariables: Partial<ChartOptions> = {
 		series: [],
 		chart: {
-			type: "bar", height: 700,
+			type: "bar", height: "100vh",
 			toolbar: { autoSelected: "selection", show: true },
 			animations: {
 				enabled: true, easing: 'easeinout', speed: 400,
@@ -33,10 +33,7 @@ export class MultivariablesComponent {
 			}
 		},
 
-		dataLabels: {
-			enabled: true,
-			style:{colors:["black"]}
-		},
+		dataLabels: {enabled: false,},
 		stroke: { curve: "straight", width: 3 },
 		fill: { opacity: 1 },
 		markers: { size: 0 },
