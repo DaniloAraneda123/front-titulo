@@ -1,5 +1,44 @@
 
 <div class="row m-1 gx-2 gy-2 " style="justify-content: center; align-items: center;">
+    <div class="col-3 ">
+
+        <h1 class="col-text-align" style="margin: auto; font-size: 30px;">Evapotranspiración</h1>
+                
+    </div>
+        <mat-card class="col-2 m-1 dato card">
+            <mat-card-title style="display: flexbox;">Hoy   <span style="color: #b5473f; font-size:  4">{{(fechaActual)}}</span></mat-card-title>
+            <mat-card-subtitle>{{estacionReal}}</mat-card-subtitle>
+            <h1 style="color: #b5473f;"><b>N/A</b>
+                <p> mm</p>
+            </h1>
+        </mat-card>
+
+        <mat-card class="col-2 m-1 dato card">
+            <mat-card-title>Ayer</mat-card-title>
+            <mat-card-subtitle>{{estacionReal}}</mat-card-subtitle>
+            <h1 style="color: #b5473f;"><b>N/A</b>
+                <p> mm</p>
+            </h1>
+        </mat-card>
+ 
+        <mat-card class="col-2 m-1 dato card">
+            <mat-card-title>Este Mes</mat-card-title>
+            <mat-card-subtitle>{{estacionReal}}</mat-card-subtitle>
+            <h1 style="color: #b5473f;"><b>N/A</b>
+                <p> mm</p>
+            </h1>
+        </mat-card>
+
+
+        <mat-card class="col-2 m-1 dato card">
+            <mat-card-title>Este año</mat-card-title>
+            <mat-card-subtitle>{{estacionReal}}</mat-card-subtitle>
+            <h1 style="color: #b5473f;"><b>N/A</b>
+                <p> mm</p>
+            </h1>
+        </mat-card>
+
+
     <!--
     <div class="col-3" style="justify-content: center;">
         <mat-card class="dato card">
@@ -72,8 +111,8 @@
 
     </div>
     -->
-    <h1 class="col-12 col-xl-3 text-center" style="margin: auto; font-size: 30px;">Evapotranspiración</h1>
-    <div class="col-12 col-xl-9">
+    
+    <div class="col-12 ">
         <mat-card class="input card p-1 px-2 ">
             <div class="d-flex justify-content-between">
                 <h2 class="m-0">Input Temporales</h2>
