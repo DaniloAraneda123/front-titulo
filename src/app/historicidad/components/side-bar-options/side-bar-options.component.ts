@@ -35,7 +35,6 @@ export class SideBarOptionsComponent implements OnInit {
 
 	formOptions: FormGroup = new FormGroup({
 		variable: new FormControl('', [Validators.required]),
-		altura: new FormControl('', [Validators.required]),
 		tipo_operacion: new FormControl(undefined, [Validators.required]),
 		agrupacion: new FormControl(undefined, [Validators.required]),
 		fecha_inicio: new FormControl(undefined, [Validators.required]),
@@ -76,11 +75,20 @@ export class SideBarOptionsComponent implements OnInit {
 				this.stationsEmpty = false
 				this.loadingVariables = true
 				this._variablesService.consultarVariables({ estaciones }).pipe(take(1)).subscribe((response: Variable[]) => {
-					this.dataVariables = response
 					this._store.dispatch(ActionsHistoricidad.setVariables({ payload: response }))
+					this.dataVariables = response
 
-					this.variables = response.map(el => ({ value: el.variable, label: el.variable }))
-					this.formOptions.controls["variable"].setValue(null)
+					this.variables = []
+					for (let variable of this.dataVariables) {
+						for (let heigth of variable.alturas) {
+							const comboValue = `${variable.variable} [${heigth}]`
+							this.variables.push({
+								value: comboValue,
+								label: comboValue
+							})
+						}
+					}
+					this.formOptions.controls["variable"].setValue(undefined)
 
 					this.loadingVariables = false
 					this.formOptions.enable()
@@ -88,24 +96,23 @@ export class SideBarOptionsComponent implements OnInit {
 			} else {
 				this.stationsEmpty = true
 				this.formOptions.controls["variable"].setValue(null)
-				this.formOptions.controls["altura"].setValue(null)
 				this.formOptions.controls["agrupacion"].setValue(null)
 				this.formOptions.disable()
 			}
 		})
 
-		this.formOptions.controls["variable"].valueChanges.pipe(filter(el => el != undefined && el != '')).subscribe((el) => {
-			let index = this.dataVariables.findIndex(e => e.variable == el)
-			this.alturas = this.dataVariables[index].alturas.map(el => ({ label: el, value: el }))
-			this.formOptions.controls["altura"].setValue(undefined)
-		})
-
 		this.formOptions.valueChanges.pipe(filter(el => this.formOptions.valid)).subscribe(el => {
 			let form = { ...this.formOptions.value }
+
+			const variable = this.formOptions.value["variable"].split(" [")[0]
+			const altura = this.formOptions.value["variable"].split(" [")[1].replace("]","")
 			const { start, end } = ajustarFechas(form.fecha_inicio, form.fecha_final, form.agrupacion)
+
 			form.fecha_inicio = start
 			form.fecha_final = end
-			this._store.dispatch(ActionsHistoricidad.setForm({ form: this.formOptions.value }))
+			form["variable"] = variable
+			form["altura"] = altura
+			this._store.dispatch(ActionsHistoricidad.setForm({ form }))
 		})
 	}
 
@@ -113,7 +120,7 @@ export class SideBarOptionsComponent implements OnInit {
 
 	async loadingData() {
 		const { parametros, estaciones } = await this._store.select(el => el.historicidad).pipe(take(1)).toPromise()
-		
+
 		if (this.estaciones.length == 1) {
 			this._store.dispatch(ActionsGraficaUnica.setParametros({ estacion: estaciones[0], parametros }))
 			this._router.navigate(["historicidad", "grafica_unica"])
@@ -122,5 +129,16 @@ export class SideBarOptionsComponent implements OnInit {
 			this._store.dispatch(ActionsGraficaMultiple.setParametros({ estaciones, parametros }))
 			this._router.navigate(["historicidad", "grafica_multiple"])
 		}
+	}
+
+	isEnabled() {
+		if(!this.formOptions.enabled) this._snackBar.open("Seleccione alemnos una estacion primero", "Cerrar", { duration: 5000 })
+	}
+
+	isOkOptions(){
+		if(!this.formOptions.valid && this.estaciones.length == 0) 
+			this._snackBar.open("Seleccione almenos una estacion, configure las opciones de variable y tiempo a analizar en la barra lateral", "Cerrar", { duration: 5000 })
+		else if(!this.formOptions.valid) 
+			this._snackBar.open("Configure las opciones de variable y tiempo a analizar en la barra lateral", "Cerrar", { duration: 5000 })
 	}
 }

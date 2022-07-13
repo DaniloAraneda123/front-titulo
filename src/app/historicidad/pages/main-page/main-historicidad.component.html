@@ -11,4 +11,8 @@
 	<div class="flex-grow-1 mapa ">
 		<app-map (stationsSelected)="setStationsSelected($event)" [setComparative]="comparative"></app-map>
 	</div>
+	
+	<button (click)="dialogHelp()" id="help-buttom" mat-fab color="primary">
+		<mat-icon>help</mat-icon>
+	</button>
 </div>

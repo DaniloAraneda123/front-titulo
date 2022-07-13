@@ -15,6 +15,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SerieData } from 'src/app/models/serie.interface';
 import { ajustarFechas } from 'src/app/utils/ajustar-fecha';
 import { filter } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { HelpUseCaseComponent } from '../components/help-use-case/help-use-case.component';
 
 @Component({
 	selector: 'app-grados-dia',
@@ -31,7 +33,7 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 
 	//TABLA
 	displayedColumns: string[] = ['estacion', 'acumulado', 'promedio', 'maximo', 'contador', 'opciones'];
-	dataSource: { estacion: string, acumulado: number, promedio: number, maxima: number, contador:number, opciones: boolean }[] = [];
+	dataSource: { estacion: string, acumulado: number, promedio: number, maxima: number, contador: number, opciones: boolean }[] = [];
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
 
@@ -86,11 +88,13 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 	series_activate = 0
 	allowForm: boolean = true;
 
-	typeChar:('line'|'bar') = 'line'
+	typeChar: ('line' | 'bar') = 'line'
 
 	constructor(
 		private store: Store<AppState>,
-		private _snackBar: MatSnackBar) { }
+		private _snackBar: MatSnackBar,
+		private _dialog: MatDialog
+	) { }
 
 	ngOnInit(): void {
 
@@ -165,7 +169,7 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 			this.series_activate--
 		}
 
-		if(this.series_activate == 1) this.typeChar = "bar" 
+		if (this.series_activate == 1) this.typeChar = "bar"
 		else this.typeChar = "line"
 	}
 
@@ -226,7 +230,7 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 			}
 		}
 
-		if(this.series_activate == 1) this.typeChar = "bar" 
+		if (this.series_activate == 1) this.typeChar = "bar"
 		else this.typeChar = "line"
 
 		this.dataSource = arregloTabla
@@ -254,13 +258,13 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 		let datos: {}[] = []
 		let acumulado: number = 0
 		for (let tupla of estacion.data) {
-			let y:any = 0
+			let y: any = 0
 			if (tupla.p != undefined) {
 				acumulado += tupla.p
 				y = acumulado.toFixed(2)
 			}
 			else { y = null }
-			datos.push({ x: tupla.f, y})
+			datos.push({ x: tupla.f, y })
 		}
 		return ({
 			name: `${estacion.nombre_estacion}`,
@@ -279,5 +283,9 @@ export class GradosDiaComponent implements OnInit, OnDestroy {
 			if (!el.name.includes(estacion)) return true
 			return false
 		})
+	}
+
+	dialogHelp() { 
+		this._dialog.open(HelpUseCaseComponent, { height: "70vh", width: "70vw" }) 
 	}
 }

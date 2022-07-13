@@ -1,179 +1,201 @@
 .titulo {
-    background-color: #ffffff;
-    text-align: left;
-  }
-  
-  .dato {
-    height: 95px;
-    text-align: left;
-    min-width: 243px;
-    max-width: 16%;
-    flex-grow: 1;
-    margin: 15px 0px 0px 0px;
-    padding: 13px 13px 16px 13px;
-  
-    h1 {
-      float: right;
-      font-size: 35px;
-      font-style: oblique;
-      color: #1a32b9;
-      position: relative;
-      top: -18px;
-      clear: none;
-  
-      p {
-        display: inline;
-        font-size: 19px;
-      }
-    }
-  }
-  
-  .conteiner-datos {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-content: space-between;
-    margin-bottom: 15px;
-  }
-  
-  .card {
-    background-color: #ebebebc2;
-  }
-  
-  .conteiner-graficos {
-    display: grid;
-    column-gap: 15px;
-    row-gap: 15px;
-    grid-template-rows: 225px 425px;
-    grid-template-columns: 1fr 2fr;
-    height: 675;
-  }
-  
-  .card:hover {
-    border: solid;
-    border-width: 1px;
-    border-color: #3b3b3b;
-  }
-  
-  .grafico {
-    padding: 16px 5px 16px 5px;
-  
-    table {
-      grid-row: 1/3;
-      background-color: #ffffff;
-    }
-  
-    mat-paginator {
-      background-color: #ffffff;
-    }
-  }
-  
-  .tabla {
-    grid-row: 1/3;
-  
-    table {
-      background-color: #ffffff;
-    }
-  }
-  
-  .mat-row .mat-cell {
-    border-bottom: 1px solid transparent;
-    border-top: 1px solid transparent;
-  }
-  
-  .mat-row:hover .mat-cell {
-    border-color: currentColor;
-  }
-  
-  .demo-row-is-clicked {
-    font-weight: bold;
-  }
-  
-  mat-icon {
-    cursor: pointer;
-  }
-  
-  mat-card-title{
-    font-size: 19px;
-  }
-  
-  @media (max-width: 991px) {
-    .dato {
-      max-width: 32%;
-    }
-  
-    .conteiner-graficos {
-      grid-template-rows: 225px 425px 650px;
-      grid-template-columns: 100%;
-    }
-  
-    .tabla {
-      grid-row: 3/4;
-    }
-  
-    .grafico {
-      padding: 10px 0px 10px 0px;
-    }
-  }
-  
-  @media (max-width: 748px) {
-    .dato {
-      max-width: 49%;
-    }
-  }
-  
-  @media (max-width: 505px) {
-    .dato {
-      height: 90px;
-      text-align: left;
-      min-width: 49%;
-      max-width: 49%;
-      flex-grow: 1;
-      margin: 15px 0px 0px 0px;
-      padding: 9px 9px 9px 9px;
-  
-      h1 {
-        font-size: 27px;
-        p {
-          font-size: 13px;
-        }
-      }
-    }
-  
-  
-    mat-card-title{
-      font-size: 14px;
-      margin-bottom: 3px;
-    }
-    mat-card-subtitle{
-      font-size: 14px;
-    }
-  }
-  
-  @media (max-width: 360px) {
-    .dato {
-      height: 85px;
-      text-align: left;
-      min-width: 49%;
-      max-width: 49%;
-      flex-grow: 1;
-      margin: 15px 0px 0px 0px;
-      padding: 8px 8px 8px 8px;
-  
-      h1 {
-        font-size: 25px;
-        p {
-          font-size: 13px;
-        }
-      }
-    }
-    mat-card-title{
-      font-size: 13px;
-      margin-bottom: 2px;
-    }
-    mat-card-subtitle{
-      padding-top: 0px;
-      font-size: 12px;
-    }
-  }
-  
+	background-color: #ffffff;
+	text-align: left;
+}
+
+
+#help-buttom {
+	position: absolute;
+	right: 1%;
+	top: 87%;
+	height: 85px;
+	width: 85px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+
+	mat-icon {
+		height: 70px;
+		width: 70px;
+		font-size: 70px;
+	}
+}
+
+.dato {
+	height: 95px;
+	text-align: left;
+	min-width: 243px;
+	max-width: 16%;
+	flex-grow: 1;
+	margin: 15px 0px 0px 0px;
+	padding: 13px 13px 16px 13px;
+
+	h1 {
+		float: right;
+		font-size: 35px;
+		font-style: oblique;
+		color: #1a32b9;
+		position: relative;
+		top: -18px;
+		clear: none;
+
+		p {
+			display: inline;
+			font-size: 19px;
+		}
+	}
+}
+
+.conteiner-datos {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-content: space-between;
+	margin-bottom: 15px;
+}
+
+.card {
+	background-color: #ebebebc2;
+}
+
+.conteiner-graficos {
+	display: grid;
+	column-gap: 15px;
+	row-gap: 15px;
+	grid-template-rows: 225px 425px;
+	grid-template-columns: 1fr 2fr;
+	height: 675;
+}
+
+.card:hover {
+	border: solid;
+	border-width: 1px;
+	border-color: #3b3b3b;
+}
+
+.grafico {
+	padding: 16px 5px 16px 5px;
+
+	table {
+		grid-row: 1/3;
+		background-color: #ffffff;
+	}
+
+	mat-paginator {
+		background-color: #ffffff;
+	}
+}
+
+.tabla {
+	grid-row: 1/3;
+
+	table {
+		background-color: #ffffff;
+	}
+}
+
+.mat-row .mat-cell {
+	border-bottom: 1px solid transparent;
+	border-top: 1px solid transparent;
+}
+
+.mat-row:hover .mat-cell {
+	border-color: currentColor;
+}
+
+.demo-row-is-clicked {
+	font-weight: bold;
+}
+
+mat-icon {
+	cursor: pointer;
+}
+
+mat-card-title {
+	font-size: 19px;
+}
+
+@media (max-width: 991px) {
+	.dato {
+		max-width: 32%;
+	}
+
+	.conteiner-graficos {
+		grid-template-rows: 225px 425px 650px;
+		grid-template-columns: 100%;
+	}
+
+	.tabla {
+		grid-row: 3/4;
+	}
+
+	.grafico {
+		padding: 10px 0px 10px 0px;
+	}
+}
+
+@media (max-width: 748px) {
+	.dato {
+		max-width: 49%;
+	}
+}
+
+@media (max-width: 505px) {
+	.dato {
+		height: 90px;
+		text-align: left;
+		min-width: 49%;
+		max-width: 49%;
+		flex-grow: 1;
+		margin: 15px 0px 0px 0px;
+		padding: 9px 9px 9px 9px;
+
+		h1 {
+			font-size: 27px;
+
+			p {
+				font-size: 13px;
+			}
+		}
+	}
+
+	mat-card-title {
+		font-size: 14px;
+		margin-bottom: 3px;
+	}
+
+	mat-card-subtitle {
+		font-size: 14px;
+	}
+}
+
+@media (max-width: 360px) {
+	.dato {
+		height: 85px;
+		text-align: left;
+		min-width: 49%;
+		max-width: 49%;
+		flex-grow: 1;
+		margin: 15px 0px 0px 0px;
+		padding: 8px 8px 8px 8px;
+
+		h1 {
+			font-size: 25px;
+
+			p {
+				font-size: 13px;
+			}
+		}
+	}
+
+	mat-card-title {
+		font-size: 13px;
+		margin-bottom: 2px;
+	}
+
+	mat-card-subtitle {
+		padding-top: 0px;
+		font-size: 12px;
+	}
+}

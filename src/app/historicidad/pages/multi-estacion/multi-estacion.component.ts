@@ -10,13 +10,14 @@ import { SerieData } from 'src/app/models/serie.interface';
 import { AppState } from 'src/app/store/app.reducers';
 import { SelectVariableComponent } from '../../components/select-variable/select-variable.component';
 import * as ActionsGraficaMultiple from 'src/app/store/actions/graficaMultiple.actions'
+import { HelpMultipleComponent } from '../../components/help-multiple/help-multiple.component';
 
 @Component({
 	selector: 'app-multi-estacion',
 	templateUrl: './multi-estacion.component.html',
 	styleUrls: ['./multi-estacion.component.scss']
 })
-export class MultiEstacionComponent{
+export class MultiEstacionComponent {
 
 	//DATA STORE CONTROL
 	public cargando: boolean = false
@@ -30,7 +31,7 @@ export class MultiEstacionComponent{
 	stroke: string;
 	responseData: ResponseSeries;
 	data: ResponseSeries
-	variablesSelected: { variable: string, altura: string }[] = []
+	variables: { variable: string, altura: string }[] = []
 
 	range = new FormGroup({
 		start: new FormControl(undefined, [Validators.required]),
@@ -41,7 +42,7 @@ export class MultiEstacionComponent{
 	constructor(
 		private store: Store<AppState>,
 		private router: Router,
-		public dialog: MatDialog
+		private _dialog: MatDialog,
 	) { }
 
 	ngOnInit(): void {
@@ -62,19 +63,13 @@ export class MultiEstacionComponent{
 		})
 	}
 
-	getDate(fecha: string, group: string) {
-		let seg = fecha.split('-')
-		return (new Date(Number(seg[0]), Number(seg[1]), Number(seg[2]))).getTime()
-	}
-
-
 	generarSeries(estaciones: ResponseSeries) {
 		let series: (SerieData & { unidad_medida: string, altura: string })[] = []
 		for (let estacion of estaciones.estaciones) {
 			let datos: {}[] = []
 			for (let tupla of estacion.data) {
-				const y = (tupla.p==null)?null:tupla.p.toFixed(2)
-				datos.push({ x: this.getDate(tupla.f, ""), y })
+				const y = (tupla.p == undefined) ? null : tupla.p
+				datos.push({ x: tupla.f, y })
 			}
 
 			series.push({
@@ -96,7 +91,7 @@ export class MultiEstacionComponent{
 			for (let a of v.alturas) varAux.push({ variable: v.variable, altura: a })
 		}
 
-		const dialogRef = this.dialog.open(SelectVariableComponent, { data: varAux });
+		const dialogRef = this._dialog.open(SelectVariableComponent, { data: varAux });
 
 		dialogRef.afterClosed().subscribe((result: { variable: string, altura: string }) => {
 			if (result) {
@@ -106,9 +101,9 @@ export class MultiEstacionComponent{
 		});
 	}
 
-	actualizarDate(){
+	actualizarDate() { }
 
-	}
+	dialogHelp() { this._dialog.open(HelpMultipleComponent, { height: "70vh", width: "70vw" }) }
 
 	ngOnDestroy(): void { this.suscripcion$.unsubscribe() }
 

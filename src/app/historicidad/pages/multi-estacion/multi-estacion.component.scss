@@ -1,0 +1,22 @@
+#help-buttom {
+	position: absolute;
+	right: 3%;
+	top: 82%;
+	height: 85px;
+	width: 85px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+
+	mat-icon {
+		height: 70px;
+		width: 70px;
+		font-size: 70px;
+	}
+}
+
+.main-frame {
+	width: auto;
+	height: 100vh;
+}

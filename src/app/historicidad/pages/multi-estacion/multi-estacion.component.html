@@ -1,20 +1,23 @@
 <div style="height: 100vh;">
-    <mat-drawer-container class="example-container" autosize>
+    <mat-drawer-container autosize>
         <mat-drawer #drawer class="p-2" mode="side">
-            <!-- <h3>Visualizacion</h3> -->
-            <!-- <mat-button-toggle-group class="w-100" (valueChange)="plotSelected=$event" value="multicharts">
-                <mat-button-toggle class="w-50 text-center" value="multicharts">Multi Grafico</mat-button-toggle>
+            <h3>Visualizacion</h3>
+            <mat-button-toggle-group class="w-100" (valueChange)="plotSelected=$event" value="multilines">
                 <mat-button-toggle class="w-50 text-center" value="multilines">Grafica Unica</mat-button-toggle>
-            </mat-button-toggle-group> -->
+                <mat-button-toggle class="w-50 text-center" value="multicharts">Multi Grafico</mat-button-toggle>
+            </mat-button-toggle-group> 
 
             <hr>
 
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h3 class="mb-0">Variables Seleccionadas</h3>
-                <button mat-mini-fab color="primary" (click)="changeVariable()">
-                    <mat-icon>add</mat-icon>
-                </button>
-            </div>
+            <h3 class="mb-1">Variable Seleccionada</h3>
+            <mat-form-field class="w-100" appearance="fill" style="margin-bottom: -20px ;">
+                <mat-label>Seleccione una Variable</mat-label>
+                <mat-select #variable>
+                    <mat-option *ngFor="let v of variables; let i = index" [value]="i">
+                        {{v.variable}} - {{v.altura}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
 
             <hr>
 
@@ -52,17 +55,23 @@
                 </button>
             </div>
 
-            <app-multivariables [data]="series"></app-multivariables>
+            <div>
+                <app-multivariables *ngIf="plotSelected == 'multilines'" [data]="series"></app-multivariables>
+                <!-- <app-multigrafico *ngIf="plotSelected == 'multicharts'" [data]="series"></app-multigrafico> -->
+            </div>
+
+            <div class="m-a w-100" *ngIf="cargando">
+                <mat-spinner style="margin: auto"></mat-spinner>
+            </div>
+
+            <div *ngIf="error">
+                <h1 class="text-center">Error: {{error|json}}</h1>
+            </div>
         </div>
 
-
-
-        <!-- <div *ngIf="cargando" class="d-flex justify-content-center h-100">
-            <mat-spinner [diameter]="200" class="align-self-center"></mat-spinner>
-        </div>
-        <div *ngIf="error">
-            <h1>{{error|json}}</h1>
-        </div> -->
-
+        
+        <button (click)="dialogHelp()" id="help-buttom" mat-fab color="primary">
+            <mat-icon>help</mat-icon>
+        </button>  
     </mat-drawer-container>
 </div>

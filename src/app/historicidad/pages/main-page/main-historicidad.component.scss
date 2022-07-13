@@ -16,3 +16,21 @@
 .mapa {
   height: 85vh;
 }
+
+#help-buttom{
+  position: absolute;
+  right: 1%;
+  top:87%; 
+  height: 85px;
+  width: 85px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+  mat-icon{
+    height: 70px;
+    width: 70px;
+    font-size: 70px;
+  }
+}

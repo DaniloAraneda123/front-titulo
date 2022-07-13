@@ -6,16 +6,17 @@ import { MatSort } from '@angular/material/sort';
 //STORE
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.reducers';
-//import * as hfActions from 'src/app/store/actions/horasFrio.actions'
 import * as evActions from 'src/app/store/actions/evapotranspiracion.actions'
 
-import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
 import { DataEstacion, ResponseSeries, ResponseSeriesComparacion } from 'src/app/models/api.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TablaComparacion } from 'src/app/models/tabla.interface';
 import { SerieData } from 'src/app/models/serie.interface';
 import { environment } from 'src/environments/environment';
+import { MatDialog } from '@angular/material/dialog';
+import { HelpUseCaseComponent } from '../components/help-use-case/help-use-case.component';
 
 
 @Component({
@@ -110,7 +111,12 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 	series_activate_grafico_1 = 0
 	series_activate_grafico_2 = 0
 
-	constructor(private store: Store<AppState>, private _snackBar: MatSnackBar, private fctrl: FormBuilder) {
+	constructor(
+		private store: Store<AppState>,
+		private _snackBar: MatSnackBar,
+		private fctrl: FormBuilder,
+		private _dialog: MatDialog
+	) {
 
 
 		// console.log("Ingresa a modal")
@@ -292,7 +298,7 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 				if (periodo.length != 0) {
 					todo_vacio = false
 
-				
+
 
 
 					const valores = periodo.map(el => el.p).filter(el => el != undefined)
@@ -369,7 +375,7 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 		this.accumulatedSeries2 = seriesAccumulated2
 		this.normalSeries2 = seriesNormal2
 
-		console.log(this.normalSeries,this.normalSeries2)
+		console.log(this.normalSeries, this.normalSeries2)
 
 	}
 	mostrarData() {
@@ -510,5 +516,9 @@ export class EvapotranspiracionComponent implements OnInit, OnDestroy {
 			if (!el.name.includes(estacion)) return true
 			return false
 		})
+	}
+
+	dialogHelp() {
+		this._dialog.open(HelpUseCaseComponent, { height: "70vh", width: "70vw" })
 	}
 }

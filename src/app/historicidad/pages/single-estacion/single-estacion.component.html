@@ -1,5 +1,5 @@
 <div style="height: 100vh;">
-    <mat-drawer-container class="example-container" autosize>
+    <mat-drawer-container autosize>
         <mat-drawer #drawer class="p-2" mode="side">
             <h2 class="text-center">Opciones de Visualización</h2>
 
@@ -115,59 +115,4 @@
         </div> -->
 
     </mat-drawer-container>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="d-flex mt-3 mt-md-0">
-
-    <!-- <button mat-button class="opciones flex-grow-1 mx-2" style="text-align: left;"
-        [matMenuTriggerFor]="opciones">
-        <mat-icon>more_vert</mat-icon>
-        Opciones de Grafico
-    </button>
-    <mat-menu #opciones="matMenu">
-        <button *ngIf="tipoGrafico=='MultiGrafico'" mat-menu-item
-            [matMenuTriggerFor]="multiGraficas">Variables</button>
-        <button *ngIf="tipoGrafico=='MultiVariables'" mat-menu-item
-            [matMenuTriggerFor]="multiVariable">Variables</button>
-        <mat-checkbox class="checkBox" [color]="'primary'" (change)="suavizarCurva($event)">
-            Suavizar Curvas
-        </mat-checkbox><br>
-    </mat-menu>
-
-    <mat-menu #multiGraficas="matMenu">
-        <mat-checkbox *ngFor="let variable of variablesDisponibles_MG; let i = index"
-            (change)="seleccionVariable_MG(i)" class="checkBox" [color]="'primary'"
-            [checked]="variable.checked">
-            {{variable.nombre}} [{{variable.altura}}]
-        </mat-checkbox><br>
-    </mat-menu>
-    <mat-menu #multiVariable="matMenu">
-        <mat-checkbox *ngFor="let variable of variablesDisponibles_UG; let i = index"
-            (change)="seleccionVariable_UG(i)" class="checkBox" [color]="'primary'"
-            [checked]="variable.checked">
-            {{variable.nombre}} [{{variable.altura}}]
-        </mat-checkbox><br>
-    </mat-menu> -->
-
 </div>

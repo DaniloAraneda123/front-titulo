@@ -1,6 +1,5 @@
 <form [formGroup]="formOptions" class=" mt-2 d-grid  px-2" id="formulario">
 
-
 	<div *ngIf="loadingVariables" class="d-flex justify-content-between">
 		<b class="text-right" style="color: brown;">Cargando Variable...</b >
 		<mat-spinner [diameter]="25"></mat-spinner>
@@ -10,13 +9,11 @@
 		<b class="text-right" style="color: brown;">Seleccione una estacion</b >
 	</div>
 
-
 	<mat-checkbox class="mb-1" [color]="'primary'" (change)="comparative($event)" [checked]="false">
 		Comparativa de Estaciones
 	</mat-checkbox>
 
-
-	<div>
+	<div (click)="isEnabled()">
 		<div class="d-flex justify-content-between ">
 			<b>Variables</b>
 			<span class="material-icons" #tooltip="matTooltip" matTooltip="Son las variables que es encuentran disponibles en la o las estaciones seleccionadas"
@@ -37,72 +34,9 @@
 	</div>
 
 
-	<div>
+	<div (click)="isEnabled()">
 		<div class="d-flex justify-content-between ">
-			<b>Altura</b>
-			<span class="material-icons" #tooltip="matTooltip" matTooltip="Alturas disponibles en sensores para la variable seleccionada"
-				[matTooltipPosition]="'right'" matTooltipHideDelay="5000">
-				info
-			</span>
-		</div>
-		<mat-form-field class="w-100" appearance="fill">
-			<mat-label>
-				Seleccione una Variable
-			</mat-label>
-			<mat-select formControlName="altura">
-				<mat-option *ngFor="let opcion of alturas" [value]="opcion.value">
-					{{opcion.label}}
-				</mat-option>
-			</mat-select>
-		</mat-form-field>
-	</div>
-
-
-	<div>
-		<div class="d-flex justify-content-between ">
-			<b>Agrupacion</b>
-			<span class="material-icons" #tooltip="matTooltip" matTooltip="Forma de agrupar los datos"
-				[matTooltipPosition]="'right'" matTooltipHideDelay="5000">
-				info
-			</span>
-		</div>
-		<mat-form-field class="w-100" appearance="fill">
-			<mat-label>
-				Seleccione una Variable
-			</mat-label>
-			<mat-select [value]="'diario'" formControlName="agrupacion">
-				<!-- <mat-option value="hora">Diario</mat-option> -->
-				<mat-option value="diaria">Diario</mat-option>
-				<mat-option value="semanal">Semanal</mat-option>
-				<mat-option value="mensual">Mensual</mat-option>
-			</mat-select>
-		</mat-form-field>
-	</div>
-
-
-	<div>
-		<div class="d-flex justify-content-between ">
-			<b>Operacion de Agrupacion</b>
-			<span class="material-icons" #tooltip="matTooltip" matTooltip="Se refiere al tipo de operacion que se le aplicara a los grupos generados"
-				[matTooltipPosition]="'right'" matTooltipHideDelay="5000">
-				info
-			</span>
-		</div>
-		<mat-form-field class="w-100" appearance="fill">
-			<mat-label>
-				Seleccione la operacion a aplicar
-			</mat-label>
-			<mat-select formControlName="tipo_operacion">
-				<mat-option value="aditiva">Acumulado</mat-option>
-				<mat-option value="promediada">Promedio</mat-option>
-			</mat-select>
-		</mat-form-field>
-	</div>
- 
-
-	<div>
-		<div class="d-flex justify-content-between ">
-			<b>Fechas</b>
+			<b>Intervalo de tiempo a Analisar</b>
 			<span class="material-icons" #tooltip="matTooltip" matTooltip="Rango de fecha en donde se ejecutara la busqueda"
 				[matTooltipPosition]="'right'" matTooltipHideDelay="5000">
 				info
@@ -120,14 +54,60 @@
 	</div>
 
 
-	<button class="mt-2 boton" (click)="loadingData()" [disabled]="!formOptions.valid" mat-raised-button color="primary">
-		<div class=" d-flex justify-content-center align-items-center">
-			<mat-icon>manage_search</mat-icon> 
-			Generar Grafico
+	<div (click)="isEnabled()">
+		<div class="d-flex justify-content-between ">
+			<b>Agrupacion Temporal</b>
+			<span class="material-icons" #tooltip="matTooltip" matTooltip="Forma de agrupacion temporal a plaicar sobre el rango de tiempo seleccionado"
+				[matTooltipPosition]="'right'" matTooltipHideDelay="5000">
+				info
+			</span>
 		</div>
-	</button>
+		<mat-form-field class="w-100" appearance="fill">
+			<mat-label>
+				Seleccione un tipo de agrupacion temporal
+			</mat-label>
+			<mat-select [value]="'diario'" formControlName="agrupacion">
+				<mat-option value="diaria">Diario</mat-option>
+				<mat-option value="semanal">Semanal</mat-option>
+				<mat-option value="mensual">Mensual</mat-option>
+			</mat-select>
+		</mat-form-field>
+	</div>
+
+
+	<div (click)="isEnabled()">
+		<div class="d-flex justify-content-between ">
+			<b>Operacion de Agrupacion</b>
+			<span class="material-icons" #tooltip="matTooltip" matTooltip="Se refiere al tipo de operacion que se le aplicara a los grupos generados"
+				[matTooltipPosition]="'right'" matTooltipHideDelay="5000">
+				info
+			</span>
+		</div>
+		<mat-form-field class="w-100" appearance="fill">
+			<mat-label>
+				Seleccione la operacion a aplicar
+			</mat-label>
+			<mat-select formControlName="tipo_operacion">
+				<mat-option value="aditiva">Acumulado</mat-option>
+				<mat-option value="promediada">Promedio</mat-option>
+			</mat-select>
+		</mat-form-field>
+	</div>
+
+
+	<div (click)="isOkOptions()" class="w-100">
+		<button class="w-100 mt-2 boton" (click)="loadingData()" [disabled]="!formOptions.valid" mat-raised-button color="primary">
+			<div class=" d-flex justify-content-center align-items-center">
+				<mat-icon>manage_search</mat-icon> 
+				Generar Grafico
+			</div>
+		</button>
+	</div>
 
 </form>
+
+
+
 
 
 

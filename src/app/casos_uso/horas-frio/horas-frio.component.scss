@@ -1,102 +1,122 @@
-.grid-row{
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr 1fr; 
-  gap: 6px;
+.grid-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    gap: 6px;
 
-  div{
+    div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        background-image: url("https://storage.googleapis.com/portalfruticola/2016/12/plum-tree-1353819_640.jpg");
+        border: 1px solid black;
+    }
+}
+
+
+#help-buttom {
+    position: absolute;
+    right: 1%;
+    top: 87%;
+    height: 85px;
+    width: 85px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 10px;
-    background-image: url("https://storage.googleapis.com/portalfruticola/2016/12/plum-tree-1353819_640.jpg");
-    border: 1px solid black;
-  }
+
+
+    mat-icon {
+        height: 70px;
+        width: 70px;
+        font-size: 70px;
+    }
 }
 
 
 .titulo {
-  background-color: #ffffff;
-  text-align: center;
+    background-color: #ffffff;
+    text-align: center;
 }
 
 .input {
-  text-align: left;
+    text-align: left;
 }
 
 .dato {
-  height: 95px;
-  text-align: left;
+    height: 95px;
+    text-align: left;
 
-  h1 {
-    float: right;
-    font-size: 35px;
-    font-style: oblique;
-    color: #1a32b9;
-    position: relative;
-    top: -18px;
-    clear: none;
+    h1 {
+        float: right;
+        font-size: 35px;
+        font-style: oblique;
+        color: #1a32b9;
+        position: relative;
+        top: -18px;
+        clear: none;
 
-    p {
-      display: inline;
-      font-size: 19px;
+        p {
+            display: inline;
+            font-size: 19px;
+        }
     }
-  }
 }
 
-.alert-input{
-  color: rgb(150, 0, 0);
+.alert-input {
+    color: rgb(150, 0, 0);
 }
 
-.mn{
-  margin: 0px 0px -15px 0px;
+.mn {
+    margin: 0px 0px -15px 0px;
 }
 
-.mn-c{
-  margin-bottom: -18px;
+.mn-c {
+    margin-bottom: -18px;
 }
 
 
 apex-chart {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .chip-list {
-  width: 100%;
+    width: 100%;
 }
 
 .card {
-  background-color: #ebebebc2;
+    background-color: #ebebebc2;
 }
 
 .mat-row .mat-cell {
-  border-bottom: 1px solid transparent;
-  border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
 }
 
 .mat-row:hover .mat-cell {
-  border-color: currentColor;
+    border-color: currentColor;
 }
 
 .demo-row-is-clicked {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 mat-icon {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 mat-card-title {
-  font-size: 19px;
+    font-size: 19px;
 }
 
-.error-items{
-  font-size: 20px;
-  b{
-    color: rgb(200, 0, 0); 
-  }
+.error-items {
+    font-size: 20px;
+
+    b {
+        color: rgb(200, 0, 0);
+    }
 }
 
-.estaciones-no-data{
-  font-size: 20px;
+.estaciones-no-data {
+    font-size: 20px;
 }

@@ -9,6 +9,7 @@ import { MapComponent } from './components/map/map.component';
 import { PlotStackedColumnsComponent } from './components/plot-stacked-columns/plot-stacked-columns.component';
 import { GradosDiaComponent } from './grados-dia/grados-dia.component';
 import { PlotComponent } from './components/plot/plot.component';
+import { HelpUseCaseComponent } from './components/help-use-case/help-use-case.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { PlotComponent } from './components/plot/plot.component';
     PlotComponent,
     PlotStackedColumnsComponent,
     GradosDiaComponent,
+    HelpUseCaseComponent,
   ],
   imports: [
     CommonModule,

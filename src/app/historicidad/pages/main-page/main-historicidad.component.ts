@@ -2,8 +2,9 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.reducers';
-import { OptionsSideBar } from '../../components/side-bar-options/side-bar-options.component';
 import * as ActionsHistoricidad from 'src/app/store/actions/historicidad.actions'
+import { MatDialog } from '@angular/material/dialog';
+import { HelpMainComponent } from '../../components/help-main/help-main.component';
 
 
 @Component({
@@ -20,12 +21,16 @@ export class MainHistoricidadComponent implements OnInit {
 
 	constructor(
 		private _store: Store<AppState>,
-		private _router: Router
+		private _dialog: MatDialog,
 	) { }
 
 	ngOnInit() { }
 
 	setStationsSelected(stations: string[]) {
 		this._store.dispatch(ActionsHistoricidad.setStations({ stations }))
+	}
+
+	dialogHelp() { 
+		this._dialog.open(HelpMainComponent, { height: "70vh", width: "70vw" }) 
 	}
 }

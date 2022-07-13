@@ -15,6 +15,8 @@ import { SerieData } from 'src/app/models/serie.interface';
 import { environment } from 'src/environments/environment';
 import { ajustarFechas } from 'src/app/utils/ajustar-fecha';
 import { filter } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { HelpUseCaseComponent } from '../components/help-use-case/help-use-case.component';
 
 @Component({
 	selector: 'app-horas-frio',
@@ -89,7 +91,9 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 
 	constructor(
 		private store: Store<AppState>,
-		private _snackBar: MatSnackBar) { }
+		private _snackBar: MatSnackBar,
+		private _dialog:MatDialog
+		) { }
 
 	ngOnInit(): void {
 
@@ -276,5 +280,10 @@ export class HorasFrioComponent implements OnInit, OnDestroy {
 			if (!el.name.includes(estacion)) return true
 			return false
 		})
+	}
+
+
+	dialogHelp() { 
+		this._dialog.open(HelpUseCaseComponent, { height: "70vh", width: "70vw" }) 
 	}
 }
