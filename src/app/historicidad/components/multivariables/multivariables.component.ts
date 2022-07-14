@@ -41,8 +41,7 @@ export class MultivariablesComponent {
 		yaxis: { title: { text: "" } },
 		legend: { position: "top", horizontalAlign: "center" }
 	};
-	title: string = ""
-	dataSource: (SerieData & { unidad_medida: string; altura: string; })[];
+	dataSource: (SerieData & { unidad_medida: string; altura: string; })[] = [];
 
 	constructor() { }
 
@@ -58,16 +57,13 @@ export class MultivariablesComponent {
 
 	createSeries() {
 		let series: ApexAxisChartSeries = []
-		this.title = ""
 		for (let serie of this.dataSource) {
-			this.title += `${serie.name} [${serie.altura}]   V/S   `
 			series.push({
-				name: `${serie.name} [${serie.altura}] [${serie.unidad_medida}]`,
-				type: 'bar',
+				name: serie.name,
+				type: serie.type,
 				data: serie.data
 			})
 		}
-		this.title = this.title.slice(0, this.title.length - 6)
 		this.chartOptionsVariables.series = series
 	}
 }

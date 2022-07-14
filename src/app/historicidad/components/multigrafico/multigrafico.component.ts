@@ -69,8 +69,8 @@ export class MultigraficoComponent {
                 }
 
                 if (group == 'diaria') {
-                    endDate = interval.x.toLocaleString();
-                    startDate = new Date(interval.x.getFullYear(), interval.x.getMonth(), 1, 0, 0, 0).toLocaleString();
+                    endDate = interval.x.toLocaleDateString()   + ' 23:59';
+                    startDate = interval.x.toLocaleDateString() + ' 00:00' ;
                 }
 
                 const instante = interval.y;
@@ -87,11 +87,11 @@ export class MultigraficoComponent {
 						<div class="d-flex justify-content-between">
 							<div>
 								<b>Inicio</b>
-								<h3 class="mb-0">${startDate}</h3>
+								<h3 class="mb-0" style="font-size: 14px;">${startDate}</h3>
 							</div>
 							<div>
 								<b class="d-flex flex-row-reverse">Final</b>
-								<h3 class="mb-0">${endDate}</h3>
+								<h3 class="mb-0" style="font-size: 14px;">${endDate}</h3>
 							</div>
 						</div>
 						<hr class="m-1">
@@ -143,11 +143,12 @@ export class MultigraficoComponent {
             unidad_medida: string;
             altura: string;
             variable: string;
+            title: string
         })[] = [];
         let i = 0;
         for (let serie of this.dataSource) {
-            multiCharts.push({
-                series: [{ ...serie, tipo: 'step', type: 'bar', name: `${serie.name} unico`, variableName: serie.name }],
+            let chart = {
+                title: serie.name,
                 chart: {
                     id: serie.name + serie.altura,
                     group: 'social',
@@ -173,16 +174,33 @@ export class MultigraficoComponent {
                     {
                         tickAmount: 1,
                         labels: { minWidth: 30 },
-                        title: { text: serie.unidad_medida, style: { fontSize: "18px",fontWeight:3 }, rotate: 0 },
+                        title: { text: serie.unidad_medida, style: { fontSize: "18px", fontWeight: 3 }, rotate: 0 },
                         seriesName: `${serie.name} unico`,
                     },
                 ],
                 altura: serie.altura,
                 unidad_medida: serie.unidad_medida,
                 variable: serie.name,
-            });
-            i++;
+            }
+
+            if (serie.data.length > 0) {
+                chart["series"] = [{ ...serie, tipo: 'step', type: 'bar', name: `${serie.name} unico`, variableName: serie.name }]
+                i++;
+            } else {
+                chart["series"] = undefined
+            }
+            console.log(chart)
+            multiCharts.push(chart);
         }
+        multiCharts.sort(function (el1, el2) {
+            if(el1.series == undefined && el2 == undefined) return 0 
+            if(el1.series == undefined) return 1
+            if(el2.series == undefined) return -1
+            if (el1.series[0].data.length > el2.series[0].data.length) return 1
+            if (el1.series[0].data.length < el2.series[0].data.length) return -1
+            return 0
+        })
+
         this.multiCharts = multiCharts;
     }
 
@@ -207,7 +225,7 @@ export class MultigraficoComponent {
                 {
                     tickAmount: 1,
                     labels: { minWidth: 30 },
-                    title: { text: this.dataSource[i].unidad_medida,style: { fontSize: "18px",fontWeight:3 }, rotate: 0 },
+                    title: { text: this.dataSource[i].unidad_medida, style: { fontSize: "18px", fontWeight: 3 }, rotate: 0 },
                     opposite: true,
                     seriesName: serie.name,
                 },
@@ -234,7 +252,7 @@ export class MultigraficoComponent {
                 {
                     tickAmount: 1,
                     labels: { minWidth: 30 },
-                    title: { text: this.dataSource[i].unidad_medida,style: { fontSize: "18px",fontWeight:3 }, rotate: 0 },
+                    title: { text: this.dataSource[i].unidad_medida, style: { fontSize: "18px", fontWeight: 3 }, rotate: 0 },
                     seriesName: `${serie.name} unico`,
                 },
                 ...this.multiCharts[i].yaxis,

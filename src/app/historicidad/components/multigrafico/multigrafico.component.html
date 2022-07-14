@@ -1,19 +1,27 @@
-<div class="container-fluid m-1 vw-100">
+<div class="m-1 w-100">
     <div *ngFor="let chart of multiCharts;let i = index" class="multigrafico ms-2">
-        <div class="d-flex justify-content-between">
-            <h3 class="mb-0 mx-2 me-2"> <b>{{chart.variable}} [{{chart.altura}}]</b></h3>
-            <div>
-                <!-- <mat-checkbox [checked]="true" (change)="setSerieNormal($event,i)"> Instantaneo</mat-checkbox> -->
-                <mat-checkbox (change)="setSerieAcumulado($event,i)" class="mx-3">Acumulado</mat-checkbox>
+        <ng-container *ngIf="chart.series">
+            <div class="d-flex justify-content-between">
+                <h3 class="mb-0 mx-2 me-2"> <b>{{chart.title}}</b></h3>
+                <div>
+                    <mat-checkbox (change)="setSerieAcumulado($event,i)" class="mx-3">Acumulado</mat-checkbox>
+                </div>
             </div>
-        </div>
-        <apx-chart  [series]="chart.series" [chart]="chart.chart" [colors]="chart.colors"
-            [yaxis]="chart.yaxis" [dataLabels]="commonOptions.dataLabels" [markers]="commonOptions.markers"
-            [stroke]="commonOptions.stroke" [grid]="commonOptions.grid" [xaxis]="commonOptions.xaxis"
-            [tooltip]="commonOptions.tooltip">
-        </apx-chart>
-        <div class="d-flex flex-row-reverse">
-            <h3 class="mb-0 mx-2 me-4"> <b>{{groupTitle}}</b></h3>
-        </div>
+            <apx-chart  [series]="chart.series" [chart]="chart.chart" [colors]="chart.colors"
+                [yaxis]="chart.yaxis" [dataLabels]="commonOptions.dataLabels" [markers]="commonOptions.markers"
+                [stroke]="commonOptions.stroke" [grid]="commonOptions.grid" [xaxis]="commonOptions.xaxis"
+                [tooltip]="commonOptions.tooltip">
+            </apx-chart>
+            <div class="d-flex flex-row-reverse">
+                <h3 class="mb-0 mx-2 me-4"> <b>{{groupTitle}}</b></h3>
+            </div>
+        </ng-container>
+        
+        <ng-container *ngIf="!chart.series">
+            <h3 class="mb-0 mx-2 me-2"> <b>{{chart.title}}</b></h3>
+            <h1 class="text-center">No hay datos</h1>
+        </ng-container>
+
+        <hr>
     </div>
 </div>

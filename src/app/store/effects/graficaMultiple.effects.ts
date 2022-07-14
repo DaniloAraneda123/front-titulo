@@ -25,6 +25,20 @@ export class GraficaMultipleEffects {
         )
     )
 
+    newRange$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(graficaMultipleActions.setNewRange),
+            concatLatestFrom(() => this.store.select(state => state.graficaMultiple)),
+            exhaustMap(([{ fecha_final, fecha_inicio }, { parametros, estaciones }]) => {
+                return this.API_Services.consultarSerie({ ...parametros, estaciones, fecha_final, fecha_inicio }).pipe(
+                    map(data => graficaMultipleActions.loadingDataSuccess({ data })),
+                    catchError((error) => of(graficaMultipleActions.loadDataError({ error })))
+                )
+            }
+            )
+        )
+    );
+
     changeVariable$ = createEffect(() =>
         this.actions$.pipe(
             ofType(graficaMultipleActions.changeVariable),

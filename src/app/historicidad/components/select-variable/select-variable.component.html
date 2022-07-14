@@ -4,7 +4,7 @@
         <mat-label>Variables</mat-label>
         <mat-select #variable>
             <mat-option *ngFor="let v of data;let i = index" [value]="i">
-                {{v.variable}} - {{v.altura}}
+                {{v.variable}} [{{v.altura}}]
             </mat-option>
         </mat-select>
     </mat-form-field>

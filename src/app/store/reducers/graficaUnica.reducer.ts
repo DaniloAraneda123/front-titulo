@@ -22,10 +22,10 @@ export interface graficaUnicaState {
 const initialState: graficaUnicaState = {
     loading: false,
     loaded: false,
-    error: null,
+    error: undefined,
     loadingVariable: false,
     loadedVariable: false,
-    errorVariable: null,
+    errorVariable: undefined,
     data: [],
     parametros: undefined,
     estacion: undefined,
@@ -40,7 +40,7 @@ const _graficaUnicaReducer = createReducer(
         ...state,
         loading: true,
         loaded: false,
-        error: null,
+        error: undefined,
         data: [],
         parametros,
         estacion,
@@ -57,7 +57,7 @@ const _graficaUnicaReducer = createReducer(
         ...state,
         loading: true,
         loaded: false,
-        error: null,
+        error: undefined,
         variablesSelected: [...state.variablesSelected, { variable, altura, tipo_operacion }]
     })),
 
@@ -65,7 +65,7 @@ const _graficaUnicaReducer = createReducer(
         ...state,
         loading: false,
         loaded: true,
-        error: null,
+        error: undefined,
         data: [...state.data, data]
     })),
 

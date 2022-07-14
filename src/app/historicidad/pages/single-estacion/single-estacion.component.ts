@@ -122,7 +122,7 @@ export class SingleEstacionComponent implements OnInit {
 			series.push({
 				unidad_medida: variable.unidad_medida,
 				altura: variable.altura,
-				name: variable.variable,
+				name: `${variable.variable} [${variable.altura}]`,
 				group: variable.tipo_agrupacion,
 
 				data: datos,

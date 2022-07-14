@@ -20,3 +20,8 @@ export const loadDataError = createAction(
     '[Multi Estaciones] Error Cargando Variable',
     props<{ error: any }>()
 );
+
+export const  setNewRange = createAction(
+    '[Multi Estaciones] Nuevo rango de fechas',
+    props<{ fecha_inicio: string; fecha_final: string; }>()
+)

@@ -48,7 +48,7 @@ const _graficaMultipleReducer = createReducer(
     on(graficaMultipleActions.setParametros, (state, { parametros, estaciones }) => ({
         ...state,
         parametros,
-        nombreEstaciones: estaciones
+        estaciones
     })),
 
     on(graficaMultipleActions.changeVariable, (state, { variable, altura }) => ({
@@ -57,7 +57,12 @@ const _graficaMultipleReducer = createReducer(
         loaded: false,
         data: undefined,
         parametros: { ...state.parametros, variable, altura }
-    }))
+    })),
+
+    on(graficaMultipleActions.setNewRange, (state, { fecha_inicio, fecha_final }) => ({
+        ...state,
+        parametros: { ...state.parametros, fecha_inicio, fecha_final },
+    })),
 );
 
 export function graficaMultipleReducer(state: graficaMultipleState | undefined, action: Action) {

@@ -1,7 +1,7 @@
-<div style="height: 100vh;">
+<div style="min-height: 100vh;">
     <mat-drawer-container autosize>
         <mat-drawer #drawer class="p-2" mode="side">
-            <h3>Visualizacion</h3>
+            <h3>Tipo de grafico</h3>
             <mat-button-toggle-group class="w-100" (valueChange)="plotSelected=$event" value="multilines">
                 <mat-button-toggle class="w-50 text-center" value="multilines">Grafica Unica</mat-button-toggle>
                 <mat-button-toggle class="w-50 text-center" value="multicharts">Multi Grafico</mat-button-toggle>
@@ -9,35 +9,31 @@
 
             <hr>
 
+            <h2>Parametros modificables</h2>
             <h3 class="mb-1">Variable Seleccionada</h3>
             <mat-form-field class="w-100" appearance="fill" style="margin-bottom: -20px ;">
                 <mat-label>Seleccione una Variable</mat-label>
-                <mat-select #variable>
+                <mat-select [value]="variableSelected" (selectionChange)="changeVariable($event)">
                     <mat-option *ngFor="let v of variables; let i = index" [value]="i">
-                        {{v.variable}} - {{v.altura}}
+                        {{v.variable}}  [{{v.altura}}]
                     </mat-option>
                 </mat-select>
             </mat-form-field>
 
-            <hr>
+            <br><br>
 
             <h3 class="mb-1">Rango de Fechas</h3>
             <mat-form-field appearance="fill" [formGroup]="range">
                 <mat-label>Ingrese un Nuevo Rango</mat-label>
-                <mat-date-range-input [rangePicker]="picker">
+                <mat-date-range-input [rangePicker]="picker" [max]="maxDate">
                     <input matStartDate placeholder="Start date" formControlName="start">
                     <input matEndDate placeholder="End date" formControlName="end">
                 </mat-date-range-input>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-date-range-picker #picker></mat-date-range-picker>
-
-                <!-- <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date
-                        </mat-error>
-                        <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error> -->
             </mat-form-field>
             <br>
-
-            <button class="w-100" mat-raised-button (click)="actualizarDate()" color="primary">Actualizar</button>
+            <button class="w-100" mat-raised-button (click)="changeRange()" color="primary">Actualizar</button>
         </mat-drawer>
 
         <div class="main-frame">
@@ -46,18 +42,18 @@
                     (click)="drawer.toggle()">
                     <mat-icon>reorder</mat-icon>
                 </button>
-
-                <!-- {{estacion}} -->
-
                 <button class="opciones mx-2 mt-2" mat-stroked-button color="primary" (click)="volverMap()">
                     <mat-icon>map</mat-icon>
                     Volver al Mapa
                 </button>
             </div>
 
+            <h1 class="text-center mb-0">{{title_variable}}</h1>
+            <h2 class="text-center mb-1">{{title_estations}}</h2>
+
             <div>
-                <app-multivariables *ngIf="plotSelected == 'multilines'" [data]="series"></app-multivariables>
-                <!-- <app-multigrafico *ngIf="plotSelected == 'multicharts'" [data]="series"></app-multigrafico> -->
+                <app-multivariables *ngIf="plotSelected == 'multilines'"  [data]="series"></app-multivariables>
+                <app-multigrafico   *ngIf="plotSelected == 'multicharts'" [data]="series"></app-multigrafico>
             </div>
 
             <div class="m-a w-100" *ngIf="cargando">
