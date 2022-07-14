@@ -24,14 +24,15 @@ export class MapComponent implements OnInit {
 	//MAPA
 	optionsMaps: google.maps.MapOptions = {
 		center: { lat: -29.7530093, lng: -70.616334 },
-		zoom: 9,
+		zoom: 8,
+		/*
 		restriction: {
 			latLngBounds: {
 				north: -29.0530093, south: -30.4930093, west: -71.816334, east: -69.616334,
-			},
+		},
 			strictBounds: false
 		}
-	}
+	*/}
 	mapMarkers: { pos: google.maps.LatLngLiteral, opt: google.maps.MarkerOptions }[] = [...ubicacioneEstaciones]
 
 	//AREA CIRCLE MAP
