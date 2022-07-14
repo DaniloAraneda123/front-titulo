@@ -30,8 +30,8 @@ export class MapComponent {
 	//Opciones del mapa
 	optionsMaps: google.maps.MapOptions = {
 		center: { lat: -29.7530093, lng: -70.616334 },
-		zoom: 9,
-		restriction: {
+		zoom: 8,
+		/*restriction: {
 			latLngBounds: {
 				north: -29.3530093,
 				south: -30.2530093,
@@ -40,6 +40,7 @@ export class MapComponent {
 			},
 			strictBounds: false
 		}
+		*/
 	}
 
 	//Chips y filtro de estaciones
