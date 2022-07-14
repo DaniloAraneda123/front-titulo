@@ -1,1 +1,94 @@
-<p>help-multiple works!</p>
+<div>
+
+  <h1 class="text-center">Ayuda Dashboard de Estacion Unica</h1>
+  <hr>
+  <div>
+    <h2>Descripción</h2>
+    <p>Esta sección es una dashboard para la visualización de los datos generados por una única estación. Las
+      visualizaciones disponibles en este dashboard son generadas dinámicamente a partir de las opciones configuradas
+      por el usuario ,las cuales van desde la selección de una o más variables a estudiar, selección del periodo de
+      tiempo, tipo de agrupación (diaria, semanal o mensual), tipo de operación agregada (Aditiva o Promediada).
+    </p>
+
+    <p>Es importante tener en cuenta que el rango de tiempo y tipo de agrupación, son configuraciones únicas, es decir,
+      se aplicaran por igual a todas las series seleccionadas. En cambio el tipo de operación agregada será único para
+      cada serie.</p>
+
+    <hr>
+
+    <h2>Barra Lateral de Opciones</h2>
+    <p>
+      Sección del dashboard que se encuentra al lado izquierdo de la pantalla, la cual es desplegada al clickear el
+      botón marcado en el cuadro rojo. Este barra lateral contiene opciones que permiten configurar los siguientes
+      aspectos:
+    </p>
+
+    <div>
+      <img style="float: left;border: 3px solid black;margin-right: 25px;" src="static/assets/sidebar.png"
+        height="400px" alt="Imagen de SideBar">
+      <ul>
+        <li>
+          <b>(1) Tipo de Gráfico:</b> Este Dashboard cuenta con 2 tipos de visualización, la visualización multigrafico
+          que permiten seleccionar varias variables y generar un gráfico para cada una de ellas. Estos gráficos además
+          están sincronizados entre sí. el otro tipo de visualización disponible es de gráfica, única en que todas la
+          series son graficadas en un mismo gráfico de línea.
+
+        </li>
+        <br>
+
+        <li>
+          <b>(2) Tipo de Subserie:</b>
+          <p>
+            Los registros de cada variable proporcionado por el ceazamet cuentan con tres valores, los cuales son el
+            mínimo, el promedio y el máximo de las mediciones realizadas durante una hora. Con esta opción el usuario
+            escoge aquella subserie de interés. Por defecto siempre está seleccionado el promedio. <br> Es importante
+            tener en cuenta que para las variables aditivas como lo pueden ser Horas frío o Evapotranspiración, los
+            valores son iguales ya sea para el mínimo , máximo o promedio.
+          </p>
+
+        </li>
+
+        <br>
+        <li>
+          <b>(3) Selección de Variables:</b>
+          <p>
+            Esta opción permite seleccionar otras variables de interés de la estación. Las variables seleccionadas
+            aparecen en la tabla inmediatamente inferior. Para seleccionar una nueva variable basta con clickear el
+            botón azul marcado en el cuadro naranja el cual desplegará un modal en el centro de la pantalla el cual
+            cuenta con dos selectores (variable y la operación agregada a aplicar).
+          </p>
+        </li>
+
+        <li>
+          <b>(4) Rango de Fechas:</b>
+          <p>
+            Indica el periodo de tiempo seleccionado. Este es modificable mediante el selector de fechas y para
+            actualizar la visualización hay que clickear el botón de actualizar.
+          </p>
+        </li>
+      </ul>
+    </div>
+
+    <br>
+    <hr style="clear: both;">
+    <h2>Tipos de Gráficos</h2>
+    <h3 class="mb-0 text-center">Multigraficos</h3>
+    <img style="border: 3px solid black" src="static/assets/multi.png" width="100%" alt="">
+    <p>Al realizar hover sobre algún gráfico, este entregará la información del valor de esa columna (instante), la
+      cantidad de timestamps que componen el grupo (contador) y el acumulado desde el inicio del periodo seleccionado.
+      <br>
+      Al hacer click en una barra, este desplegará un contenedor flotante que muestra los sub intervalos que componen el
+      intervalos.
+    </p>
+    <img style="border: 3px solid black; margin: auto;" src="static/assets/subinter.png" width="75%" alt="">
+    <br>
+    <h3 class="mb-0 mt-3 text-center">Gráfica Única Multivariable</h3>
+    <img style="border: 3px solid black" src="static/assets/vari.png" width="100%" alt="">
+    <p>Gráfica que renderiza todas las series en una única gráfica.</p>
+
+
+  </div>
+  <mat-dialog-actions align="end">
+    <button mat-button color="primary" mat-dialog-close>Cerrar</button>
+  </mat-dialog-actions>
+</div>

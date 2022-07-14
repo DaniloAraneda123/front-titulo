@@ -1,1 +1,107 @@
-<p>help-main works!</p>
+<div>
+
+  <h1 class="text-center">Dashboard Registros Historicos</h1>
+  <hr>
+  <div>
+    <h2>Descripción</h2>
+    <p>
+      En esta seccion se busca entregar la funcionalidad de explorar y generar visualiazciones genericas de los
+      datos historicos registrados por cada sensor de cada estacion.
+      Las visulizaicon generadas dependerar de los parametros configurables, los cuales abordan tres puntos:
+    </p>
+    <ul>
+      <li><b>Estaciones:</b> Seleccion de una o varias estacion con un maximo de 5. Segun las estaciones seleccionadas,
+        las variables
+        disponibles cambiaran. </li>
+      <br>
+      <li><b>Variable (sensor):</b> Lista de variables presentes en al menos una estacon de las estaciones
+        seleccionadas.
+        Las variables hacen refencia a los sensores disponibles con su altura respecto al suelo de la estacion.
+        Cabe señarlar que la lista de variables disponible se genera relizando una union entre la lista de sensores de
+        cada estacion seleccionada,
+        por lo que es altamente probable de que no todas las estacion cuente con alguna variable. </li>
+      <br>
+      <li><b>Procesamiento Temporal:</b> este punto hace refencia a los parametros de rango temporal, agrupacion
+        temporal y tipo de operacion agregada a plicar sobre los grupo.
+        Habiendo escogido la fuente de datos (estacion + variable), se tiene que indicar el perido de analisis de
+        interes y el como se procesaran los datos esta ventana temporal </li>
+    </ul>
+
+    <p>Los parametros deben ser configurados en este orden.</p>
+
+    <hr>
+
+    <h2 class="mt-1 mb-0">Seleccion de Estaciones (Mapa)</h2>
+    <p>
+      Para seleccionar las estaciones de interes hay dos formas, <b>(1)</b> mediante la seleccion directa (clickeando)
+      en el mapa o <b>(2)</b> mediante
+      la barra de busqueda ingresando el nombre de la estacion. toodas las estaciones que se selccionen quedan
+      registradas en la barra
+      superior.
+    </p>
+    <img style="margin: auto;display: block;" src="static/assets/SelectStations.png" height="500"
+      alt="Imagen de SideBar">
+
+    <hr>
+
+    <div>
+      <h3 class="mb-0"><b>Seleccion de multiples estaciones</b></h3>
+      <p>Es importante resaltar que hay dos modos de seleccion, seccion unica y seleccion multiple y esta se escoje con
+        el checkbox
+        ubicado e la parte superior de la barra lateril de configuracion de paramentros.
+      </p>
+      <img class="mb-3"
+        style="margin: auto;display: block; text-align: center;border: 3px solid black;margin-right: 25px;"
+        src="static/assets/checkMultiple.png" alt="Imagen de SideBar">
+      <p>Tenga en cuenta que dependiendo del modo seleccion escogico (multiple o unica), puede redirigir distintos
+        dashboards secciones.</p>
+    </div>
+
+
+
+
+    <hr>
+
+    <h2>Barra Lateral de Opciones (Variable y Procesamiento Temporal)</h2>
+    <p>
+      Sección del dashboard que se encuentra al lado izquierdo de la pantalla. Este barra lateral permite seleccionar la
+      variable de
+      interes y las opciones de procesamiento temporal. <b> Importante!!!</b>, esta seccion no se desbloqueara hasta que
+      se haya seleccionado
+      almenos una estacion.
+    </p>
+
+    <div style="display: block">
+      <img style="float: left;border: 3px solid black;margin-right: 25px;" src="static/assets/barraMain.png"
+        height="400px" alt="Imagen de SideBar">
+      <ul>
+        <li>
+          <b>(1) Variable:</b> Este combobox permite seleccionar una variable presente en las en las estaciones. todo lo
+          relativo a este campo se explico en al seccion de descripcion.
+        </li>
+        <br>
+
+        <li>
+          <b>(2) Parametros de procesamiento temporal</b>
+          <p>
+            Como ya se menciono en la seccion de descripccion, en estas 3 casillas se deben escoger el rango de timpo de
+            interes, la forma que se agruparan los datos dentro de rango y que operacion agregada se aplicara sobre
+            ellos. Las formas de agrupaacion temporal son: diaria (00:00Hr a 23:59Hr), semanal (lunes 00:00Hr a domingo
+            23:59Hr), mensual.
+          </p>
+        </li>
+
+        <li>
+          <b>(3) Generar visualización</b>
+          <p>
+            ¿unas ves seleccionado todos los parametros, en ese momneto recien el boton de generar grafico se
+            desbloqueara para interactura con el.
+          </p>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <mat-dialog-actions style="clear: both;" align="end">
+    <button mat-button color="primary" mat-dialog-close>Cerrar</button>
+  </mat-dialog-actions>
+</div>

@@ -36,14 +36,14 @@
 
 	<div (click)="isEnabled()">
 		<div class="d-flex justify-content-between ">
-			<b>Intervalo de tiempo a Analisar</b>
+			<b>Periodo de análisis</b>
 			<span class="material-icons" #tooltip="matTooltip" matTooltip="Rango de fecha en donde se ejecutara la busqueda"
 				[matTooltipPosition]="'right'" matTooltipHideDelay="5000">
 				info
 			</span>
 		</div>
 		<mat-form-field class="w-100" appearance="fill">
-			<mat-label>Ingrese Rango de Fechas</mat-label>
+			<mat-label>Ingrese un Rango de Fechas</mat-label>
 			<mat-date-range-input [rangePicker]="picker" [max]="maxDate">
 				<input matStartDate placeholder="Inicio" formControlName="fecha_inicio">
 				<input matEndDate placeholder="Termino" formControlName="fecha_final">
